@@ -14,6 +14,13 @@
 		9DAB7827237118E600D5F421 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9DAB7826237118E600D5F421 /* Assets.xcassets */; };
 		9DAB782A237118E600D5F421 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9DAB7828237118E600D5F421 /* LaunchScreen.storyboard */; };
 		9DAB7835237118E600D5F421 /* SYGalleryPickerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DAB7834237118E600D5F421 /* SYGalleryPickerTests.swift */; };
+		9DAB78492371192500D5F421 /* ExtensionUIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DAB78412371192500D5F421 /* ExtensionUIColor.swift */; };
+		9DAB784A2371192500D5F421 /* AlbumViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DAB78432371192500D5F421 /* AlbumViewController.swift */; };
+		9DAB784B2371192500D5F421 /* AlbumModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DAB78452371192500D5F421 /* AlbumModel.swift */; };
+		9DAB784D2371192500D5F421 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DAB78472371192500D5F421 /* Settings.swift */; };
+		9DAB784F23715BCA00D5F421 /* UIViewController+SYGalleryPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DAB784E23715BCA00D5F421 /* UIViewController+SYGalleryPicker.swift */; };
+		9DAB78512372571A00D5F421 /* PhotoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DAB78502372571A00D5F421 /* PhotoCell.swift */; };
+		9DAB78532372710000D5F421 /* PhotosViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DAB78522372710000D5F421 /* PhotosViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -38,6 +45,13 @@
 		9DAB7830237118E600D5F421 /* SYGalleryPickerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SYGalleryPickerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9DAB7834237118E600D5F421 /* SYGalleryPickerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SYGalleryPickerTests.swift; sourceTree = "<group>"; };
 		9DAB7836237118E600D5F421 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		9DAB78412371192500D5F421 /* ExtensionUIColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExtensionUIColor.swift; sourceTree = "<group>"; };
+		9DAB78432371192500D5F421 /* AlbumViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlbumViewController.swift; sourceTree = "<group>"; };
+		9DAB78452371192500D5F421 /* AlbumModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlbumModel.swift; sourceTree = "<group>"; };
+		9DAB78472371192500D5F421 /* Settings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
+		9DAB784E23715BCA00D5F421 /* UIViewController+SYGalleryPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+SYGalleryPicker.swift"; sourceTree = "<group>"; };
+		9DAB78502372571A00D5F421 /* PhotoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCell.swift; sourceTree = "<group>"; };
+		9DAB78522372710000D5F421 /* PhotosViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,6 +93,7 @@
 		9DAB781C237118E500D5F421 /* SYGalleryPicker */ = {
 			isa = PBXGroup;
 			children = (
+				9DAB78422371192500D5F421 /* SYGalleryPicker */,
 				9DAB781D237118E500D5F421 /* AppDelegate.swift */,
 				9DAB781F237118E500D5F421 /* SceneDelegate.swift */,
 				9DAB7821237118E500D5F421 /* ViewController.swift */,
@@ -97,6 +112,52 @@
 				9DAB7836237118E600D5F421 /* Info.plist */,
 			);
 			path = SYGalleryPickerTests;
+			sourceTree = "<group>";
+		};
+		9DAB783F2371192500D5F421 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				9DAB78402371192500D5F421 /* UI */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
+		9DAB78402371192500D5F421 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				9DAB784E23715BCA00D5F421 /* UIViewController+SYGalleryPicker.swift */,
+				9DAB78412371192500D5F421 /* ExtensionUIColor.swift */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
+		9DAB78422371192500D5F421 /* SYGalleryPicker */ = {
+			isa = PBXGroup;
+			children = (
+				9DAB78432371192500D5F421 /* AlbumViewController.swift */,
+				9DAB78442371192500D5F421 /* Model */,
+				9DAB78482371192500D5F421 /* View */,
+				9DAB783F2371192500D5F421 /* Extension */,
+			);
+			path = SYGalleryPicker;
+			sourceTree = "<group>";
+		};
+		9DAB78442371192500D5F421 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				9DAB78452371192500D5F421 /* AlbumModel.swift */,
+				9DAB78472371192500D5F421 /* Settings.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		9DAB78482371192500D5F421 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				9DAB78502372571A00D5F421 /* PhotoCell.swift */,
+				9DAB78522372710000D5F421 /* PhotosViewController.swift */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -201,8 +262,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				9DAB7822237118E500D5F421 /* ViewController.swift in Sources */,
+				9DAB78512372571A00D5F421 /* PhotoCell.swift in Sources */,
+				9DAB784B2371192500D5F421 /* AlbumModel.swift in Sources */,
+				9DAB784D2371192500D5F421 /* Settings.swift in Sources */,
+				9DAB784A2371192500D5F421 /* AlbumViewController.swift in Sources */,
+				9DAB784F23715BCA00D5F421 /* UIViewController+SYGalleryPicker.swift in Sources */,
+				9DAB78532372710000D5F421 /* PhotosViewController.swift in Sources */,
 				9DAB781E237118E500D5F421 /* AppDelegate.swift in Sources */,
 				9DAB7820237118E500D5F421 /* SceneDelegate.swift in Sources */,
+				9DAB78492371192500D5F421 /* ExtensionUIColor.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -294,7 +362,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -348,7 +416,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -362,7 +430,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = 5MU3N7RFZ3;
 				INFOPLIST_FILE = SYGalleryPicker/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -371,8 +440,9 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.sinyi.SYGalleryPicker;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "999 Sinyi Wildcard";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -380,7 +450,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = 5MU3N7RFZ3;
 				INFOPLIST_FILE = SYGalleryPicker/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -389,8 +460,9 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.sinyi.SYGalleryPicker;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "999 Sinyi Wildcard";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
