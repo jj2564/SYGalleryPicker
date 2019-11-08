@@ -36,9 +36,9 @@ final class TASetting: SYGalleryPickerSettings {
     var maxPickNumber: Int = 30
     var countInRow: (_ verticalSize: UIUserInterfaceSizeClass, _ horizontalSize: UIUserInterfaceSizeClass) -> Int = {(verticalSize: UIUserInterfaceSizeClass, horizontalSize: UIUserInterfaceSizeClass) -> Int in
         switch (verticalSize, horizontalSize) {
-        case (.compact, .regular): // iPhone portrait
+        case (.compact, .regular): // iPhone 5 6 portrait
             return 4
-        case (.compact, .compact): // iPhone landscape
+        case (.compact, .compact): // iPhone 5 6 landscape
             return 6
         case (.regular, .regular): // iPad portrait/landscape
             return 8
@@ -58,9 +58,9 @@ final class IMSetting: SYGalleryPickerSettings {
     var maxPickNumber: Int = 10
     var countInRow: (_ verticalSize: UIUserInterfaceSizeClass, _ horizontalSize: UIUserInterfaceSizeClass) -> Int = {(verticalSize: UIUserInterfaceSizeClass, horizontalSize: UIUserInterfaceSizeClass) -> Int in
         switch (verticalSize, horizontalSize) {
-        case (.compact, .regular): // iPhone portrait
+        case (.compact, .regular): // iPhone 5 6 portrait
             return 4
-        case (.compact, .compact): // iPhone landscape
+        case (.compact, .compact): // iPhone 5 6 landscape
             return 6
         case (.regular, .regular): // iPad portrait/landscape
             return 8
@@ -80,9 +80,9 @@ class defaultSetting: SYGalleryPickerSettings {
     var maxPickNumber: Int = 10
     var countInRow: (_ verticalSize: UIUserInterfaceSizeClass, _ horizontalSize: UIUserInterfaceSizeClass) -> Int = {(verticalSize: UIUserInterfaceSizeClass, horizontalSize: UIUserInterfaceSizeClass) -> Int in
         switch (verticalSize, horizontalSize) {
-        case (.compact, .regular): // iPhone portrait
-            return 4
-        case (.compact, .compact): // iPhone landscape
+        case (.compact, .regular): // iPhone 5 6 portrait
+            return 3
+        case (.compact, .compact): // iPhone 5 6 landscape
             return 6
         case (.regular, .regular): // iPad portrait/landscape
             return 8

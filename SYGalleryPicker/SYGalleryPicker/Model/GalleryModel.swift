@@ -10,10 +10,10 @@ import Photos
 import UIKit
 
 
-enum SinyiProject {
+public enum SinyiProject {
     case TA
     case IM
-    case `default`
+    case basic
 }
 
 struct AlbumFolder {

@@ -25,10 +25,12 @@ open class SYGalleryPickerViewController: UINavigationController {
     open lazy var fetchResults: [PHFetchResult] = { () -> [PHFetchResult<PHAssetCollection>] in
         let fetchOptions = PHFetchOptions()
 
+        // Camera roll fetch result
+        let cameraRollResult = PHAssetCollection.fetchAssetCollections(with: .smartAlbum, subtype: .smartAlbumUserLibrary, options: fetchOptions)
         // Albums fetch result
         let albumResult = PHAssetCollection.fetchAssetCollections(with: .album, subtype: .any, options: fetchOptions)
         
-        return [albumResult]
+        return [cameraRollResult, albumResult]
     }()
     
     lazy var photosViewController: PhotosViewController = {
@@ -36,9 +38,8 @@ open class SYGalleryPickerViewController: UINavigationController {
 //        defaultSelections?.enumerateObjects({ (asset, idx, stop) in
 //            selections.append(asset)
 //        })
-//
-//        let assetStore = AssetStore(assets: selections)
-        let vc = PhotosViewController(settings: setting)
+
+        let vc = PhotosViewController(fetchResults: self.fetchResults,settings: setting)
         
         vc.doneBarButton = self.doneButton
         vc.cancelBarButton = self.cancelButton

@@ -19,7 +19,7 @@ class ViewController: UIViewController {
         
         let vc = SYGalleryPickerViewController()
         vc.modalPresentationStyle = .fullScreen
-        sy_presentGalleryPickerController(vc, animated: true, completion: nil)
+        sy_presentGalleryPickerController(vc, setting: .TA, animated: true, completion: nil)
     }
     
     @IBAction func IM(_ sender: Any) {

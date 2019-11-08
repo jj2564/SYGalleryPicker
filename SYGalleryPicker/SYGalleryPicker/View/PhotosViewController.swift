@@ -16,13 +16,16 @@ class PhotosViewController: UICollectionViewController {
     var doneBarButton: UIBarButtonItem?
     var cancelBarButton: UIBarButtonItem?
 //    var albumTitleView: UIButton?
-
-    /// 相簿資料夾
-    private var albumFolders: [AlbumFolder] = []
-    /// 照片(PHAsset)
-    private var albumPhotos: [AlbumPhoto] = []
-    /// 紀錄已點選的照片
-    private var markPhotos: [AlbumPhoto] = []
+    
+    /// 所有fetchResult
+    private var fetchResults:[PHFetchResult<PHAssetCollection>]
+    /// 要顯示的照片
+    private var photos:PHFetchResult<PHAsset> = PHFetchResult<PHAsset>()
+    private(set) var photoThumbnailSize: CGSize = .zero
+    
+    private let imageRequestOptions: PHImageRequestOptions
+    private let imageManager = PHCachingImageManager()
+    private let imageContentMode: PHImageContentMode = .aspectFill
 
     // MARK: Button actions
     @objc func cancelButtonPressed(_ sender: UIBarButtonItem) {
@@ -38,13 +41,20 @@ class PhotosViewController: UICollectionViewController {
     required init(fetchResults: [PHFetchResult<PHAssetCollection>],settings currentSettings: SYGalleryPickerSettings) {
         
         settings = currentSettings
+        self.fetchResults = fetchResults
+        imageRequestOptions = PHImageRequestOptions()
+        imageRequestOptions.deliveryMode = .highQualityFormat
+        imageRequestOptions.resizeMode = .exact
+        imageRequestOptions.isNetworkAccessAllowed = false
         
         let flowLayout = UICollectionViewFlowLayout()
         super.init(collectionViewLayout: flowLayout)
+        
+
     }
 
     required init?(coder aDecoder: NSCoder) {
-        fatalError("b0rk: initWithCoder not implemented")
+        fatalError("initWithCoder not implemented")
     }
 
     override func loadView() {
@@ -53,6 +63,8 @@ class PhotosViewController: UICollectionViewController {
         collectionView?.backgroundColor = settings.backgroundColor
         collectionView?.allowsMultipleSelection = true
         
+        collectionView?.register(PhotoCell.self, forCellWithReuseIdentifier: PhotoCell.cellIdentifier)
+        
         cancelBarButton? = UIBarButtonItem(title: "X", style: .plain, target: self, action: #selector(PhotosViewController.cancelButtonPressed(_:)))
         doneBarButton? = UIBarButtonItem(title: "確認", style: .plain, target: self, action: #selector(PhotosViewController.doneButtonPressed(_:)))
         
@@ -60,6 +72,22 @@ class PhotosViewController: UICollectionViewController {
         navigationItem.rightBarButtonItem = doneBarButton
         
         updateCollectionLayout()
+
+        if let album = fetchResults.first?.firstObject {
+            initWithCameraRoll(album)
+            collectionView.reloadData()
+        }
+
+    }
+
+    private func initWithCameraRoll(_ roll: PHAssetCollection) {
+        let options = PHFetchOptions()
+        options.predicate = NSPredicate(format: "mediaType = %d", PHAssetMediaType.image.rawValue)
+        options.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
+        
+        let assets = PHAsset.fetchAssets(in: roll, options: options)
+        
+        photos = assets
     }
 
     private func updateCollectionLayout() {
@@ -75,6 +103,9 @@ class PhotosViewController: UICollectionViewController {
         flowLayout.minimumLineSpacing = spacing
         flowLayout.itemSize = itemSize
         
+        let scale: CGFloat = (UIScreen.main.scale)*width
+        photoThumbnailSize = CGSize(width: scale, height: scale)
+        
         collectionView.setCollectionViewLayout(flowLayout, animated: true);
         collectionView.layoutIfNeeded()
     }
@@ -86,20 +117,32 @@ extension PhotosViewController {
     
     override func numberOfSections(in collectionView: UICollectionView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        return 0
+        return 1
     }
 
 
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of items
-        return 0
+        return photos.count
     }
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "", for: indexPath)
+        let photoCell = collectionView.dequeueReusableCell(withReuseIdentifier: PhotoCell.cellIdentifier, for: indexPath) as! PhotoCell
+        photoCell.accessibilityIdentifier = "photo_cell_\(indexPath.item)"
     
-        // Configure the cell
+//        if photoCell.tag != 0 {
+//            imageManager.cancelImageRequest(PHImageRequestID(Int32(photoCell.tag)))
+//        }
+        
+        let asset = photos[indexPath.row]
+//        let imageSize: CGSize = photoCell.frame.size
+        // Request image
+        photoCell.tag = Int(imageManager.requestImage(for: asset, targetSize: photoThumbnailSize, contentMode: imageContentMode, options: imageRequestOptions) { (result, _) in
+            
+            guard let result = result else { return }
+            photoCell.imageView.image = result
+        })
     
-        return cell
+        return photoCell
     }
 }

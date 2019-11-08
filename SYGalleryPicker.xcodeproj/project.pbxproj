@@ -16,7 +16,7 @@
 		9DAB7835237118E600D5F421 /* SYGalleryPickerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DAB7834237118E600D5F421 /* SYGalleryPickerTests.swift */; };
 		9DAB78492371192500D5F421 /* ExtensionUIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DAB78412371192500D5F421 /* ExtensionUIColor.swift */; };
 		9DAB784A2371192500D5F421 /* AlbumViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DAB78432371192500D5F421 /* AlbumViewController.swift */; };
-		9DAB784B2371192500D5F421 /* AlbumModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DAB78452371192500D5F421 /* AlbumModel.swift */; };
+		9DAB784B2371192500D5F421 /* GalleryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DAB78452371192500D5F421 /* GalleryModel.swift */; };
 		9DAB784D2371192500D5F421 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DAB78472371192500D5F421 /* Settings.swift */; };
 		9DAB784F23715BCA00D5F421 /* UIViewController+SYGalleryPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DAB784E23715BCA00D5F421 /* UIViewController+SYGalleryPicker.swift */; };
 		9DAB78512372571A00D5F421 /* PhotoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DAB78502372571A00D5F421 /* PhotoCell.swift */; };
@@ -47,7 +47,7 @@
 		9DAB7836237118E600D5F421 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9DAB78412371192500D5F421 /* ExtensionUIColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExtensionUIColor.swift; sourceTree = "<group>"; };
 		9DAB78432371192500D5F421 /* AlbumViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlbumViewController.swift; sourceTree = "<group>"; };
-		9DAB78452371192500D5F421 /* AlbumModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlbumModel.swift; sourceTree = "<group>"; };
+		9DAB78452371192500D5F421 /* GalleryModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GalleryModel.swift; sourceTree = "<group>"; };
 		9DAB78472371192500D5F421 /* Settings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		9DAB784E23715BCA00D5F421 /* UIViewController+SYGalleryPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+SYGalleryPicker.swift"; sourceTree = "<group>"; };
 		9DAB78502372571A00D5F421 /* PhotoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCell.swift; sourceTree = "<group>"; };
@@ -145,7 +145,7 @@
 		9DAB78442371192500D5F421 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				9DAB78452371192500D5F421 /* AlbumModel.swift */,
+				9DAB78452371192500D5F421 /* GalleryModel.swift */,
 				9DAB78472371192500D5F421 /* Settings.swift */,
 			);
 			path = Model;
@@ -263,7 +263,7 @@
 			files = (
 				9DAB7822237118E500D5F421 /* ViewController.swift in Sources */,
 				9DAB78512372571A00D5F421 /* PhotoCell.swift in Sources */,
-				9DAB784B2371192500D5F421 /* AlbumModel.swift in Sources */,
+				9DAB784B2371192500D5F421 /* GalleryModel.swift in Sources */,
 				9DAB784D2371192500D5F421 /* Settings.swift in Sources */,
 				9DAB784A2371192500D5F421 /* AlbumViewController.swift in Sources */,
 				9DAB784F23715BCA00D5F421 /* UIViewController+SYGalleryPicker.swift in Sources */,

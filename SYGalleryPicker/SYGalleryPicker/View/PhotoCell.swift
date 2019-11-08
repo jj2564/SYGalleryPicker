@@ -10,9 +10,12 @@ import UIKit
 import Photos
 
 class PhotoCell: UICollectionViewCell {
-    var representedAssetIdentifier: String!
+    static let cellIdentifier = "photoCellIdentifier"
     
     let imageView: UIImageView = UIImageView(frame: .zero)
+
+    weak var asset: PHAsset?
+//    var settings: SYGalleryPickerSettings
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -20,14 +23,13 @@ class PhotoCell: UICollectionViewCell {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
-        
         contentView.addSubview(imageView)
         
         NSLayoutConstraint.activate([
             imageView.topAnchor.constraint(equalTo: contentView.topAnchor),
             imageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             imageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            imageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
+            imageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
         ])
     }
     
@@ -35,9 +37,9 @@ class PhotoCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func prepareForReuse() {
-        super.prepareForReuse()
-        imageView.image = nil
-    }
+//    override func prepareForReuse() {
+//        super.prepareForReuse()
+//        imageView.image = nil
+//    }
     
 }

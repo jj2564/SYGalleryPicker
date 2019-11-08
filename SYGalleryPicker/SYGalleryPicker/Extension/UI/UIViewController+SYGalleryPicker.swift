@@ -10,12 +10,20 @@ import UIKit
 import Photos
 
 public extension UIViewController {
-    @objc func sy_presentGalleryPickerController(_ imagePicker: SYGalleryPickerViewController, animated: Bool, completion: (() -> Void)?) {
+    func sy_presentGalleryPickerController(_ imagePicker: SYGalleryPickerViewController, setting: SinyiProject = .basic, animated: Bool, completion: (() -> Void)?) {
         
         SYGalleryPickerViewController.authorize(fromViewController: self) { (authorized) in
             guard authorized == true else { return }
             
 //            imagePicker.modalPresentationStyle = .fullScreen
+            switch setting {
+            case .basic:
+                imagePicker.setting = defaultSetting()
+            case .IM:
+                imagePicker.setting = IMSetting()
+            case .TA:
+                imagePicker.setting = TASetting()
+            }
             
             self.present(imagePicker, animated: animated, completion: completion)
         }
