@@ -21,6 +21,10 @@ class PhotosViewController: UICollectionViewController {
     private var fetchResults:[PHFetchResult<PHAssetCollection>]
     /// 要顯示的照片
     private var photos:PHFetchResult<PHAsset> = PHFetchResult<PHAsset>()
+    /// 已選取的照片
+    private var selectedPhotos:[PHAsset] = []
+    
+    
     private(set) var photoThumbnailSize: CGSize = .zero
     
     private let imageRequestOptions: PHImageRequestOptions
@@ -38,6 +42,7 @@ class PhotosViewController: UICollectionViewController {
 //        finishClosure?(assetStore.assets)
     }
     
+    // MARK: - init cycle
     required init(fetchResults: [PHFetchResult<PHAssetCollection>],settings currentSettings: SYGalleryPickerSettings) {
         
         settings = currentSettings
@@ -49,8 +54,6 @@ class PhotosViewController: UICollectionViewController {
         
         let flowLayout = UICollectionViewFlowLayout()
         super.init(collectionViewLayout: flowLayout)
-        
-
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -89,7 +92,8 @@ class PhotosViewController: UICollectionViewController {
         
         photos = assets
     }
-
+    
+    // MARK: 調整螢幕比例
     private func updateCollectionLayout() {
         
         let flowLayout = UICollectionViewFlowLayout()
@@ -107,12 +111,19 @@ class PhotosViewController: UICollectionViewController {
         photoThumbnailSize = CGSize(width: scale, height: scale)
         
         collectionView.setCollectionViewLayout(flowLayout, animated: true);
-        collectionView.layoutIfNeeded()
+    }
+    
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        
+        if collectionViewLayout is UICollectionViewFlowLayout {
+            updateCollectionLayout()
+        }
     }
 }
 
 
-// MARK: UIImagePickerControllerDelegate
+// MARK: - UIImagePickerControllerDelegate
 extension PhotosViewController {
     
     override func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -130,19 +141,29 @@ extension PhotosViewController {
         let photoCell = collectionView.dequeueReusableCell(withReuseIdentifier: PhotoCell.cellIdentifier, for: indexPath) as! PhotoCell
         photoCell.accessibilityIdentifier = "photo_cell_\(indexPath.item)"
     
-//        if photoCell.tag != 0 {
-//            imageManager.cancelImageRequest(PHImageRequestID(Int32(photoCell.tag)))
-//        }
+        if photoCell.tag != 0 {
+            imageManager.cancelImageRequest(PHImageRequestID(Int32(photoCell.tag)))
+        }
         
         let asset = photos[indexPath.row]
-//        let imageSize: CGSize = photoCell.frame.size
         // Request image
         photoCell.tag = Int(imageManager.requestImage(for: asset, targetSize: photoThumbnailSize, contentMode: imageContentMode, options: imageRequestOptions) { (result, _) in
             
             guard let result = result else { return }
+            photoCell.asset = asset
             photoCell.imageView.image = result
+            photoCell.settings = self.settings
         })
     
         return photoCell
+    }
+    
+    override func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
+        
+        guard let cell = collectionView.cellForItem(at: indexPath) as? PhotoCell else { return false }
+//        let asset = cell.asset
+        cell.isCheck = !cell.isCheck
+        
+        return false
     }
 }

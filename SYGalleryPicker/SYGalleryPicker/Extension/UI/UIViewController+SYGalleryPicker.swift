@@ -14,8 +14,7 @@ public extension UIViewController {
         
         SYGalleryPickerViewController.authorize(fromViewController: self) { (authorized) in
             guard authorized == true else { return }
-            
-//            imagePicker.modalPresentationStyle = .fullScreen
+
             switch setting {
             case .basic:
                 imagePicker.setting = defaultSetting()
