@@ -10,6 +10,11 @@ import UIKit
 import Photos
 
 class PhotosViewController: UICollectionViewController {
+    var selectionClosure: ((_ asset: PHAsset) -> Void)?
+    var deselectionClosure: ((_ asset: PHAsset) -> Void)?
+    var cancelClosure: ((_ assets: [PHAsset]) -> Void)?
+    var finishClosure: ((_ assets: [PHAsset]) -> Void)?
+    var selectLimitReachedClosure: ((_ selectionLimit: Int) -> Void)?
     
     let settings: SYGalleryPickerSettings
     
@@ -27,7 +32,7 @@ class PhotosViewController: UICollectionViewController {
     
     private(set) var photoThumbnailSize: CGSize = .zero
     
-    private let imageRequestOptions: PHImageRequestOptions
+    var imageRequestOptions: PHImageRequestOptions?
     private let imageManager = PHCachingImageManager()
     private let imageContentMode: PHImageContentMode = .aspectFill
 
@@ -47,10 +52,8 @@ class PhotosViewController: UICollectionViewController {
         
         settings = currentSettings
         self.fetchResults = fetchResults
-        imageRequestOptions = PHImageRequestOptions()
-        imageRequestOptions.deliveryMode = .highQualityFormat
-        imageRequestOptions.resizeMode = .exact
-        imageRequestOptions.isNetworkAccessAllowed = false
+        
+        
         
         let flowLayout = UICollectionViewFlowLayout()
         super.init(collectionViewLayout: flowLayout)

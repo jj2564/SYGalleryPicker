@@ -1,5 +1,5 @@
 //
-//  AlbumViewController.swift
+//  SYGalleryPickerViewController.swift
 //  SYGalleryPicker
 //
 //  Created by IrvingHuang on 2019/11/4.
@@ -9,11 +9,6 @@
 import UIKit
 import Photos
 
-//protocol SYGalleryPickerViewControllerDelegate: NSObjectProtocol {
-//    func albumDidSelected(_ viewController: SYGalleryPickerViewController,  photos: [AlbumPhoto])
-//    func albumDidSelectedOver(_ viewController: SYGalleryPickerViewController, to count: Int)
-//}
-
 open class SYGalleryPickerViewController: UINavigationController {
     
     open var setting: SYGalleryPickerSettings = defaultSetting()
@@ -21,6 +16,8 @@ open class SYGalleryPickerViewController: UINavigationController {
     open var doneButton: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: nil, action: nil)
 
     open var cancelButton: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: nil, action: nil)
+    
+    open var imageRequestOptions: PHImageRequestOptions?
     
     open lazy var fetchResults: [PHFetchResult] = { () -> [PHFetchResult<PHAssetCollection>] in
         let fetchOptions = PHFetchOptions()
@@ -44,6 +41,15 @@ open class SYGalleryPickerViewController: UINavigationController {
         vc.doneBarButton = self.doneButton
         vc.cancelBarButton = self.cancelButton
 //        vc.albumTitleView = self.albumTitleView
+        
+        if self.imageRequestOptions == nil {
+            imageRequestOptions = PHImageRequestOptions()
+            imageRequestOptions?.deliveryMode = .highQualityFormat
+            imageRequestOptions?.resizeMode = .exact
+            imageRequestOptions?.isNetworkAccessAllowed = false
+        }
+        
+        vc.imageRequestOptions = self.imageRequestOptions
         
         return vc
     }()

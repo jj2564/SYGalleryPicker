@@ -15,7 +15,7 @@
 		9DAB782A237118E600D5F421 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9DAB7828237118E600D5F421 /* LaunchScreen.storyboard */; };
 		9DAB7835237118E600D5F421 /* SYGalleryPickerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DAB7834237118E600D5F421 /* SYGalleryPickerTests.swift */; };
 		9DAB78492371192500D5F421 /* ExtensionUIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DAB78412371192500D5F421 /* ExtensionUIColor.swift */; };
-		9DAB784A2371192500D5F421 /* AlbumViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DAB78432371192500D5F421 /* AlbumViewController.swift */; };
+		9DAB784A2371192500D5F421 /* SYGalleryPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DAB78432371192500D5F421 /* SYGalleryPickerViewController.swift */; };
 		9DAB784B2371192500D5F421 /* GalleryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DAB78452371192500D5F421 /* GalleryModel.swift */; };
 		9DAB784D2371192500D5F421 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DAB78472371192500D5F421 /* Settings.swift */; };
 		9DAB784F23715BCA00D5F421 /* UIViewController+SYGalleryPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DAB784E23715BCA00D5F421 /* UIViewController+SYGalleryPicker.swift */; };
@@ -46,7 +46,7 @@
 		9DAB7834237118E600D5F421 /* SYGalleryPickerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SYGalleryPickerTests.swift; sourceTree = "<group>"; };
 		9DAB7836237118E600D5F421 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9DAB78412371192500D5F421 /* ExtensionUIColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExtensionUIColor.swift; sourceTree = "<group>"; };
-		9DAB78432371192500D5F421 /* AlbumViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlbumViewController.swift; sourceTree = "<group>"; };
+		9DAB78432371192500D5F421 /* SYGalleryPickerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SYGalleryPickerViewController.swift; sourceTree = "<group>"; };
 		9DAB78452371192500D5F421 /* GalleryModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GalleryModel.swift; sourceTree = "<group>"; };
 		9DAB78472371192500D5F421 /* Settings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		9DAB784E23715BCA00D5F421 /* UIViewController+SYGalleryPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+SYGalleryPicker.swift"; sourceTree = "<group>"; };
@@ -134,7 +134,7 @@
 		9DAB78422371192500D5F421 /* SYGalleryPicker */ = {
 			isa = PBXGroup;
 			children = (
-				9DAB78432371192500D5F421 /* AlbumViewController.swift */,
+				9DAB78432371192500D5F421 /* SYGalleryPickerViewController.swift */,
 				9DAB78442371192500D5F421 /* Model */,
 				9DAB78482371192500D5F421 /* View */,
 				9DAB783F2371192500D5F421 /* Extension */,
@@ -265,7 +265,7 @@
 				9DAB78512372571A00D5F421 /* PhotoCell.swift in Sources */,
 				9DAB784B2371192500D5F421 /* GalleryModel.swift in Sources */,
 				9DAB784D2371192500D5F421 /* Settings.swift in Sources */,
-				9DAB784A2371192500D5F421 /* AlbumViewController.swift in Sources */,
+				9DAB784A2371192500D5F421 /* SYGalleryPickerViewController.swift in Sources */,
 				9DAB784F23715BCA00D5F421 /* UIViewController+SYGalleryPicker.swift in Sources */,
 				9DAB78532372710000D5F421 /* PhotosViewController.swift in Sources */,
 				9DAB781E237118E500D5F421 /* AppDelegate.swift in Sources */,
