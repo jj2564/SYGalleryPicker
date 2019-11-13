@@ -33,9 +33,11 @@ public protocol SYGalleryPickerSettings {
     var pickColor: UIColor { get set }
     /// 背景顏色
     var backgroundColor: UIColor { get set }
-    /// 選取顯示數字
+    /// 選取顯示數字還是打勾
     var selectWithCount: Bool { get set }
+    /// 選取的標示所屬的位置
     var selectMarkLocation: selectLocation { get set }
+    
 }
 
 final class TASetting: SYGalleryPickerSettings {
