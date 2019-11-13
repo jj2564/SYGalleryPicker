@@ -8,6 +8,12 @@
 
 import UIKit
 
+public enum SinyiProject {
+    case TA
+    case IM
+    case basic
+}
+
 public enum selectLocation {
     case leftTop
     case rightTop
@@ -33,7 +39,7 @@ public protocol SYGalleryPickerSettings {
 }
 
 final class TASetting: SYGalleryPickerSettings {
-    var maxPickNumber: Int = 30
+    var maxPickNumber: Int = 2
     var countInRow: (_ verticalSize: UIUserInterfaceSizeClass, _ horizontalSize: UIUserInterfaceSizeClass) -> Int = {(verticalSize: UIUserInterfaceSizeClass, horizontalSize: UIUserInterfaceSizeClass) -> Int in
         switch (verticalSize, horizontalSize) {
         case (.regular, .compact): // iPhone portrait
@@ -100,6 +106,6 @@ class defaultSetting: SYGalleryPickerSettings {
     var pickColor: UIColor = .blue_00008B
     var backgroundColor: UIColor = .white
     var selectWithCount: Bool = true
-    var selectMarkLocation: selectLocation = .rightBottom
+    var selectMarkLocation: selectLocation = .leftTop
     
 }

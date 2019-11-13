@@ -17,7 +17,12 @@ class PhotoCell: UICollectionViewCell {
     let selectView: UILabel = UILabel(frame: .zero)
 
     weak var asset: PHAsset?
-    var settings: SYGalleryPickerSettings = defaultSetting()
+    
+    var settings: SYGalleryPickerSettings = defaultSetting() {
+        didSet {
+            setSelectViewConstrant()
+        }
+    }
     
     var selectSymbol: String = "✓"
     var selectString: String = "0"
@@ -66,26 +71,6 @@ class PhotoCell: UICollectionViewCell {
         selectView.isHidden = true
         contentView.addSubview(selectView)
         
-        var selectMarginLimit1: NSLayoutConstraint
-        var selectMarginLimit2: NSLayoutConstraint
-        
-        let distance: CGFloat = -8
-        
-        switch settings.selectMarkLocation {
-        case .leftTop:
-            selectMarginLimit1 = selectView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: distance)
-            selectMarginLimit2 = selectView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: distance)
-        case .rightTop:
-            selectMarginLimit1 = selectView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: distance)
-            selectMarginLimit2 = selectView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: distance)
-        case .leftBottom:
-            selectMarginLimit1 = selectView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: distance)
-            selectMarginLimit2 = selectView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: distance)
-        case .rightBottom:
-            selectMarginLimit1 = selectView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: distance)
-            selectMarginLimit2 = selectView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: distance)
-        }
-        
         NSLayoutConstraint.activate([
             imageView.topAnchor.constraint(equalTo: contentView.topAnchor),
             imageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
@@ -97,6 +82,32 @@ class PhotoCell: UICollectionViewCell {
             opacityView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             selectView.heightAnchor.constraint(equalToConstant: size),
             selectView.widthAnchor.constraint(equalToConstant: size),
+            
+        ])
+    }
+    
+    private func setSelectViewConstrant() {
+        var selectMarginLimit1: NSLayoutConstraint
+        var selectMarginLimit2: NSLayoutConstraint
+        
+        let distance: CGFloat = 8
+        
+        switch settings.selectMarkLocation {
+        case .leftTop:
+            selectMarginLimit1 = selectView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: distance)
+            selectMarginLimit2 = selectView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: distance)
+        case .rightTop:
+            selectMarginLimit1 = selectView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -distance)
+            selectMarginLimit2 = selectView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: distance)
+        case .leftBottom:
+            selectMarginLimit1 = selectView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: distance)
+            selectMarginLimit2 = selectView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -distance)
+        case .rightBottom:
+            selectMarginLimit1 = selectView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -distance)
+            selectMarginLimit2 = selectView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -distance)
+        }
+        
+        NSLayoutConstraint.activate([
             selectMarginLimit1,
             selectMarginLimit2
         ])

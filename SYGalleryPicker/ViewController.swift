@@ -21,18 +21,21 @@ class ViewController: UIViewController {
         vc.modalPresentationStyle = .fullScreen
         
         sy_presentGalleryPickerController(vc, setting: .TA ,animated: true,
-        select: { assets in
-            
-        }, deselect: { assets in
-            
+        select: { asset in
+            print(asset.description)
+        }, deselect: { asset in
+            print(asset.description)
         }, cancel: { assets in
-            
+            print("Cancel")
         }, finish: { assets in
-            
+            print("Confirm")
+        }, selectLimitReached: { count in
+            print("Limit reach")
         }, completion: nil)
     }
     
     @IBAction func IM(_ sender: Any) {
+
     }
     
     @IBAction func `default`(_ sender: Any) {

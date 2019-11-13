@@ -39,12 +39,13 @@ class PhotosViewController: UICollectionViewController {
     // MARK: Button actions
     @objc func cancelButtonPressed(_ sender: UIBarButtonItem) {
         dismiss(animated: true, completion: nil)
-//        cancelClosure?(assetStore.assets)
+        cancelClosure?(selectedPhotos)
     }
     
     @objc func doneButtonPressed(_ sender: UIBarButtonItem) {
         dismiss(animated: true, completion: nil)
-//        finishClosure?(assetStore.assets)
+        finishClosure?(selectedPhotos)
+        
     }
     
     // MARK: - init cycle
@@ -165,6 +166,21 @@ extension PhotosViewController {
         
         guard let cell = collectionView.cellForItem(at: indexPath) as? PhotoCell else { return false }
 //        let asset = cell.asset
+        
+        guard let asset = cell.asset else { return false }
+        
+        if cell.isCheck {
+            guard let index = selectedPhotos.firstIndex(of: asset) else { return false }
+            selectedPhotos.remove(at: index)
+            deselectionClosure?(asset)
+        } else if selectedPhotos.count >= settings.maxPickNumber {
+            selectLimitReachedClosure?(selectedPhotos.count)
+            return false
+        } else {
+            selectedPhotos.append(asset)
+            selectionClosure?(asset)
+        }
+        
         cell.isCheck = !cell.isCheck
         
         return false

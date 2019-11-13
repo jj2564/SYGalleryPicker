@@ -16,8 +16,8 @@ public extension UIViewController {
          deselect: ((_ asset: PHAsset) -> Void)?,
          cancel: (([PHAsset]) -> Void)?,
          finish: (([PHAsset]) -> Void)?,
-         completion: (() -> Void)?,
-         selectLimitReached: ((Int) -> Void)? = nil) {
+         selectLimitReached: ((Int) -> Void)?,
+         completion: (() -> Void)? ) {
         
         SYGalleryPickerViewController.authorize(fromViewController: self) { (authorized) in
             guard authorized == true else { return }
