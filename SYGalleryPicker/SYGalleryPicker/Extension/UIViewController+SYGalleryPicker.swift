@@ -10,6 +10,14 @@ import UIKit
 import Photos
 
 public extension UIViewController {
+    
+    enum SinyiProject {
+        case TA
+        case IM
+        case basic
+    }
+    
+    
     func sy_presentGalleryPickerController
         (_ imagePicker: SYGalleryPickerViewController, setting: SinyiProject = .basic,  requestOptions: PHImageRequestOptions? = nil, animated: Bool,
          select: ((_ asset: PHAsset) -> Void)?,

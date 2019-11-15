@@ -30,13 +30,20 @@ class PhotosViewController: UICollectionViewController {
         return btn
     }()
     
+    lazy var albumViewController: AlbumTableViewController = {
+        let vc = AlbumTableViewController()
+        vc.tableView.dataSource = self
+        vc.tableView.delegate = self
+        
+        return vc
+    }()
+    
     /// 所有fetchResult
     private var fetchResults:[PHFetchResult<PHAssetCollection>]
     /// 要顯示的照片
     private var photos:PHFetchResult<PHAsset> = PHFetchResult<PHAsset>()
     /// 已選取的照片
     private var selectedPhotos:[PHAsset] = []
-    
     
     private(set) var photoThumbnailSize: CGSize = .zero
     
@@ -53,10 +60,20 @@ class PhotosViewController: UICollectionViewController {
     @objc func doneButtonPressed(_ sender: UIBarButtonItem) {
         dismiss(animated: true, completion: nil)
         finishClosure?(selectedPhotos)
-        
     }
     
     @objc func albumButtonPressed(_ sender: UIButton) {
+        guard let popVC = albumViewController.popoverPresentationController else {
+            return
+        }
+
+        popVC.permittedArrowDirections = .up
+        popVC.sourceView = sender
+        let senderRect = sender.convert(sender.frame, from: sender.superview)
+        let sourceRect = CGRect(x: senderRect.origin.x, y: senderRect.origin.y + (sender.frame.size.height / 2), width: senderRect.size.width, height: senderRect.size.height)
+        popVC.sourceRect = sourceRect
+        popVC.delegate = self
+        present(albumViewController, animated: true, completion: nil)
     }
     
     // MARK: - init cycle
@@ -64,8 +81,6 @@ class PhotosViewController: UICollectionViewController {
         
         settings = currentSettings
         self.fetchResults = fetchResults
-        
-        
         
         let flowLayout = UICollectionViewFlowLayout()
         super.init(collectionViewLayout: flowLayout)
@@ -97,7 +112,6 @@ class PhotosViewController: UICollectionViewController {
             initWithCameraRoll(album)
             collectionView.reloadData()
         }
-
     }
 
     private func initWithCameraRoll(_ roll: PHAssetCollection) {
@@ -109,21 +123,19 @@ class PhotosViewController: UICollectionViewController {
         updateTitle(roll)
         
         let assets = PHAsset.fetchAssets(in: roll, options: options)
-        
         photos = assets
     }
     
     private func updateTitle(_ album: PHAssetCollection) {
         
         guard var title = album.localizedTitle else { return }
-        title += "  ˅"
+        
+        title += "  ↓"
         
         albumTitleView.setTitle(title, for: .normal)
-        // Size the button to fit the new title
         albumTitleView.sizeToFit()
     }
     
-    // MARK: 調整螢幕比例
     private func updateCollectionLayout() {
         
         let flowLayout = UICollectionViewFlowLayout()
@@ -133,6 +145,7 @@ class PhotosViewController: UICollectionViewController {
         let width = (UIScreen.main.bounds.width - total) / CGFloat(span)
         let height = width
         let itemSize = CGSize(width: width, height: height)
+        
         flowLayout.minimumInteritemSpacing = spacing
         flowLayout.minimumLineSpacing = spacing
         flowLayout.itemSize = itemSize
@@ -144,6 +157,7 @@ class PhotosViewController: UICollectionViewController {
     }
     
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        
         super.traitCollectionDidChange(previousTraitCollection)
         
         if collectionViewLayout is UICollectionViewFlowLayout {
@@ -157,17 +171,18 @@ class PhotosViewController: UICollectionViewController {
 extension PhotosViewController {
     
     override func numberOfSections(in collectionView: UICollectionView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
+
         return 1
     }
 
 
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of items
+
         return photos.count
     }
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
         let photoCell = collectionView.dequeueReusableCell(withReuseIdentifier: PhotoCell.cellIdentifier, for: indexPath) as! PhotoCell
         photoCell.accessibilityIdentifier = "photo_cell_\(indexPath.item)"
     
@@ -184,14 +199,13 @@ extension PhotosViewController {
             photoCell.imageView.image = result
             photoCell.settings = self.settings
         })
-    
+        
         return photoCell
     }
     
     override func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
         
         guard let cell = collectionView.cellForItem(at: indexPath) as? PhotoCell else { return false }
-//        let asset = cell.asset
         
         guard let asset = cell.asset else { return false }
         
@@ -210,5 +224,74 @@ extension PhotosViewController {
         cell.isCheck = !cell.isCheck
         
         return false
+    }
+}
+
+// MARK: UITableViewDelegate
+extension PhotosViewController: UITableViewDelegate, UITableViewDataSource {
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
+        if let albums = fetchResults.first {
+            return albums.count
+        }
+        
+        return 0
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        let cell = tableView.dequeueReusableCell(withIdentifier: AlbumCell.cellIdentifier, for: indexPath) as! AlbumCell
+        let cachingManager = PHCachingImageManager.default() as? PHCachingImageManager
+        cachingManager?.allowsCachingHighQualityImages = false
+
+        
+        if let albums = fetchResults.first {
+             
+            let album = albums[indexPath.row]
+            cell.albumTitleLabel.text = album.localizedTitle
+            
+            let fetchOptions = PHFetchOptions()
+            fetchOptions.sortDescriptors = [
+                NSSortDescriptor(key: "creationDate", ascending: false)
+            ]
+            fetchOptions.predicate = NSPredicate(format: "mediaType = %d", PHAssetMediaType.image.rawValue)
+
+            let scale = UIScreen.main.scale
+            let imageSize = CGSize(width: 80 * scale, height: 80 * scale)
+            let result = PHAsset.fetchAssets(in: album, options: fetchOptions)
+            
+            guard let firstAsset = result.firstObject else { return cell }
+            
+            imageManager.requestImage(for: firstAsset, targetSize: imageSize, contentMode: imageContentMode,
+                                      options: self.imageRequestOptions, resultHandler: { (image, info) in
+                                        if let image = image {
+                                            cell.albumImageView.image = image
+                                        }
+            })
+            
+            cell.albumCountLabel.text = "\(result.count)"
+        }
+        
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        // Update photos data source
+        collectionView?.reloadData()
+        
+        albumViewController.dismiss(animated: true, completion: nil)
+    }
+}
+
+
+// MARK: UIPopoverPresentationControllerDelegate
+extension PhotosViewController: UIPopoverPresentationControllerDelegate {
+    func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
+        return .none
+    }
+    
+    func popoverPresentationControllerShouldDismissPopover(_ popoverPresentationController: UIPopoverPresentationController) -> Bool {
+        return true
     }
 }

@@ -34,14 +34,21 @@ class AlbumCell: UITableViewCell {
         
         let views = ["image": albumImageView, "title": albumTitleLabel, "count": albumCountLabel]
         
-        let metrics = ["side": 10, "gap": 10]
+        let metrics = ["side": 10, "gap": 10, "size": 80]
         
-        var constraints: [NSLayoutConstraint] = NSLayoutConstraint.constraints(withVisualFormat: "H|-(side)-[image(==80)]-(gap)-[title]-(side)-|",options: [], metrics: metrics, views: views)
-        constraints += NSLayoutConstraint.constraints(withVisualFormat: "H|-(side)-[image]-(gap)-[count]-(side)-|",options: [], metrics: metrics, views: views)
+        var constraints: [NSLayoutConstraint] = NSLayoutConstraint.constraints(withVisualFormat: "H:|-(side)-[image(==size)]-(gap)-[title]-(side)-|",options: [], metrics: metrics, views: views)
+        constraints += NSLayoutConstraint.constraints(withVisualFormat: "H:|-(side)-[image]-(gap)-[count]-(side)-|",options: [], metrics: metrics, views: views)
+        constraints += NSLayoutConstraint.constraints(withVisualFormat: "V:|-(side)-[image(==size)]-(side)-|", options: [], metrics: metrics, views: views)
+        constraints += NSLayoutConstraint.constraints(withVisualFormat: "V:|-(29)-[title(==20)]-(2)-[count(==20)]-(29)-|", options: [], metrics: metrics, views: views)
         NSLayoutConstraint.activate(
             constraints
         )
-        albumImageView.heightAnchor.constraint(equalTo: albumImageView.widthAnchor, multiplier: 1.0).isActive = true
+        
+        self.backgroundColor = .blue_00008B
+        albumImageView.backgroundColor = .white
+        albumTitleLabel.backgroundColor = .white
+        albumCountLabel.backgroundColor = .white
+//        albumImageView.heightAnchor.constraint(equalTo: albumImageView.widthAnchor, multiplier: 1.0).isActive = true
         
     }
     
