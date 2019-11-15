@@ -20,7 +20,15 @@ class PhotosViewController: UICollectionViewController {
     
     var doneBarButton: UIBarButtonItem?
     var cancelBarButton: UIBarButtonItem?
-//    var albumTitleView: UIButton?
+    
+    var albumTitleView: UIButton = {
+        let btn = UIButton(type: .custom)
+        
+        btn.setTitleColor(btn.tintColor, for: .normal)
+        btn.titleLabel?.font = .systemFont(ofSize: 15.0)
+        
+        return btn
+    }()
     
     /// 所有fetchResult
     private var fetchResults:[PHFetchResult<PHAssetCollection>]
@@ -48,6 +56,9 @@ class PhotosViewController: UICollectionViewController {
         
     }
     
+    @objc func albumButtonPressed(_ sender: UIButton) {
+    }
+    
     // MARK: - init cycle
     required init(fetchResults: [PHFetchResult<PHAssetCollection>],settings currentSettings: SYGalleryPickerSettings) {
         
@@ -72,11 +83,13 @@ class PhotosViewController: UICollectionViewController {
         
         collectionView?.register(PhotoCell.self, forCellWithReuseIdentifier: PhotoCell.cellIdentifier)
         
-        cancelBarButton? = UIBarButtonItem(title: "X", style: .plain, target: self, action: #selector(PhotosViewController.cancelButtonPressed(_:)))
-        doneBarButton? = UIBarButtonItem(title: "確認", style: .plain, target: self, action: #selector(PhotosViewController.doneButtonPressed(_:)))
+        cancelBarButton? = UIBarButtonItem(title: "X", style: .plain, target: self, action: #selector(cancelButtonPressed(_:)))
+        doneBarButton? = UIBarButtonItem(title: "確認", style: .plain, target: self, action: #selector(doneButtonPressed(_:)))
+        albumTitleView.addTarget(self, action: #selector(albumButtonPressed(_:)), for: .touchUpInside)
         
         navigationItem.leftBarButtonItem = cancelBarButton
         navigationItem.rightBarButtonItem = doneBarButton
+        navigationItem.titleView = albumTitleView
         
         updateCollectionLayout()
 
@@ -88,13 +101,26 @@ class PhotosViewController: UICollectionViewController {
     }
 
     private func initWithCameraRoll(_ roll: PHAssetCollection) {
+        
         let options = PHFetchOptions()
         options.predicate = NSPredicate(format: "mediaType = %d", PHAssetMediaType.image.rawValue)
         options.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
         
+        updateTitle(roll)
+        
         let assets = PHAsset.fetchAssets(in: roll, options: options)
         
         photos = assets
+    }
+    
+    private func updateTitle(_ album: PHAssetCollection) {
+        
+        guard var title = album.localizedTitle else { return }
+        title += "  ˅"
+        
+        albumTitleView.setTitle(title, for: .normal)
+        // Size the button to fit the new title
+        albumTitleView.sizeToFit()
     }
     
     // MARK: 調整螢幕比例

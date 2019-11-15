@@ -1,5 +1,5 @@
 //
-//  ExtensionUIColor.swift
+//  UIColorExtension.swift
 //  SYGalleryPicker
 //
 //  Created by IrvingHuang on 2019/11/4.

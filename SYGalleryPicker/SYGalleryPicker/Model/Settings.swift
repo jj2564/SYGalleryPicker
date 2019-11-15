@@ -59,7 +59,7 @@ final class TASetting: SYGalleryPickerSettings {
     var tintColor: UIColor = .white
     var pickColor: UIColor = UIColor(0xffc107)
     var backgroundColor: UIColor = .white
-    var selectWithCount: Bool = true
+    var selectWithCount: Bool = false
     var selectMarkLocation: selectLocation = .rightTop
     
 }

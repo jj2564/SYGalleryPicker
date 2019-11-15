@@ -24,8 +24,22 @@ class PhotoCell: UICollectionViewCell {
         }
     }
     
+    var selectText: String {
+        get {
+            if settings.selectWithCount {
+                return selectString
+            } else {
+                return selectSymbol
+            }
+        }
+    }
+    
     var selectSymbol: String = "✓"
-    var selectString: String = "0"
+    var selectString: String = "0" {
+        didSet {
+            
+        }
+    }
     
     /// 是否點選到
     var isCheck: Bool = false {
@@ -65,7 +79,7 @@ class PhotoCell: UICollectionViewCell {
         selectView.layer.borderWidth = 1
         selectView.layer.borderColor = UIColor.white.cgColor
         selectView.layer.backgroundColor = UIColor.green_008800.cgColor
-        selectView.text = selectSymbol
+        selectView.text = selectText
         selectView.textColor = .white
         selectView.textAlignment = .center
         selectView.isHidden = true
