@@ -44,10 +44,10 @@ class AlbumCell: UITableViewCell {
             constraints
         )
         
-        self.backgroundColor = .blue_00008B
-        albumImageView.backgroundColor = .white
-        albumTitleLabel.backgroundColor = .white
-        albumCountLabel.backgroundColor = .white
+//        self.backgroundColor = .blue_00008B
+        albumImageView.backgroundColor = .clear
+        albumTitleLabel.backgroundColor = .clear
+        albumCountLabel.backgroundColor = .clear
 //        albumImageView.heightAnchor.constraint(equalTo: albumImageView.widthAnchor, multiplier: 1.0).isActive = true
         
     }

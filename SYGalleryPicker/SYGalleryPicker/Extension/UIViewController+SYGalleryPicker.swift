@@ -17,9 +17,8 @@ public extension UIViewController {
         case basic
     }
     
-    
     func sy_presentGalleryPickerController
-        (_ imagePicker: SYGalleryPickerViewController, setting: SinyiProject = .basic,  requestOptions: PHImageRequestOptions? = nil, animated: Bool,
+        (_ imagePicker: SYGalleryPickerViewController, setting: SinyiProject = .basic, customSetting:SYGalleryPickerSettings? = nil , requestOptions: PHImageRequestOptions? = nil, animated: Bool,
          select: ((_ asset: PHAsset) -> Void)?,
          deselect: ((_ asset: PHAsset) -> Void)?,
          cancel: (([PHAsset]) -> Void)?,
@@ -30,13 +29,17 @@ public extension UIViewController {
         SYGalleryPickerViewController.authorize(fromViewController: self) { (authorized) in
             guard authorized == true else { return }
             
-            switch setting {
-            case .basic:
-                imagePicker.setting = defaultSetting()
-            case .IM:
-                imagePicker.setting = IMSetting()
-            case .TA:
-                imagePicker.setting = TASetting()
+            if let customSetting = customSetting {
+                imagePicker.setting = customSetting
+            } else {
+                switch setting {
+                case .basic:
+                    imagePicker.setting = defaultSetting()
+                case .IM:
+                    imagePicker.setting = IMSetting()
+                case .TA:
+                    imagePicker.setting = TASetting()
+                }
             }
             
             imagePicker.photosViewController.selectionClosure = select

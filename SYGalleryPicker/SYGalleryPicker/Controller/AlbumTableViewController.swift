@@ -46,6 +46,8 @@ class AlbumTableViewController: UITableViewController {
         tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 100
         tableView.separatorStyle = .none
+        tableView.sectionHeaderHeight = 0.0
+        tableView.sectionFooterHeight = 0.0
         
         tableView.register(AlbumCell.self, forCellReuseIdentifier: AlbumCell.cellIdentifier)
     }

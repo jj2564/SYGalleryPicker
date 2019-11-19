@@ -19,8 +19,23 @@ For Sinyi Project library Pre Project
         }, completion: nil)
 ```
 不使用delegate通通使用clourse來回傳，用不到的可以直接拿掉。
+
+
+以下為呼叫函式的樣貌
+```swift
+    func sy_presentGalleryPickerController
+        (_ imagePicker: SYGalleryPickerViewController, setting: SinyiProject = .basic, customSetting:SYGalleryPickerSettings? = nil , requestOptions: PHImageRequestOptions? = nil, animated: Bool,
+         select: ((_ asset: PHAsset) -> Void)?,
+         deselect: ((_ asset: PHAsset) -> Void)?,
+         cancel: (([PHAsset]) -> Void)?,
+         finish: (([PHAsset]) -> Void)?,
+         selectLimitReached: ((Int) -> Void)?,
+         completion: (() -> Void)? ) {}
+```
 針對信義的專案可以選擇Setting，目前主要定義TA與IM這兩個專案可以選擇，若不選擇則會帶入default。
-也可以自定義setting帶入。
+可以自定義setting帶入，再帶入customSetting的情況下前面的setting會變成無效的，目前尚沒有想到比較漂亮的做法。
+也可以帶入自己定義的`PHImageRequestOptions`，如果有特殊需求的話。
+
 ## Setting
 設定的部分要遵守 'SYGalleryPickerSettings' Protocol
 
@@ -46,7 +61,9 @@ public protocol SYGalleryPickerSettings {
 ```
 
 ## TODO
-- [ ] 選取相簿
+- [x] 選取相簿
+- [ ] 選取的計數
+- [ ] 預設選取
 - [ ] Controller的Style
 - [ ] 做成Library
 - [ ] 弄個Pod

@@ -19,7 +19,7 @@ class ViewController: UIViewController {
         
         let vc = SYGalleryPickerViewController()
         vc.modalPresentationStyle = .fullScreen
-        
+
         sy_presentGalleryPickerController(vc, setting: .TA ,animated: true,
         select: { asset in
             print(asset.description)

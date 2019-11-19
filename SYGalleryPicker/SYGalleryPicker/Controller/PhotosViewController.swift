@@ -109,20 +109,20 @@ class PhotosViewController: UICollectionViewController {
         updateCollectionLayout()
 
         if let album = fetchResults.first?.firstObject {
-            initWithCameraRoll(album)
+            initWithAlbum(album)
             collectionView.reloadData()
         }
     }
 
-    private func initWithCameraRoll(_ roll: PHAssetCollection) {
+    private func initWithAlbum(_ album: PHAssetCollection) {
         
         let options = PHFetchOptions()
         options.predicate = NSPredicate(format: "mediaType = %d", PHAssetMediaType.image.rawValue)
         options.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
         
-        updateTitle(roll)
+        updateTitle(album)
         
-        let assets = PHAsset.fetchAssets(in: roll, options: options)
+        let assets = PHAsset.fetchAssets(in: album, options: options)
         photos = assets
     }
     
@@ -191,10 +191,17 @@ extension PhotosViewController {
         }
         
         let asset = photos[indexPath.row]
-        // Request image
-        photoCell.tag = Int(imageManager.requestImage(for: asset, targetSize: photoThumbnailSize, contentMode: imageContentMode, options: imageRequestOptions) { (result, _) in
+        photoCell.tag = Int(imageManager.requestImage(for: asset, targetSize: photoThumbnailSize, contentMode: imageContentMode, options: imageRequestOptions) { [weak self] (result, _) in
             
+            guard let self = self else { return }
             guard let result = result else { return }
+            
+            if self.selectedPhotos.contains(asset) {
+                photoCell.isCheck = true
+            } else {
+                photoCell.isCheck = false
+            }
+            
             photoCell.asset = asset
             photoCell.imageView.image = result
             photoCell.settings = self.settings
@@ -206,7 +213,6 @@ extension PhotosViewController {
     override func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
         
         guard let cell = collectionView.cellForItem(at: indexPath) as? PhotoCell else { return false }
-        
         guard let asset = cell.asset else { return false }
         
         if cell.isCheck {
@@ -220,7 +226,6 @@ extension PhotosViewController {
             selectedPhotos.append(asset)
             selectionClosure?(asset)
         }
-        
         cell.isCheck = !cell.isCheck
         
         return false
@@ -230,13 +235,13 @@ extension PhotosViewController {
 // MARK: UITableViewDelegate
 extension PhotosViewController: UITableViewDelegate, UITableViewDataSource {
     
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return fetchResults.count
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        if let albums = fetchResults.first {
-            return albums.count
-        }
-        
-        return 0
+        return fetchResults[section].count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -246,9 +251,9 @@ extension PhotosViewController: UITableViewDelegate, UITableViewDataSource {
         cachingManager?.allowsCachingHighQualityImages = false
 
         
-        if let albums = fetchResults.first {
+//        if let albums = fetchResults.first {
              
-            let album = albums[indexPath.row]
+            let album = fetchResults[indexPath.section][indexPath.row]
             cell.albumTitleLabel.text = album.localizedTitle
             
             let fetchOptions = PHFetchOptions()
@@ -271,14 +276,19 @@ extension PhotosViewController: UITableViewDelegate, UITableViewDataSource {
             })
             
             cell.albumCountLabel.text = "\(result.count)"
-        }
+//        }
         
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         // Update photos data source
-        collectionView?.reloadData()
+        
+//        if let albums = fetchResults.first {
+            let album = fetchResults[indexPath.section][indexPath.row]
+            initWithAlbum(album)
+            collectionView.reloadData()
+//        }
         
         albumViewController.dismiss(animated: true, completion: nil)
     }
