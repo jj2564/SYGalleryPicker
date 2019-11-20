@@ -36,7 +36,7 @@ public protocol SYGalleryPickerSettings {
 
 final class TASetting: SYGalleryPickerSettings {
     
-    var maxPickNumber: Int = 2
+    var maxPickNumber: Int = 20
     var countInRow: (_ verticalSize: UIUserInterfaceSizeClass, _ horizontalSize: UIUserInterfaceSizeClass) -> Int = {(verticalSize: UIUserInterfaceSizeClass, horizontalSize: UIUserInterfaceSizeClass) -> Int in
         switch (verticalSize, horizontalSize) {
         case (.regular, .compact): // iPhone portrait
@@ -54,7 +54,7 @@ final class TASetting: SYGalleryPickerSettings {
     var tintColor: UIColor = .white
     var pickColor: UIColor = UIColor(0xffc107)
     var backgroundColor: UIColor = .white
-    var selectWithCount: Bool = false
+    var selectWithCount: Bool = true
     var selectMarkLocation: selectLocation = .rightTop
     
 }

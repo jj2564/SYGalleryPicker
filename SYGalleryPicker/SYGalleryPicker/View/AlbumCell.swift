@@ -27,9 +27,12 @@ class AlbumCell: UITableViewCell {
         contentView.addSubview(albumImageView)
         
         albumTitleLabel.translatesAutoresizingMaskIntoConstraints = false
+        albumTitleLabel.font = UIFont.systemFont(ofSize: 20)
         contentView.addSubview(albumTitleLabel)
         
         albumCountLabel.translatesAutoresizingMaskIntoConstraints = false
+        albumCountLabel.font = UIFont.systemFont(ofSize: 15)
+        albumCountLabel.textColor = .gray_808080
         contentView.addSubview(albumCountLabel)
         
         let views = ["image": albumImageView, "title": albumTitleLabel, "count": albumCountLabel]

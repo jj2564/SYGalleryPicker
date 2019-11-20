@@ -61,8 +61,8 @@ public protocol SYGalleryPickerSettings {
 ```
 
 ## TODO
-- [x] 選取相簿
-- [ ] 選取的計數
+- [x] ~~選取相簿~~
+- [x] 選取的計數
 - [ ] 預設選取
 - [ ] Controller的Style
 - [ ] 做成Library

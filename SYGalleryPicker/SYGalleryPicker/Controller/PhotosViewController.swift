@@ -63,6 +63,7 @@ class PhotosViewController: UICollectionViewController {
     }
     
     @objc func albumButtonPressed(_ sender: UIButton) {
+        
         guard let popVC = albumViewController.popoverPresentationController else {
             return
         }
@@ -83,6 +84,7 @@ class PhotosViewController: UICollectionViewController {
         self.fetchResults = fetchResults
         
         let flowLayout = UICollectionViewFlowLayout()
+//        m_photos = PHFetchResult<PHAsset>()
         super.init(collectionViewLayout: flowLayout)
     }
 
@@ -91,6 +93,7 @@ class PhotosViewController: UICollectionViewController {
     }
 
     override func loadView() {
+        
         super.loadView()
         
         collectionView?.backgroundColor = settings.backgroundColor
@@ -123,15 +126,14 @@ class PhotosViewController: UICollectionViewController {
         updateTitle(album)
         
         let assets = PHAsset.fetchAssets(in: album, options: options)
+        
         photos = assets
     }
     
     private func updateTitle(_ album: PHAssetCollection) {
         
         guard var title = album.localizedTitle else { return }
-        
         title += "  ↓"
-        
         albumTitleView.setTitle(title, for: .normal)
         albumTitleView.sizeToFit()
     }
@@ -171,17 +173,16 @@ class PhotosViewController: UICollectionViewController {
 extension PhotosViewController {
     
     override func numberOfSections(in collectionView: UICollectionView) -> Int {
-
         return 1
     }
 
 
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-
         return photos.count
     }
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        UIView.setAnimationsEnabled(false)
         
         let photoCell = collectionView.dequeueReusableCell(withReuseIdentifier: PhotoCell.cellIdentifier, for: indexPath) as! PhotoCell
         photoCell.accessibilityIdentifier = "photo_cell_\(indexPath.item)"
@@ -191,21 +192,31 @@ extension PhotosViewController {
         }
         
         let asset = photos[indexPath.row]
+
         photoCell.tag = Int(imageManager.requestImage(for: asset, targetSize: photoThumbnailSize, contentMode: imageContentMode, options: imageRequestOptions) { [weak self] (result, _) in
             
             guard let self = self else { return }
             guard let result = result else { return }
             
-            if self.selectedPhotos.contains(asset) {
-                photoCell.isCheck = true
-            } else {
-                photoCell.isCheck = false
-            }
-            
             photoCell.asset = asset
             photoCell.imageView.image = result
             photoCell.settings = self.settings
         })
+
+        
+        if self.selectedPhotos.contains(asset) {
+            if let index = self.selectedPhotos.firstIndex(of: asset) {
+                photoCell.selectString = "\(index+1)"
+                photoCell.isCheck = true
+            }
+        } else {
+            photoCell.isCheck = false
+        }
+        
+        photoCell.isAccessibilityElement = true
+        photoCell.accessibilityTraits = UIAccessibilityTraits.button
+
+        UIView.setAnimationsEnabled(true)
         
         return photoCell
     }
@@ -219,12 +230,26 @@ extension PhotosViewController {
             guard let index = selectedPhotos.firstIndex(of: asset) else { return false }
             selectedPhotos.remove(at: index)
             deselectionClosure?(asset)
+            let selectedIndexPaths = selectedPhotos.enumerated().compactMap({ (photoIndex,imageAsset) -> IndexPath? in
+                //數字比較大的不用重load
+                if index > photoIndex { return nil }
+                let sectionIndex = photos.index(of: imageAsset)
+                guard sectionIndex != NSNotFound else { return nil }
+                return IndexPath(item: sectionIndex, section: 0)
+            })
+            
+            UIView.setAnimationsEnabled(false)
+            collectionView.reloadItems(at: selectedIndexPaths)
+            UIView.setAnimationsEnabled(true)
+            
         } else if selectedPhotos.count >= settings.maxPickNumber {
             selectLimitReachedClosure?(selectedPhotos.count)
             return false
         } else {
             selectedPhotos.append(asset)
             selectionClosure?(asset)
+            cell.selectString = "\(selectedPhotos.count)"
+            
         }
         cell.isCheck = !cell.isCheck
         
@@ -240,7 +265,6 @@ extension PhotosViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
         return fetchResults[section].count
     }
     
@@ -250,46 +274,37 @@ extension PhotosViewController: UITableViewDelegate, UITableViewDataSource {
         let cachingManager = PHCachingImageManager.default() as? PHCachingImageManager
         cachingManager?.allowsCachingHighQualityImages = false
 
+        let album = fetchResults[indexPath.section][indexPath.row]
+        cell.albumTitleLabel.text = album.localizedTitle
         
-//        if let albums = fetchResults.first {
-             
-            let album = fetchResults[indexPath.section][indexPath.row]
-            cell.albumTitleLabel.text = album.localizedTitle
-            
-            let fetchOptions = PHFetchOptions()
-            fetchOptions.sortDescriptors = [
-                NSSortDescriptor(key: "creationDate", ascending: false)
-            ]
-            fetchOptions.predicate = NSPredicate(format: "mediaType = %d", PHAssetMediaType.image.rawValue)
-
-            let scale = UIScreen.main.scale
-            let imageSize = CGSize(width: 80 * scale, height: 80 * scale)
-            let result = PHAsset.fetchAssets(in: album, options: fetchOptions)
-            
-            guard let firstAsset = result.firstObject else { return cell }
-            
-            imageManager.requestImage(for: firstAsset, targetSize: imageSize, contentMode: imageContentMode,
-                                      options: self.imageRequestOptions, resultHandler: { (image, info) in
-                                        if let image = image {
-                                            cell.albumImageView.image = image
-                                        }
-            })
-            
-            cell.albumCountLabel.text = "\(result.count)"
-//        }
+        let fetchOptions = PHFetchOptions()
+        fetchOptions.sortDescriptors = [
+            NSSortDescriptor(key: "creationDate", ascending: false)
+        ]
+        fetchOptions.predicate = NSPredicate(format: "mediaType = %d", PHAssetMediaType.image.rawValue)
+        
+        let scale = UIScreen.main.scale
+        let imageSize = CGSize(width: 80 * scale, height: 80 * scale)
+        let result = PHAsset.fetchAssets(in: album, options: fetchOptions)
+        
+        guard let firstAsset = result.firstObject else { return cell }
+        
+        imageManager.requestImage(for: firstAsset, targetSize: imageSize, contentMode: imageContentMode,
+                                  options: self.imageRequestOptions, resultHandler: { (image, info) in
+                                    if let image = image {
+                                        cell.albumImageView.image = image
+                                    }
+        })
+        
+        cell.albumCountLabel.text = "\(result.count)"
         
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        // Update photos data source
-        
-//        if let albums = fetchResults.first {
-            let album = fetchResults[indexPath.section][indexPath.row]
-            initWithAlbum(album)
-            collectionView.reloadData()
-//        }
-        
+        let album = fetchResults[indexPath.section][indexPath.row]
+        initWithAlbum(album)
+        collectionView.reloadData()
         albumViewController.dismiss(animated: true, completion: nil)
     }
 }

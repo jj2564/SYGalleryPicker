@@ -37,20 +37,28 @@ class PhotoCell: UICollectionViewCell {
     var selectSymbol: String = "✓"
     var selectString: String = "0" {
         didSet {
-            
+            updateSelectText()
         }
     }
     
     /// 是否點選到
     var isCheck: Bool = false {
         didSet {
-            if self.isCheck {
-                selectView.isHidden = false
-                opacityView.alpha = 0.3
+            
+            let hasChanged = isCheck != oldValue
+            if UIView.areAnimationsEnabled && hasChanged {
+                UIView.animate(withDuration: TimeInterval(0.1), animations: { () -> Void in
+                    self.updateAlpha(self.isCheck)
+                    self.transform = CGAffineTransform(scaleX: 0.95, y: 0.95)
+                    }, completion: { (finished: Bool) -> Void in
+                        UIView.animate(withDuration: TimeInterval(0.1), animations: { () -> Void in
+                            self.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+                            }, completion: nil)
+                })
             } else {
-                selectView.isHidden = true
-                opacityView.alpha = 0
+                updateAlpha(isCheck)
             }
+
         }
     }
     
@@ -79,7 +87,7 @@ class PhotoCell: UICollectionViewCell {
         selectView.layer.borderWidth = 1
         selectView.layer.borderColor = UIColor.white.cgColor
         selectView.layer.backgroundColor = UIColor.green_008800.cgColor
-        selectView.text = selectText
+        updateSelectText()
         selectView.textColor = .white
         selectView.textAlignment = .center
         selectView.isHidden = true
@@ -98,6 +106,10 @@ class PhotoCell: UICollectionViewCell {
             selectView.widthAnchor.constraint(equalToConstant: size),
             
         ])
+    }
+    
+    private func updateSelectText() {
+        selectView.text = selectText
     }
     
     private func setSelectViewConstrant() {
@@ -125,6 +137,16 @@ class PhotoCell: UICollectionViewCell {
             selectMarginLimit1,
             selectMarginLimit2
         ])
+    }
+    
+    private func updateAlpha(_ selected: Bool) {
+        if selected {
+            selectView.isHidden = false
+            opacityView.alpha = 0.3
+        } else {
+            selectView.isHidden = true
+            opacityView.alpha = 0
+        }
     }
     
     required init?(coder aDecoder: NSCoder) {
