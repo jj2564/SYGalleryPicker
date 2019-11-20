@@ -35,7 +35,8 @@ public protocol SYGalleryPickerSettings {
     var selectWithCount: Bool { get set }
     /// 選取的標示所屬的位置
     var selectMarkLocation: selectLocation { get set }
-    
+    /// 帶入標題文字
+    var titleText: Bool { get set }
 }
 
 final class TASetting: SYGalleryPickerSettings {
@@ -64,6 +65,8 @@ final class TASetting: SYGalleryPickerSettings {
     var selectWithCount: Bool = true
     var selectMarkLocation: selectLocation = .rightTop
     
+    var titleText: Bool = true
+    
 }
 
 final class IMSetting: SYGalleryPickerSettings {
@@ -89,7 +92,7 @@ final class IMSetting: SYGalleryPickerSettings {
     var backgroundColor: UIColor = .white
     var selectWithCount: Bool = false
     var selectMarkLocation: selectLocation = .rightBottom
-    
+    var titleText: Bool = false
 }
 
 class defaultSetting: SYGalleryPickerSettings {
@@ -115,5 +118,5 @@ class defaultSetting: SYGalleryPickerSettings {
     var backgroundColor: UIColor = .white
     var selectWithCount: Bool = true
     var selectMarkLocation: selectLocation = .rightBottom
-    
+    var titleText: Bool = false
 }

@@ -21,10 +21,17 @@ class PhotosViewController: UICollectionViewController {
     var doneBarButton: UIBarButtonItem?
     var cancelBarButton: UIBarButtonItem?
     
+    var titleText: String?
+    
     lazy var albumTitleView: UIButton = {
         let btn = UIButton(type: .custom)
 
-        btn.titleLabel?.font = .systemFont(ofSize: 15.0)
+        if let titleText = self.titleText {
+            btn.titleLabel?.font = .boldSystemFont(ofSize: 17)
+            btn.setTitle(titleText, for: .normal)
+        } else {
+            btn.titleLabel?.font = .systemFont(ofSize: 15.0)
+        }
         
         return btn
     }()
@@ -84,8 +91,6 @@ class PhotosViewController: UICollectionViewController {
         
         let flowLayout = UICollectionViewFlowLayout()
         super.init(collectionViewLayout: flowLayout)
-
-        
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -104,7 +109,10 @@ class PhotosViewController: UICollectionViewController {
         cancelBarButton? = UIBarButtonItem(title: "取消", style: .plain, target: self, action: #selector(cancelButtonPressed(_:)))
         
         doneBarButton? = UIBarButtonItem(title: "確認", style: .plain, target: self, action: #selector(doneButtonPressed(_:)))
-        albumTitleView.addTarget(self, action: #selector(albumButtonPressed(_:)), for: .touchUpInside)
+        
+        if let _ = titleText {} else {
+            albumTitleView.addTarget(self, action: #selector(albumButtonPressed(_:)), for: .touchUpInside)
+        }
         
         navigationItem.leftBarButtonItem = cancelBarButton
         navigationItem.rightBarButtonItem = doneBarButton
@@ -113,7 +121,7 @@ class PhotosViewController: UICollectionViewController {
         if let tintTextColor = settings.tintTextColor {
             cancelBarButton?.tintColor = tintTextColor
             doneBarButton?.tintColor = tintTextColor
-            albumTitleView.titleLabel?.textColor = tintTextColor
+            albumTitleView.setTitleColor(tintTextColor, for: .normal)
         } else {
             albumTitleView.setTitleColor(albumTitleView.tintColor, for: .normal)
         }
@@ -135,12 +143,12 @@ class PhotosViewController: UICollectionViewController {
         updateTitle(album)
         
         let assets = PHAsset.fetchAssets(in: album, options: options)
-        
         photos = assets
     }
     
     private func updateTitle(_ album: PHAssetCollection) {
-        
+
+        if let _ = titleText { return }
         guard var title = album.localizedTitle else { return }
         title += "  ↓"
         albumTitleView.setTitle(title, for: .normal)
@@ -201,24 +209,27 @@ extension PhotosViewController {
         
         let asset = photos[indexPath.row]
 
-        photoCell.tag = Int(imageManager.requestImage(for: asset, targetSize: photoThumbnailSize, contentMode: imageContentMode, options: imageRequestOptions) { [weak self] (result, _) in
+        photoCell.asset = asset
+
+        photoCell.tag = Int(imageManager.requestImage(for: asset, targetSize: photoThumbnailSize, contentMode: imageContentMode, options: imageRequestOptions) { (result, _) in
             
-            guard let self = self else { return }
+//            guard let self = self else { return }
             guard let result = result else { return }
             
-            photoCell.asset = asset
             photoCell.imageView.image = result
-            photoCell.settings = self.settings
             
-            if self.selectedPhotos.contains(asset) {
-                if let index = self.selectedPhotos.firstIndex(of: asset) {
-                    photoCell.selectString = "\(index+1)"
-                }
-                photoCell.isCheck = true
-            } else {
-                photoCell.isCheck = false
-            }
         })
+        
+        photoCell.settings = self.settings
+        
+        if self.selectedPhotos.contains(asset) {
+            if let index = self.selectedPhotos.firstIndex(of: asset) {
+                photoCell.selectString = "\(index+1)"
+            }
+            photoCell.isCheck = true
+        } else {
+            photoCell.isCheck = false
+        }
         
         photoCell.isAccessibilityElement = true
         photoCell.accessibilityTraits = UIAccessibilityTraits.button
@@ -230,13 +241,18 @@ extension PhotosViewController {
     
     override func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
         
+
         guard let cell = collectionView.cellForItem(at: indexPath) as? PhotoCell else { return false }
+        print("press but not call2")
         guard let asset = cell.asset else { return false }
         
         if cell.isCheck {
-            guard let index = selectedPhotos.firstIndex(of: asset) else { return false }
+            guard let index = selectedPhotos.firstIndex(of: asset) else {
+                print("isCheck return")
+                return false
+            }
             selectedPhotos.remove(at: index)
-            deselectionClosure?(asset)
+//            deselectionClosure?(asset)
             let selectedIndexPaths = selectedPhotos.enumerated().compactMap({ (photoIndex,imageAsset) -> IndexPath? in
                 //數字比較大的不用reload
                 if index > photoIndex { return nil }

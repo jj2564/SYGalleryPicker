@@ -21,6 +21,8 @@ open class SYGalleryPickerViewController: UINavigationController {
     
     open var defaultSelections: [PHAsset]?
     
+    open var titleText: String?
+    
     open lazy var fetchResults: [PHFetchResult] = { () -> [PHFetchResult<PHAssetCollection>] in
         let fetchOptions = PHFetchOptions()
 
@@ -50,6 +52,8 @@ open class SYGalleryPickerViewController: UINavigationController {
         }
         
         vc.imageRequestOptions = self.imageRequestOptions
+        vc.titleText = titleText
+        print(vc.titleText)
         
         return vc
     }()
