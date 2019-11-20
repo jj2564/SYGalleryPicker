@@ -203,6 +203,7 @@ extension PhotosViewController {
             photoCell.settings = self.settings
         })
 
+//        print(photoCell.tag)
         
         if self.selectedPhotos.contains(asset) {
             if let index = self.selectedPhotos.firstIndex(of: asset) {
@@ -231,16 +232,14 @@ extension PhotosViewController {
             selectedPhotos.remove(at: index)
             deselectionClosure?(asset)
             let selectedIndexPaths = selectedPhotos.enumerated().compactMap({ (photoIndex,imageAsset) -> IndexPath? in
-                //數字比較大的不用重load
+                //數字比較大的不用reload
                 if index > photoIndex { return nil }
                 let sectionIndex = photos.index(of: imageAsset)
                 guard sectionIndex != NSNotFound else { return nil }
                 return IndexPath(item: sectionIndex, section: 0)
             })
             
-            UIView.setAnimationsEnabled(false)
             collectionView.reloadItems(at: selectedIndexPaths)
-            UIView.setAnimationsEnabled(true)
             
         } else if selectedPhotos.count >= settings.maxPickNumber {
             selectLimitReachedClosure?(selectedPhotos.count)
