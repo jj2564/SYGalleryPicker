@@ -60,11 +60,20 @@ public protocol SYGalleryPickerSettings {
 }
 ```
 
+## Default Selection
+將`PHAsset`做成Array就可以選取預設的照片
+ ```swift
+ let default_selection:[PHAsset] = [...]
+ let vc = SYGalleryPickerViewController()
+ vc.defaultSelections = default_selection
+ ```
+
 ## TODO
 - [x] ~~選取相簿~~
-- [x] 選取的計數
-- [ ] 預設選取
-- [ ] Controller的Style
+- [x] ~~選取的計數~~
+- [x] ~~預設選取~~
+- [x] ~~Controller的Style~~
+- [ ] 關閉相簿選取
 - [ ] 做成Library
 - [ ] 弄個Pod
 

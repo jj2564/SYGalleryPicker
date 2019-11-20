@@ -19,6 +19,8 @@ open class SYGalleryPickerViewController: UINavigationController {
     
     open var imageRequestOptions: PHImageRequestOptions?
     
+    open var defaultSelections: [PHAsset]?
+    
     open lazy var fetchResults: [PHFetchResult] = { () -> [PHFetchResult<PHAssetCollection>] in
         let fetchOptions = PHFetchOptions()
 
@@ -31,13 +33,11 @@ open class SYGalleryPickerViewController: UINavigationController {
     }()
     
     lazy var photosViewController: PhotosViewController = {
-//        var selections: [PHAsset] = []
-//        defaultSelections?.enumerateObjects({ (asset, idx, stop) in
-//            selections.append(asset)
-//        })
-
-        let vc = PhotosViewController(fetchResults: self.fetchResults,settings: setting)
         
+        let vc = PhotosViewController(fetchResults: self.fetchResults,settings: setting)
+        if let selections = defaultSelections {
+            vc.selectedPhotos = selections
+        }
         vc.doneBarButton = self.doneButton
         vc.cancelBarButton = self.cancelButton
 //        vc.albumTitleView = self.albumTitleView
@@ -81,9 +81,13 @@ open class SYGalleryPickerViewController: UINavigationController {
     
     open override func loadView() {
         super.loadView()
-        
-        // TODO: Settings
+
         view.backgroundColor = UIColor.white
+        
+        navigationBar.isTranslucent = true
+        if let tintColor = setting.tintColor {
+            navigationBar.barTintColor = tintColor
+        }
         
         // Make sure we really are authorized
         if PHPhotoLibrary.authorizationStatus() == .authorized {

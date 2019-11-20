@@ -15,12 +15,14 @@ class PhotoCell: UICollectionViewCell {
     let opacityView: UIView = UIView(frame: .zero)
     let imageView: UIImageView = UIImageView(frame: .zero)
     let selectView: UILabel = UILabel(frame: .zero)
+    let selectBorder: UIView = UIView(frame: .zero)
 
     weak var asset: PHAsset?
     
     var settings: SYGalleryPickerSettings = defaultSetting() {
         didSet {
             setSelectViewConstrant()
+            updateSettings()
         }
     }
     
@@ -74,6 +76,7 @@ class PhotoCell: UICollectionViewCell {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
+        
         contentView.addSubview(imageView)
         
         opacityView.translatesAutoresizingMaskIntoConstraints = false
@@ -84,14 +87,19 @@ class PhotoCell: UICollectionViewCell {
         let size:CGFloat = 20
         selectView.translatesAutoresizingMaskIntoConstraints = false
         selectView.layer.cornerRadius = size * 0.5
-        selectView.layer.borderWidth = 1
-        selectView.layer.borderColor = UIColor.white.cgColor
-        selectView.layer.backgroundColor = UIColor.green_008800.cgColor
+        selectView.font = .systemFont(ofSize: 14)
         updateSelectText()
         selectView.textColor = .white
         selectView.textAlignment = .center
         selectView.isHidden = true
         contentView.addSubview(selectView)
+        
+        selectBorder.translatesAutoresizingMaskIntoConstraints = false
+        selectBorder.backgroundColor = .clear
+        selectBorder.isHidden = true
+        contentView.addSubview(selectBorder)
+        
+        updateSettings()
         
         NSLayoutConstraint.activate([
             imageView.topAnchor.constraint(equalTo: contentView.topAnchor),
@@ -104,12 +112,24 @@ class PhotoCell: UICollectionViewCell {
             opacityView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             selectView.heightAnchor.constraint(equalToConstant: size),
             selectView.widthAnchor.constraint(equalToConstant: size),
-            
+            selectBorder.topAnchor.constraint(equalTo: contentView.topAnchor),
+            selectBorder.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            selectBorder.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            selectBorder.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
         ])
     }
     
     private func updateSelectText() {
         selectView.text = selectText
+    }
+    
+    private func updateSettings() {
+        selectView.layer.backgroundColor = settings.pickColor.cgColor
+        
+        if settings.pickWithBorder {
+            selectBorder.layer.borderWidth = 2
+            selectBorder.layer.borderColor = settings.pickColor.cgColor
+        }
     }
     
     private func setSelectViewConstrant() {
@@ -141,9 +161,11 @@ class PhotoCell: UICollectionViewCell {
     
     private func updateAlpha(_ selected: Bool) {
         if selected {
+            selectBorder.isHidden = false
             selectView.isHidden = false
             opacityView.alpha = 0.3
         } else {
+            selectBorder.isHidden = true
             selectView.isHidden = true
             opacityView.alpha = 0
         }

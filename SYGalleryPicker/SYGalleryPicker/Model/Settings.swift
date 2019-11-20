@@ -22,9 +22,13 @@ public protocol SYGalleryPickerSettings {
     /// 呈現照片欄位
     var countInRow: (_ verticalSize: UIUserInterfaceSizeClass, _ horizontalSize: UIUserInterfaceSizeClass) -> Int { get set }
     /// 標題顏色
-    var tintColor: UIColor { get set }
+    var tintColor: UIColor? { get set }
+    /// 標題字的顏色
+    var tintTextColor: UIColor? { get set }
     /// 選取顏色
     var pickColor: UIColor { get set }
+    /// 是否顯示選取外框
+    var pickWithBorder: Bool { get set }
     /// 背景顏色
     var backgroundColor: UIColor { get set }
     /// 選取顯示數字還是打勾
@@ -51,8 +55,11 @@ final class TASetting: SYGalleryPickerSettings {
             return 4
         }
     }
-    var tintColor: UIColor = .white
-    var pickColor: UIColor = UIColor(0xffc107)
+    var tintColor: UIColor? = .green_8BC34A
+    var tintTextColor: UIColor? = .white
+    
+    var pickColor: UIColor = .green_8BC34A
+    var pickWithBorder: Bool = true
     var backgroundColor: UIColor = .white
     var selectWithCount: Bool = true
     var selectMarkLocation: selectLocation = .rightTop
@@ -75,8 +82,10 @@ final class IMSetting: SYGalleryPickerSettings {
             return 4
         }
     }
-    var tintColor: UIColor = UIColor(0x4a4a4a)
-    var pickColor: UIColor = .clear
+    var tintColor: UIColor? = nil
+    var tintTextColor: UIColor? = nil
+    var pickColor: UIColor = .green_008800
+    var pickWithBorder: Bool = false
     var backgroundColor: UIColor = .white
     var selectWithCount: Bool = false
     var selectMarkLocation: selectLocation = .rightBottom
@@ -99,10 +108,12 @@ class defaultSetting: SYGalleryPickerSettings {
             return 4
         }
     }
-    var tintColor: UIColor = .black
+    var tintColor: UIColor? = nil
+    var tintTextColor: UIColor? = nil
     var pickColor: UIColor = .blue_00008B
+    var pickWithBorder: Bool = false
     var backgroundColor: UIColor = .white
     var selectWithCount: Bool = true
-    var selectMarkLocation: selectLocation = .leftTop
+    var selectMarkLocation: selectLocation = .rightBottom
     
 }

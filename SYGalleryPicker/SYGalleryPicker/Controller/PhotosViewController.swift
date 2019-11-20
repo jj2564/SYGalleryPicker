@@ -21,10 +21,9 @@ class PhotosViewController: UICollectionViewController {
     var doneBarButton: UIBarButtonItem?
     var cancelBarButton: UIBarButtonItem?
     
-    var albumTitleView: UIButton = {
+    lazy var albumTitleView: UIButton = {
         let btn = UIButton(type: .custom)
-        
-        btn.setTitleColor(btn.tintColor, for: .normal)
+
         btn.titleLabel?.font = .systemFont(ofSize: 15.0)
         
         return btn
@@ -43,7 +42,7 @@ class PhotosViewController: UICollectionViewController {
     /// 要顯示的照片
     private var photos:PHFetchResult<PHAsset> = PHFetchResult<PHAsset>()
     /// 已選取的照片
-    private var selectedPhotos:[PHAsset] = []
+    var selectedPhotos:[PHAsset] = []
     
     private(set) var photoThumbnailSize: CGSize = .zero
     
@@ -84,8 +83,9 @@ class PhotosViewController: UICollectionViewController {
         self.fetchResults = fetchResults
         
         let flowLayout = UICollectionViewFlowLayout()
-//        m_photos = PHFetchResult<PHAsset>()
         super.init(collectionViewLayout: flowLayout)
+
+        
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -101,13 +101,22 @@ class PhotosViewController: UICollectionViewController {
         
         collectionView?.register(PhotoCell.self, forCellWithReuseIdentifier: PhotoCell.cellIdentifier)
         
-        cancelBarButton? = UIBarButtonItem(title: "X", style: .plain, target: self, action: #selector(cancelButtonPressed(_:)))
+        cancelBarButton? = UIBarButtonItem(title: "取消", style: .plain, target: self, action: #selector(cancelButtonPressed(_:)))
+        
         doneBarButton? = UIBarButtonItem(title: "確認", style: .plain, target: self, action: #selector(doneButtonPressed(_:)))
         albumTitleView.addTarget(self, action: #selector(albumButtonPressed(_:)), for: .touchUpInside)
         
         navigationItem.leftBarButtonItem = cancelBarButton
         navigationItem.rightBarButtonItem = doneBarButton
         navigationItem.titleView = albumTitleView
+        
+        if let tintTextColor = settings.tintTextColor {
+            cancelBarButton?.tintColor = tintTextColor
+            doneBarButton?.tintColor = tintTextColor
+            albumTitleView.titleLabel?.textColor = tintTextColor
+        } else {
+            albumTitleView.setTitleColor(albumTitleView.tintColor, for: .normal)
+        }
         
         updateCollectionLayout()
 
@@ -176,7 +185,6 @@ extension PhotosViewController {
         return 1
     }
 
-
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return photos.count
     }
@@ -201,18 +209,16 @@ extension PhotosViewController {
             photoCell.asset = asset
             photoCell.imageView.image = result
             photoCell.settings = self.settings
-        })
-
-//        print(photoCell.tag)
-        
-        if self.selectedPhotos.contains(asset) {
-            if let index = self.selectedPhotos.firstIndex(of: asset) {
-                photoCell.selectString = "\(index+1)"
+            
+            if self.selectedPhotos.contains(asset) {
+                if let index = self.selectedPhotos.firstIndex(of: asset) {
+                    photoCell.selectString = "\(index+1)"
+                }
                 photoCell.isCheck = true
+            } else {
+                photoCell.isCheck = false
             }
-        } else {
-            photoCell.isCheck = false
-        }
+        })
         
         photoCell.isAccessibilityElement = true
         photoCell.accessibilityTraits = UIAccessibilityTraits.button
