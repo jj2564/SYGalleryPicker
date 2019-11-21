@@ -25,9 +25,9 @@ class ViewController: UIViewController {
         vc.titleText = "環境照片"
         sy_presentGalleryPickerController(vc, setting: .TA ,animated: true,
         select: { asset in
-            print(asset.description)
+            print("select")
         }, deselect: { asset in
-            print(asset.description)
+            print("deselect")
         }, cancel: { assets in
             print("Cancel")
         }, finish: { assets in

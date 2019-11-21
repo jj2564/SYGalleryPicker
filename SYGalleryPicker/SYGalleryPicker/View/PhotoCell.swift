@@ -17,7 +17,7 @@ class PhotoCell: UICollectionViewCell {
     let selectView: UILabel = UILabel(frame: .zero)
     let selectBorder: UIView = UIView(frame: .zero)
 
-    weak var asset: PHAsset?
+//    weak var asset: PHAsset?
     
     var settings: SYGalleryPickerSettings = defaultSetting() {
         didSet {
@@ -46,37 +46,31 @@ class PhotoCell: UICollectionViewCell {
     /// 是否點選到
     var isCheck: Bool = false {
         didSet {
-            
             let hasChanged = isCheck != oldValue
             if UIView.areAnimationsEnabled && hasChanged {
                 UIView.animate(withDuration: TimeInterval(0.1), animations: { () -> Void in
                     self.updateAlpha(self.isCheck)
                     self.transform = CGAffineTransform(scaleX: 0.95, y: 0.95)
-                    }, completion: { (finished: Bool) -> Void in
-                        UIView.animate(withDuration: TimeInterval(0.1), animations: { () -> Void in
-                            self.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
-                            }, completion: nil)
+                }, completion: { (finished: Bool) -> Void in
+                    UIView.animate(withDuration: TimeInterval(0.1), animations: { () -> Void in
+                        self.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+                    }, completion: nil)
                 })
-            } else {
-                updateAlpha(isCheck)
-            }
-
+            } else { updateAlpha(isCheck) }
         }
     }
     
     var pickColor: UIColor {
-        get {
-            return settings.pickColor
-        }
+        get { return settings.pickColor }
     }
     
     override init(frame: CGRect) {
+        
         super.init(frame: frame)
         
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
-        
         contentView.addSubview(imageView)
         
         opacityView.translatesAutoresizingMaskIntoConstraints = false

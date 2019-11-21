@@ -42,7 +42,6 @@ open class SYGalleryPickerViewController: UINavigationController {
         }
         vc.doneBarButton = self.doneButton
         vc.cancelBarButton = self.cancelButton
-//        vc.albumTitleView = self.albumTitleView
         
         if self.imageRequestOptions == nil {
             imageRequestOptions = PHImageRequestOptions()
@@ -53,7 +52,6 @@ open class SYGalleryPickerViewController: UINavigationController {
         
         vc.imageRequestOptions = self.imageRequestOptions
         vc.titleText = titleText
-        print(vc.titleText)
         
         return vc
     }()

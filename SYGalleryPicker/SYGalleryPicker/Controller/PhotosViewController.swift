@@ -10,6 +10,7 @@ import UIKit
 import Photos
 
 class PhotosViewController: UICollectionViewController {
+    
     var selectionClosure: ((_ asset: PHAsset) -> Void)?
     var deselectionClosure: ((_ asset: PHAsset) -> Void)?
     var cancelClosure: ((_ assets: [PHAsset]) -> Void)?
@@ -20,9 +21,6 @@ class PhotosViewController: UICollectionViewController {
     
     var doneBarButton: UIBarButtonItem?
     var cancelBarButton: UIBarButtonItem?
-    
-    var titleText: String?
-    
     lazy var albumTitleView: UIButton = {
         let btn = UIButton(type: .custom)
 
@@ -36,6 +34,9 @@ class PhotosViewController: UICollectionViewController {
         return btn
     }()
     
+    var titleText: String?
+    private let doneBarButtonTitle: String = "確認"
+    
     lazy var albumViewController: AlbumTableViewController = {
         let vc = AlbumTableViewController()
         vc.tableView.dataSource = self
@@ -44,6 +45,7 @@ class PhotosViewController: UICollectionViewController {
         return vc
     }()
     
+    private var imageCache: NSCache<AnyObject, UIImage>
     /// 所有fetchResult
     private var fetchResults:[PHFetchResult<PHAssetCollection>]
     /// 要顯示的照片
@@ -86,6 +88,7 @@ class PhotosViewController: UICollectionViewController {
     // MARK: - init cycle
     required init(fetchResults: [PHFetchResult<PHAssetCollection>],settings currentSettings: SYGalleryPickerSettings) {
         
+        imageCache = NSCache()
         settings = currentSettings
         self.fetchResults = fetchResults
         
@@ -95,6 +98,13 @@ class PhotosViewController: UICollectionViewController {
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("initWithCoder not implemented")
+    }
+    
+    deinit {
+        if PHPhotoLibrary.authorizationStatus() == .authorized {
+            imageManager.stopCachingImagesForAllAssets()
+        }
+        imageCache.removeAllObjects()
     }
 
     override func loadView() {
@@ -127,6 +137,7 @@ class PhotosViewController: UICollectionViewController {
         }
         
         updateCollectionLayout()
+        updateDoneButton()
 
         if let album = fetchResults.first?.firstObject {
             initWithAlbum(album)
@@ -144,6 +155,18 @@ class PhotosViewController: UICollectionViewController {
         
         let assets = PHAsset.fetchAssets(in: album, options: options)
         photos = assets
+    }
+    
+    // MARK: Update Method
+    func updateDoneButton() {
+        let count  = selectedPhotos.count
+        if count > 0 {
+            doneBarButton?.title = "\(doneBarButtonTitle)(\(count))"
+        } else {
+            doneBarButton?.title = "\(doneBarButtonTitle)"
+        }
+        
+        doneBarButton?.isEnabled = count > 0
     }
     
     private func updateTitle(_ album: PHAssetCollection) {
@@ -202,23 +225,26 @@ extension PhotosViewController {
         
         let photoCell = collectionView.dequeueReusableCell(withReuseIdentifier: PhotoCell.cellIdentifier, for: indexPath) as! PhotoCell
         photoCell.accessibilityIdentifier = "photo_cell_\(indexPath.item)"
-    
+//        photoCell.isAccessibilityElement = true
+        
+        let asset = photos[indexPath.row]
+        
         if photoCell.tag != 0 {
             imageManager.cancelImageRequest(PHImageRequestID(Int32(photoCell.tag)))
         }
         
-        let asset = photos[indexPath.row]
-
-        photoCell.asset = asset
-
-        photoCell.tag = Int(imageManager.requestImage(for: asset, targetSize: photoThumbnailSize, contentMode: imageContentMode, options: imageRequestOptions) { (result, _) in
-            
-//            guard let self = self else { return }
-            guard let result = result else { return }
-            
-            photoCell.imageView.image = result
-            
-        })
+        if let c_image = imageCache.object(forKey: asset) {
+            photoCell.imageView.image = c_image
+        } else {
+            photoCell.tag = Int(imageManager.requestImage(for: asset, targetSize: photoThumbnailSize, contentMode: imageContentMode, options: imageRequestOptions) { [weak self] (image, _) in
+                
+                guard let self = self else { return }
+                guard let image = image else { return }
+                
+                self.imageCache.setObject(image, forKey: asset)
+                photoCell.imageView.image = image
+            })
+        }
         
         photoCell.settings = self.settings
         
@@ -231,28 +257,25 @@ extension PhotosViewController {
             photoCell.isCheck = false
         }
         
-        photoCell.isAccessibilityElement = true
-        photoCell.accessibilityTraits = UIAccessibilityTraits.button
-
+//        photoCell.isAccessibilityElement = true
+//        photoCell.accessibilityTraits = UIAccessibilityTraits.button
         UIView.setAnimationsEnabled(true)
         
         return photoCell
     }
     
     override func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
-        
 
         guard let cell = collectionView.cellForItem(at: indexPath) as? PhotoCell else { return false }
-        print("press but not call2")
-        guard let asset = cell.asset else { return false }
+//        guard let asset = cell.asset else { return false }
+        let asset = photos[indexPath.row]
         
         if cell.isCheck {
             guard let index = selectedPhotos.firstIndex(of: asset) else {
-                print("isCheck return")
                 return false
             }
             selectedPhotos.remove(at: index)
-//            deselectionClosure?(asset)
+            deselectionClosure?(asset)
             let selectedIndexPaths = selectedPhotos.enumerated().compactMap({ (photoIndex,imageAsset) -> IndexPath? in
                 //數字比較大的不用reload
                 if index > photoIndex { return nil }
@@ -260,8 +283,11 @@ extension PhotosViewController {
                 guard sectionIndex != NSNotFound else { return nil }
                 return IndexPath(item: sectionIndex, section: 0)
             })
+                        
+            UIView.performWithoutAnimation {
+                collectionView.reloadItems(at: selectedIndexPaths)
+            }
             
-            collectionView.reloadItems(at: selectedIndexPaths)
             
         } else if selectedPhotos.count >= settings.maxPickNumber {
             selectLimitReachedClosure?(selectedPhotos.count)
@@ -270,9 +296,9 @@ extension PhotosViewController {
             selectedPhotos.append(asset)
             selectionClosure?(asset)
             cell.selectString = "\(selectedPhotos.count)"
-            
         }
         cell.isCheck = !cell.isCheck
+        updateDoneButton()
         
         return false
     }
@@ -310,11 +336,10 @@ extension PhotosViewController: UITableViewDelegate, UITableViewDataSource {
         
         guard let firstAsset = result.firstObject else { return cell }
         
-        imageManager.requestImage(for: firstAsset, targetSize: imageSize, contentMode: imageContentMode,
-                                  options: self.imageRequestOptions, resultHandler: { (image, info) in
-                                    if let image = image {
-                                        cell.albumImageView.image = image
-                                    }
+        cell.tag = Int( imageManager.requestImage(for: firstAsset, targetSize: imageSize, contentMode: imageContentMode, options: self.imageRequestOptions) { (image, _ ) in
+            if let image = image {
+                cell.albumImageView.image = image
+            }
         })
         
         cell.albumCountLabel.text = "\(result.count)"

@@ -47,16 +47,21 @@ public protocol SYGalleryPickerSettings {
     /// 呈現照片欄位
     var countInRow: (_ verticalSize: UIUserInterfaceSizeClass, _ horizontalSize: UIUserInterfaceSizeClass) -> Int { get set }
     /// 標題顏色
-    var tintColor: UIColor { get set }
+    var tintColor: UIColor? { get set }
+    /// 標題字的顏色
+    var tintTextColor: UIColor? { get set }
     /// 選取顏色
     var pickColor: UIColor { get set }
+    /// 是否顯示選取外框
+    var pickWithBorder: Bool { get set }
     /// 背景顏色
     var backgroundColor: UIColor { get set }
     /// 選取顯示數字還是打勾
     var selectWithCount: Bool { get set }
     /// 選取的標示所屬的位置
     var selectMarkLocation: selectLocation { get set }
-
+    /// 帶入標題文字取代選取相簿
+    var titleText: Bool { get set }
 }
 ```
 
@@ -73,7 +78,9 @@ public protocol SYGalleryPickerSettings {
 - [x] ~~選取的計數~~
 - [x] ~~預設選取~~
 - [x] ~~Controller的Style~~
-- [ ] 關閉相簿選取
+- [x] ~~不顯示相簿選取~~
+- [x] ~~取消選取時其他照片在更新數字時會閃爍~~
+- [ ] iCloud image test
 - [ ] 做成Library
 - [ ] 弄個Pod
 
