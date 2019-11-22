@@ -35,7 +35,8 @@ class PhotosViewController: UICollectionViewController {
     }()
     
     var titleText: String?
-    private let doneBarButtonTitle: String = "確認"
+    private var doneBarButtonTitle: String = "確認"
+    private var cancelBarButtonTitle: String = "取消"
     
     lazy var albumViewController: AlbumTableViewController = {
         let vc = AlbumTableViewController()
@@ -113,12 +114,14 @@ class PhotosViewController: UICollectionViewController {
         
         collectionView?.backgroundColor = settings.backgroundColor
         collectionView?.allowsMultipleSelection = true
-        
         collectionView?.register(PhotoCell.self, forCellWithReuseIdentifier: PhotoCell.cellIdentifier)
         
-        cancelBarButton? = UIBarButtonItem(title: "取消", style: .plain, target: self, action: #selector(cancelButtonPressed(_:)))
+        cancelBarButtonTitle = settings.cancelButtonText
+        doneBarButtonTitle = settings.confirmButtonText
         
-        doneBarButton? = UIBarButtonItem(title: "確認", style: .plain, target: self, action: #selector(doneButtonPressed(_:)))
+        cancelBarButton? = UIBarButtonItem(title: cancelBarButtonTitle, style: .plain, target: self, action: #selector(cancelButtonPressed(_:)))
+        
+        doneBarButton? = UIBarButtonItem(title: doneBarButtonTitle, style: .plain, target: self, action: #selector(doneButtonPressed(_:)))
         
         if let _ = titleText {} else {
             albumTitleView.addTarget(self, action: #selector(albumButtonPressed(_:)), for: .touchUpInside)

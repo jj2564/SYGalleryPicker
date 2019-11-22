@@ -1,7 +1,9 @@
 # SYGalleryPicker
 For Sinyi Project library Pre Project
 
-## 使用方式
+## Demo
+
+## How to Use
 ```swift
         let vc = SYGalleryPickerViewController()
         vc.modalPresentationStyle = .fullScreen
@@ -18,10 +20,9 @@ For Sinyi Project library Pre Project
             print("Limit reach")
         }, completion: nil)
 ```
-不使用delegate通通使用clourse來回傳，用不到的可以直接拿掉。
+Using Clousre instead of delegate, which can be removed if no needed.
 
-
-以下為呼叫函式的樣貌
+The entire function looks like that.
 ```swift
     func sy_presentGalleryPickerController
         (_ imagePicker: SYGalleryPickerViewController, setting: SinyiProject = .basic, customSetting:SYGalleryPickerSettings? = nil , requestOptions: PHImageRequestOptions? = nil, animated: Bool,
@@ -81,8 +82,9 @@ public protocol SYGalleryPickerSettings {
 - [x] ~~不顯示相簿選取~~
 - [x] ~~取消選取時其他照片在更新數字時會閃爍~~
 - [ ] iCloud image test
-- [ ] 做成Library
+- [ ] ~~做成Library~~(不做了)
 - [ ] 弄個Pod
 
 ## 參考資料
-[BSImagePicker](https://github.com/mikaoj/BSImagePicker)
+[BSImagePicker](https://github.com/mikaoj/BSImagePicker) 
+結構上滿多地方參考這個套件，但是因為有些專案需求所以就只好做一個新的了。
