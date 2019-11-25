@@ -1,4 +1,13 @@
 # SYGalleryPicker
+
+<p align="left">
+<a><img src="https://img.shields.io/badge/language-swift-orange.svg"></a>
+<a href="https://travis-ci.org/jj2564/SYGalleryPicker"><img src="https://img.shields.io/travis/jj2564/SYGalleryPicker.svg?style=flat"></a>
+<a href="https://cocoapods.org/pods/SYGalleryPicker"><img src="https://img.shields.io/cocoapods/v/SYGalleryPicker.svg?style=flat"></a>
+<a href="https://cocoapods.org/pods/SYGalleryPicker"><img src="https://img.shields.io/cocoapods/l/SYGalleryPicker.svg?style=flat"></a>
+<a href="https://cocoapods.org/pods/SYGalleryPicker"><img src="https://img.shields.io/cocoapods/p/SYGalleryPicker.svg?style=flat"></a>
+</p>
+
 For Sinyi Project library Pre Project
 
 ## Demo
@@ -43,28 +52,38 @@ The entire function looks like that.
 ```swift
 public protocol SYGalleryPickerSettings {
 
+    // MARK: Enviorment
     /// 選取數量
     var maxPickNumber: Int { get set }
     /// 呈現照片欄位
     var countInRow: (_ verticalSize: UIUserInterfaceSizeClass, _ horizontalSize: UIUserInterfaceSizeClass) -> Int { get set }
+    /// 是否帶入標題文字取代選取相簿
+    var titleText: Bool { get set }
+    /// 取消按鈕的文字
+    var cancelButtonText: String { get set }
+    /// 確認按鈕的文字
+    var confirmButtonText: String { get set}
+
+    // MARK: Picker Style
     /// 標題顏色
     var tintColor: UIColor? { get set }
     /// 標題字的顏色
     var tintTextColor: UIColor? { get set }
-    /// 選取顏色
-    var pickColor: UIColor { get set }
-    /// 是否顯示選取外框
-    var pickWithBorder: Bool { get set }
     /// 背景顏色
     var backgroundColor: UIColor { get set }
-    /// 選取顯示數字還是打勾
-    var selectWithCount: Bool { get set }
+
+    // MARK: Selected style
+    /// 選取顏色
+    var pickColor: UIColor { get set }
     /// 選取的標示所屬的位置
     var selectMarkLocation: selectLocation { get set }
-    /// 帶入標題文字取代選取相簿
-    var titleText: Bool { get set }
+    /// 選取顯示數字還是打勾
+    var selectWithCount: Bool { get set }
+    /// 是否顯示選取外框
+    var pickWithBorder: Bool { get set }
 }
 ```
+建立一個新的Class並繼承Protocol。看起來真的是長到爆表，因為想要控制的部分有點多。
 
 ## Default Selection
 將`PHAsset`做成Array就可以選取預設的照片
@@ -81,6 +100,7 @@ public protocol SYGalleryPickerSettings {
 - [x] ~~Controller的Style~~
 - [x] ~~不顯示相簿選取~~
 - [x] ~~取消選取時其他照片在更新數字時會閃爍~~
+- [ ] 讓Settings內的東西都改成Optional
 - [ ] iCloud image test
 - [ ] ~~做成Library~~(不做了)
 - [ ] 弄個Pod
@@ -88,3 +108,9 @@ public protocol SYGalleryPickerSettings {
 ## 參考資料
 [BSImagePicker](https://github.com/mikaoj/BSImagePicker) 
 結構上滿多地方參考這個套件，但是因為有些專案需求所以就只好做一個新的了。
+
+## Author
+jj2564, jamek8@gmail.com
+
+## License
+SYGalleryPicker is available under the MIT license. See the LICENSE file for more info.
