@@ -1,0 +1,11 @@
+use_frameworks!
+
+target 'SYGalleryPicker_Example' do
+  pod 'SYGalleryPicker', :path => '../'
+
+  target 'SYGalleryPicker_Tests' do
+    inherit! :search_paths
+
+    
+  end
+end

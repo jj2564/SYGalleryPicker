@@ -2,24 +2,19 @@
 //  ViewController.swift
 //  SYGalleryPicker
 //
-//  Created by IrvingHuang on 2019/11/5.
-//  Copyright © 2019 Sinyi Realty Inc. All rights reserved.
+//  Created by jj2564 on 11/22/2019.
+//  Copyright (c) 2019 jj2564. All rights reserved.
 //
 
 import UIKit
 import Photos
+import SYGalleryPicker
 
 class ViewController: UIViewController {
-    
+
     var photos:[PHAsset] = []
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view.
-    }
-
     @IBAction func TA(_ sender: Any) {
-        
         let vc = SYGalleryPickerViewController()
         vc.modalPresentationStyle = .fullScreen
         vc.titleText = "環境照片"
@@ -54,6 +49,7 @@ class ViewController: UIViewController {
         }, selectLimitReached: { count in
             print("Limit reach")
         }, completion: nil)
+        
     }
     
     @IBAction func `default`(_ sender: Any) {
@@ -73,8 +69,5 @@ class ViewController: UIViewController {
             print("Limit reach")
         }, completion: nil)
     }
-    
-    
-    
 }
 

@@ -102,7 +102,6 @@ public protocol SYGalleryPickerSettings {
 - [x] ~~取消選取時其他照片在更新數字時會閃爍~~
 - [ ] 讓Settings內的東西都改成Optional
 - [ ] iCloud image test
-- [ ] ~~做成Library~~(不做了)
 - [ ] 弄個Pod
 
 ## 參考資料
