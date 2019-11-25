@@ -10,6 +10,16 @@
 
 For Sinyi Project library Pre Project
 
+## Requirements
+`iOS 10`
+
+## Installation
+SYGalleryPicker is available through [CocoaPods](https://cocoapods.org/). 
+Add the following line to your Podfile:
+```ruby
+pod "SYGalleryPicker", "~> 1.0.0"
+```
+
 ## Demo
 
 ## How to Use
@@ -42,9 +52,10 @@ The entire function looks like that.
          selectLimitReached: ((Int) -> Void)?,
          completion: (() -> Void)? ) {}
 ```
-針對信義的專案可以選擇Setting，目前主要定義TA與IM這兩個專案可以選擇，若不選擇則會帶入default。
-可以自定義setting帶入，再帶入customSetting的情況下前面的setting會變成無效的，目前尚沒有想到比較漂亮的做法。
-也可以帶入自己定義的`PHImageRequestOptions`，如果有特殊需求的話。
+目前有三個樣板，前兩個Style是針對工作專案而設定的。
+可以自定義setting帶入，在帶入customSetting的情況下，前面的樣板選擇會變成無效的，目前還在想有沒有比較漂亮的做法。
+
+另外也可以帶入自己定義的`PHImageRequestOptions`，如果有特殊需求的話。
 
 ## Setting
 設定的部分要遵守 'SYGalleryPickerSettings' Protocol
@@ -102,7 +113,7 @@ public protocol SYGalleryPickerSettings {
 - [x] ~~取消選取時其他照片在更新數字時會閃爍~~
 - [ ] 讓Settings內的東西都改成Optional
 - [ ] iCloud image test
-- [ ] 弄個Pod
+- [x] ~~弄個Pod~~
 
 ## 參考資料
 [BSImagePicker](https://github.com/mikaoj/BSImagePicker) 
