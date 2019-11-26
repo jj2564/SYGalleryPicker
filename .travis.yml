@@ -2,13 +2,14 @@
 # * https://www.objc.io/issues/6-build-tools/travis-ci/
 # * https://github.com/supermarin/xcpretty#usage
 
-osx_image: xcode7.3
-language: objective-c
+osx_image: xcode11.2
+language: swift
 # cache: cocoapods
-# podfile: Example/Podfile
+podfile: Example/Podfile
 # before_install:
 # - gem install cocoapods # Since Travis is not always on latest version
 # - pod install --project-directory=Example
 script:
-- set -o pipefail && xcodebuild test -enableCodeCoverage YES -workspace Example/SYGalleryPicker.xcworkspace -scheme SYGalleryPicker-Example -sdk iphonesimulator9.3 ONLY_ACTIVE_ARCH=NO | xcpretty
-- pod lib lint
+- swift package generate-xcodeproj
+- xcodebuild -workspace Example/SYGalleryPicker.xcworkspace -scheme SYGalleryPicker-Example -destination 'platform=iOS Simulator,name=iPhone Xʀ,OS=13.0' -enableCodeCoverage YES build test
+- pod lib lint --quick
