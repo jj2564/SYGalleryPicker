@@ -9,16 +9,11 @@
 Pod::Spec.new do |s|
   s.name             = 'SYGalleryPicker'
   s.version          = '1.0.0'
-  s.summary          = 'A photo library can fit Sinyi Project.'
+  s.summary          = 'A photo picker library. It can be customize many places.'
 
-# This description is used to generate tags and improve search results.
-#   * Think: What does it do? Why did you write it? What is the focus?
-#   * Try to keep it short, snappy and to the point.
-#   * Write the description between the DESC delimiters below.
-#   * Finally, don't worry about the indent, CocoaPods strips it!
 
   s.description      = <<-DESC
-TODO: Add long description of the pod here.
+                       Actually SYGalleryPicker is for my work.
                        DESC
 
   s.homepage         = 'https://github.com/jj2564/SYGalleryPicker'
