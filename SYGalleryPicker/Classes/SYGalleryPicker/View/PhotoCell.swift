@@ -92,8 +92,6 @@ class PhotoCell: UICollectionViewCell {
         selectBorder.isHidden = true
         contentView.addSubview(selectBorder)
         
-        updateSettings()
-        
         NSLayoutConstraint.activate([
             imageView.topAnchor.constraint(equalTo: contentView.topAnchor),
             imageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
