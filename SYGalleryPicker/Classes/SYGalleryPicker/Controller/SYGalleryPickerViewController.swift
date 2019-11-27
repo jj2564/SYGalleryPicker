@@ -56,20 +56,16 @@ open class SYGalleryPickerViewController: UINavigationController {
         return vc
     }()
     
-    class func authorize(_ status: PHAuthorizationStatus = PHPhotoLibrary.authorizationStatus(), fromViewController: UIViewController, completion: @escaping (_ authorized: Bool) -> Void) {
+    class func authorize(_ status: PHAuthorizationStatus = PHPhotoLibrary.authorizationStatus(), completion: @escaping (_ authorized: Bool) -> Void) {
         switch status {
         case .authorized:
             completion(true)
         case .notDetermined:
             PHPhotoLibrary.requestAuthorization { (status) -> Void in
-                DispatchQueue.main.async {
-                    self.authorize(status, fromViewController: fromViewController, completion: completion)
-                }
+                self.authorize(status, completion: completion)
             }
-        default: ()
-            DispatchQueue.main.async {
-                completion(false)
-            }
+        default:
+            completion(false)
         }
     }
     
@@ -84,13 +80,12 @@ open class SYGalleryPickerViewController: UINavigationController {
     open override func loadView() {
         super.loadView()
 
-        view.backgroundColor = UIColor.white
-        
+        view.backgroundColor = .white
         navigationBar.isTranslucent = true
+        
         if let tintColor = setting.tintColor {
             navigationBar.barTintColor = tintColor
         }
-        
         // Make sure we really are authorized
         if PHPhotoLibrary.authorizationStatus() == .authorized {
             setViewControllers([photosViewController], animated: false)
