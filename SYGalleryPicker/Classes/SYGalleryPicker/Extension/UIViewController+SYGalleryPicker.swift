@@ -19,7 +19,7 @@ public extension SYGalleryPickerViewController {
     
     
     func syPresentGalleryPickerController
-        (_ viewController: UIViewController, setting: SelectStyle = .basic, customSetting:SYGalleryPickerSettings? = nil , requestOptions: PHImageRequestOptions? = nil, animated: Bool,
+        (_ viewController: UIViewController, style: SelectStyle = .basic, customSetting:SYGalleryPickerSettings? = nil , requestOptions: PHImageRequestOptions? = nil, animated: Bool,
          select: ((_ asset: PHAsset) -> Void)?,
          deselect: ((_ asset: PHAsset) -> Void)?,
          cancel: (([PHAsset]) -> Void)?,
@@ -37,7 +37,7 @@ public extension SYGalleryPickerViewController {
             if let customSetting = customSetting {
                 self.setting = customSetting
             } else {
-                switch setting {
+                switch style {
                 case .basic:
                     self.setting = defaultSetting()
                 case .im:
