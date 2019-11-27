@@ -62,7 +62,9 @@ open class SYGalleryPickerViewController: UINavigationController {
             completion(true)
         case .notDetermined:
             PHPhotoLibrary.requestAuthorization { (status) -> Void in
-                self.authorize(status, completion: completion)
+                DispatchQueue.main.async {
+                    self.authorize(status, completion: completion)
+                }
             }
         default:
             completion(false)

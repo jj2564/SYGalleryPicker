@@ -17,16 +17,17 @@ For Sinyi Project library Pre Project
 SYGalleryPicker is available through [CocoaPods](https://cocoapods.org/). 
 Add the following line to your Podfile:
 ```ruby
-pod "SYGalleryPicker", "~> 1.0.0"
+pod "SYGalleryPicker"
 ```
 
 ## Demo
-
+![basic_style](screenshots/basic_style.png)
+![album_switch](screenshots/album_switch.png)
 ## How to Use
 ```swift
         let vc = SYGalleryPickerViewController()
         vc.modalPresentationStyle = .fullScreen
-        sy_presentGalleryPickerController(vc, setting: .TA ,animated: true,
+        vc.syPresentGalleryPickerController(self, animated: true,
         select: { asset in
             print(asset.description)
         }, deselect: { asset in
@@ -35,69 +36,84 @@ pod "SYGalleryPicker", "~> 1.0.0"
             print("Cancel")
         }, finish: { assets in
             print("Confirm")
-        }, selectLimitReached: { count in
+        }, photoSelectLimitReached: { count in
             print("Limit reach")
-        }, completion: nil)
+        }, authorizedDenied: nil, completion: nil)
 ```
 Using Clousre instead of delegate, which can be removed if no needed.
 
 The entire function looks like that.
 ```swift
-    func sy_presentGalleryPickerController
-        (_ imagePicker: SYGalleryPickerViewController, setting: SinyiProject = .basic, customSetting:SYGalleryPickerSettings? = nil , requestOptions: PHImageRequestOptions? = nil, animated: Bool,
+    func syPresentGalleryPickerController
+        (_ viewController: UIViewController, style: SelectStyle = .basic, customSetting:SYGalleryPickerSettings? = nil , requestOptions: PHImageRequestOptions? = nil, animated: Bool,
          select: ((_ asset: PHAsset) -> Void)?,
          deselect: ((_ asset: PHAsset) -> Void)?,
          cancel: (([PHAsset]) -> Void)?,
          finish: (([PHAsset]) -> Void)?,
-         selectLimitReached: ((Int) -> Void)?,
+         photoSelectLimitReached: ((Int) -> Void)?,
+         authorizedDenied:(() -> Void)?,
          completion: (() -> Void)? ) {}
 ```
-目前有三個樣板，前兩個Style是針對工作專案而設定的。
-可以自定義setting帶入，在帶入customSetting的情況下，前面的樣板選擇會變成無效的，目前還在想有沒有比較漂亮的做法。
+If you use the paremeter of **customSetting** the **style** will be no effort. All settings will follow the customize settings.
 
-另外也可以帶入自己定義的`PHImageRequestOptions`，如果有特殊需求的話。
+You may also set the `PHImageRequestOptions` to `SYGalleryPickerViewController` for your required 。
 
 ## Setting
-設定的部分要遵守 'SYGalleryPickerSettings' Protocol
+Setting must follow the protocol `SYGalleryPickerSettings`.
 
 ```swift
 public protocol SYGalleryPickerSettings {
 
     // MARK: Enviorment
     /// 選取數量
-    var maxPickNumber: Int { get set }
+    var pickLimitCount: Int { get }
     /// 呈現照片欄位
-    var countInRow: (_ verticalSize: UIUserInterfaceSizeClass, _ horizontalSize: UIUserInterfaceSizeClass) -> Int { get set }
+    var countInRow: (_ verticalSize: UIUserInterfaceSizeClass, _ horizontalSize: UIUserInterfaceSizeClass) -> Int { get }
     /// 是否帶入標題文字取代選取相簿
-    var titleText: Bool { get set }
+    var titleText: Bool { get }
     /// 取消按鈕的文字
-    var cancelButtonText: String { get set }
+    var cancelButtonText: String { get }
     /// 確認按鈕的文字
-    var confirmButtonText: String { get set}
-
+    var confirmButtonText: String { get }
+    
     // MARK: Picker Style
     /// 標題顏色
-    var tintColor: UIColor? { get set }
+    var tintColor: UIColor? { get }
     /// 標題字的顏色
-    var tintTextColor: UIColor? { get set }
+    var tintTextColor: UIColor? { get }
     /// 背景顏色
-    var backgroundColor: UIColor { get set }
-
+    var backgroundColor: UIColor { get }
+    
     // MARK: Selected style
     /// 選取顏色
-    var pickColor: UIColor { get set }
+    var pickedColor: UIColor { get }
     /// 選取的標示所屬的位置
-    var selectMarkLocation: selectLocation { get set }
+    var pickedMarkLocation: selectLocation { get }
     /// 選取顯示數字還是打勾
-    var selectWithCount: Bool { get set }
+    var isPickedWithCount: Bool { get }
     /// 是否顯示選取外框
-    var pickWithBorder: Bool { get set }
+    var isPickWithBorder: Bool { get }
 }
 ```
-建立一個新的Class並繼承Protocol。看起來真的是長到爆表，因為想要控制的部分有點多。
+If you want to customize your style. Create a new class and inherit `SYGalleryPickerSettings`.
+You set the value like this:
+
+```swift
+final class IMSetting: SYGalleryPickerSettings {
+
+    var pickLimitCount: Int = 10
+    var cancelButtonText: String = "取消"
+    var confirmButtonText: String = "確認"
+    var pickedColor: UIColor = .green_008800
+    var isPickedWithCount: Bool = false
+    var isPickWithBorder: Bool = false
+}
+```
+You do not need to install all the settings.
+
 
 ## Default Selection
-將`PHAsset`做成Array就可以選取預設的照片
+Make `PHAsset` as an `Array` and set it to **defaultSelections**.
  ```swift
  let default_selection:[PHAsset] = [...]
  let vc = SYGalleryPickerViewController()
@@ -105,19 +121,12 @@ public protocol SYGalleryPickerSettings {
  ```
 
 ## TODO
-- [x] ~~選取相簿~~
-- [x] ~~選取的計數~~
-- [x] ~~預設選取~~
-- [x] ~~Controller的Style~~
-- [x] ~~不顯示相簿選取~~
-- [x] ~~取消選取時其他照片在更新數字時會閃爍~~
-- [ ] 讓Settings內的東西都改成Optional
+- [ ] Review code.
 - [ ] iCloud image test
-- [x] ~~弄個Pod~~
 
-## 參考資料
+## Reference
 [BSImagePicker](https://github.com/mikaoj/BSImagePicker) 
-結構上滿多地方參考這個套件，但是因為有些專案需求所以就只好做一個新的了。
+This Lib is powerfull, but I have some special require. 
 
 ## Author
 jj2564, jamek8@gmail.com

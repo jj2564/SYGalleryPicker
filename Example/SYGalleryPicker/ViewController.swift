@@ -18,7 +18,7 @@ class ViewController: UIViewController {
         let vc = SYGalleryPickerViewController()
         vc.modalPresentationStyle = .fullScreen
         vc.titleText = "環境照片"
-        sy_presentGalleryPickerController(vc, setting: .ta ,animated: true,
+        vc.syPresentGalleryPickerController(self, style: .ta ,animated: true,
         select: { asset in
             print("select")
         }, deselect: { asset in
@@ -37,7 +37,7 @@ class ViewController: UIViewController {
         let vc = SYGalleryPickerViewController()
         vc.modalPresentationStyle = .fullScreen
         vc.defaultSelections = photos
-        sy_presentGalleryPickerController(vc, setting: .im ,animated: true,
+        vc.syPresentGalleryPickerController(self, style: .im ,animated: true,
         select: { asset in
             print(asset.description)
         }, deselect: { asset in
@@ -55,8 +55,7 @@ class ViewController: UIViewController {
     @IBAction func basicClicked(_ sender: Any) {
         let vc = SYGalleryPickerViewController()
         vc.modalPresentationStyle = .fullScreen
-
-        sy_presentGalleryPickerController(vc, animated: true,
+        vc.syPresentGalleryPickerController(self, animated: true,
         select: { asset in
             print(asset.description)
         }, deselect: { asset in
