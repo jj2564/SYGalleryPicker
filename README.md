@@ -21,8 +21,8 @@ pod "SYGalleryPicker"
 ```
 
 ## Demo
+<img src="screenshots/basic_style.png" width="320"> <img src="screenshots/album_switch.png" width="320">
 
-![basic_style](screenshots/basic_style.png =320x768) ![album_switch](screenshots/album_switch.png  =320x768)
 ## How to Use
 ```swift
         let vc = SYGalleryPickerViewController()
