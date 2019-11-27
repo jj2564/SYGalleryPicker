@@ -13,7 +13,7 @@ Pod::Spec.new do |s|
 
 
   s.description      = <<-DESC
-                       Actually SYGalleryPicker is for my work.
+                       'SYGalleryPicker have three default style but first two is for my work. So just use basic style or customize your prefer style. So have fun with coding~'
                        DESC
 
   s.homepage         = 'https://github.com/jj2564/SYGalleryPicker'
@@ -28,11 +28,5 @@ Pod::Spec.new do |s|
   s.ios.deployment_target = '10.0'
   s.swift_version = "5.1"
   s.frameworks = 'UIKit', 'Photos'
-  
-  # s.resource_bundles = {
-  #   'SYGalleryPicker' => ['SYGalleryPicker/Assets/*.png']
-  # }
-
-  # s.public_header_files = 'Pod/Classes/**/*.h'
 
 end

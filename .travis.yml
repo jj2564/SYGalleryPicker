@@ -4,14 +4,12 @@
 
 osx_image: xcode11.2
 language: swift
-# cache: cocoapods
 podfile: Example/Podfile
-# before_install:
-# - gem install cocoapods # Since Travis is not always on latest version
-# - pod install --project-directory=Example
+branches:
+  only:
+    - master
 script:
-- swift package generate-xcodeproj
-- xcodebuild -workspace Example/SYGalleryPicker.xcworkspace -scheme SYGalleryPicker-Example -destination 'platform=iOS Simulator,name=iPhone Xʀ,OS=13.0' -enableCodeCoverage YES build test
+- xcodebuild -workspace Example/SYGalleryPicker.xcworkspace -scheme SYGalleryPicker-Example -destination 'platform=iOS Simulator,name=iPhone 11 Pro Max,OS=13.2.2' -enableCodeCoverage YES build test
 - pod lib lint --quick
 after_success:
 - bash <(curl -s https://codecov.io/bash)
