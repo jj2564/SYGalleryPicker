@@ -62,13 +62,13 @@ class PhotosViewController: UICollectionViewController {
 
     // MARK: Button actions
     @objc func cancelButtonPressed(_ sender: UIBarButtonItem) {
-        dismiss(animated: true, completion: nil)
         cancelClosure?(selectedPhotos)
+        dismiss(animated: true, completion: nil)
     }
     
     @objc func doneButtonPressed(_ sender: UIBarButtonItem) {
-        dismiss(animated: true, completion: nil)
         finishClosure?(selectedPhotos)
+        dismiss(animated: true, completion: nil)
     }
     
     @objc func albumButtonPressed(_ sender: UIButton) {

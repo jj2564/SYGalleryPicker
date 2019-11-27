@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import Photos
 
 class PhotoCell: UICollectionViewCell {
     static let cellIdentifier = "photoCellIdentifier"
