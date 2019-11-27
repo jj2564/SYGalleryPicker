@@ -76,10 +76,10 @@ extension SYGalleryPickerSettings {
     var tintTextColor: UIColor? { nil }
     var backgroundColor: UIColor { .white }
     
-    var pickColor: UIColor { .blue_00008B }
+    var pickColor: UIColor { .blue_007AFF }
     var selectMarkLocation: selectLocation { .rightBottom }
     var selectWithCount: Bool { true }
-    var pickWithBorder: Bool { false }
+    var pickWithBorder: Bool { true }
 }
 
 // MARK: - TA
@@ -95,7 +95,6 @@ final class TASetting: SYGalleryPickerSettings {
     
     var pickColor: UIColor = .green_8BC34A
     var selectMarkLocation: selectLocation = .rightTop
-    var pickWithBorder: Bool = true
 }
 
 // MARK: - IM
@@ -106,6 +105,7 @@ final class IMSetting: SYGalleryPickerSettings {
     var confirmButtonText: String = "確認"
     var pickColor: UIColor = .green_008800
     var selectWithCount: Bool = false
+    var pickWithBorder: Bool = false
 }
 
 // MARK: - default

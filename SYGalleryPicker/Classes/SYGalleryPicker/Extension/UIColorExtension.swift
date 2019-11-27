@@ -357,6 +357,13 @@ extension UIColor {
     }
     
     ///```
+    ///hex：#007AFF ; rgb：(0, 122, 255)
+    ///```
+    class var blue_007AFF: UIColor {
+        get { return UIColor(0x007AFF) }
+    }
+    
+    ///```
     ///hex：#00FFFF ; rgb：(0, 255, 255)
     ///```
     class var blue_00FFFF: UIColor {
