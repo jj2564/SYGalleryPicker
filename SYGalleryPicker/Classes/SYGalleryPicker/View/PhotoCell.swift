@@ -27,7 +27,7 @@ class PhotoCell: UICollectionViewCell {
     
     var selectText: String {
         get {
-            if settings.selectWithCount {
+            if settings.isPickedWithCount {
                 return selectString
             } else {
                 return selectSymbol
@@ -59,8 +59,8 @@ class PhotoCell: UICollectionViewCell {
         }
     }
     
-    var pickColor: UIColor {
-        get { return settings.pickColor }
+    var pickedColor: UIColor {
+        get { return settings.pickedColor }
     }
     
     override init(frame: CGRect) {
@@ -115,11 +115,11 @@ class PhotoCell: UICollectionViewCell {
     }
     
     private func updateSettings() {
-        selectView.layer.backgroundColor = settings.pickColor.cgColor
+        selectView.layer.backgroundColor = settings.pickedColor.cgColor
         
-        if settings.pickWithBorder {
+        if settings.isPickWithBorder {
             selectBorder.layer.borderWidth = 2
-            selectBorder.layer.borderColor = settings.pickColor.cgColor
+            selectBorder.layer.borderColor = settings.pickedColor.cgColor
         }
     }
     
@@ -129,7 +129,7 @@ class PhotoCell: UICollectionViewCell {
         
         let distance: CGFloat = 8
         
-        switch settings.selectMarkLocation {
+        switch settings.pickedMarkLocation {
         case .leftTop:
             selectMarginLimit1 = selectView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: distance)
             selectMarginLimit2 = selectView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: distance)

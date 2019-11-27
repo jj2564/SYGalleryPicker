@@ -292,7 +292,7 @@ extension PhotosViewController {
             }
             
             
-        } else if selectedPhotos.count >= settings.maxPickNumber {
+        } else if selectedPhotos.count >= settings.pickLimitCount {
             selectLimitReachedClosure?(selectedPhotos.count)
             return false
         } else {

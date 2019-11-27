@@ -20,7 +20,7 @@ public protocol SYGalleryPickerSettings {
 
     // MARK: Enviorment
     /// 選取數量
-    var maxPickNumber: Int { get }
+    var pickLimitCount: Int { get }
     /// 呈現照片欄位
     var countInRow: (_ verticalSize: UIUserInterfaceSizeClass, _ horizontalSize: UIUserInterfaceSizeClass) -> Int { get }
     /// 是否帶入標題文字取代選取相簿
@@ -40,18 +40,18 @@ public protocol SYGalleryPickerSettings {
     
     // MARK: Selected style
     /// 選取顏色
-    var pickColor: UIColor { get }
+    var pickedColor: UIColor { get }
     /// 選取的標示所屬的位置
-    var selectMarkLocation: selectLocation { get }
+    var pickedMarkLocation: selectLocation { get }
     /// 選取顯示數字還是打勾
-    var selectWithCount: Bool { get }
+    var isPickedWithCount: Bool { get }
     /// 是否顯示選取外框
-    var pickWithBorder: Bool { get }
+    var isPickWithBorder: Bool { get }
 }
 
 extension SYGalleryPickerSettings {
     
-    var maxPickNumber: Int { 99 }
+    var pickLimitCount: Int { 99 }
     var countInRow: (_ verticalSize: UIUserInterfaceSizeClass, _ horizontalSize: UIUserInterfaceSizeClass) -> Int {
         {(verticalSize: UIUserInterfaceSizeClass, horizontalSize: UIUserInterfaceSizeClass) -> Int in
             switch (verticalSize, horizontalSize) {
@@ -76,16 +76,16 @@ extension SYGalleryPickerSettings {
     var tintTextColor: UIColor? { nil }
     var backgroundColor: UIColor { .white }
     
-    var pickColor: UIColor { .blue_007AFF }
-    var selectMarkLocation: selectLocation { .rightBottom }
-    var selectWithCount: Bool { true }
-    var pickWithBorder: Bool { true }
+    var pickedColor: UIColor { .blue_007AFF }
+    var pickedMarkLocation: selectLocation { .rightBottom }
+    var isPickedWithCount: Bool { true }
+    var isPickWithBorder: Bool { true }
 }
 
 // MARK: - TA
 final class TASetting: SYGalleryPickerSettings {
 
-    var maxPickNumber: Int = 20
+    var pickLimitCount: Int = 20
     var titleText: Bool = true
     var cancelButtonText: String = "取消"
     var confirmButtonText: String = "確認"
@@ -93,21 +93,21 @@ final class TASetting: SYGalleryPickerSettings {
     var tintColor: UIColor? = .green_8BC34A
     var tintTextColor: UIColor? = .white
     
-    var pickColor: UIColor = .green_8BC34A
-    var selectMarkLocation: selectLocation = .rightTop
+    var pickedColor: UIColor = .green_8BC34A
+    var pickedMarkLocation: selectLocation = .rightTop
 }
 
 // MARK: - IM
 final class IMSetting: SYGalleryPickerSettings {
 
-    var maxPickNumber: Int = 10
+    var pickLimitCount: Int = 10
     var cancelButtonText: String = "取消"
     var confirmButtonText: String = "確認"
-    var pickColor: UIColor = .green_008800
-    var selectWithCount: Bool = false
-    var pickWithBorder: Bool = false
+    var pickedColor: UIColor = .green_008800
+    var isPickedWithCount: Bool = false
+    var isPickWithBorder: Bool = false
 }
 
-// MARK: - default
+// MARK: - Basic
 final class defaultSetting: SYGalleryPickerSettings {
 }
