@@ -9,7 +9,7 @@
 import UIKit
 import Photos
 
-public extension UIViewController {
+public extension SYGalleryPickerViewController {
     
     enum SelectStyle {
         case ta //TopAgent
@@ -17,8 +17,9 @@ public extension UIViewController {
         case basic
     }
     
-    func sy_presentGalleryPickerController
-        (_ imagePicker: SYGalleryPickerViewController, setting: SelectStyle = .basic, customSetting:SYGalleryPickerSettings? = nil , requestOptions: PHImageRequestOptions? = nil, animated: Bool,
+    
+    func syPresentGalleryPickerController
+        (_ viewController: UIViewController, setting: SelectStyle = .basic, customSetting:SYGalleryPickerSettings? = nil , requestOptions: PHImageRequestOptions? = nil, animated: Bool,
          select: ((_ asset: PHAsset) -> Void)?,
          deselect: ((_ asset: PHAsset) -> Void)?,
          cancel: (([PHAsset]) -> Void)?,
@@ -34,25 +35,25 @@ public extension UIViewController {
             }
             
             if let customSetting = customSetting {
-                imagePicker.setting = customSetting
+                self.setting = customSetting
             } else {
                 switch setting {
                 case .basic:
-                    imagePicker.setting = defaultSetting()
+                    self.setting = defaultSetting()
                 case .im:
-                    imagePicker.setting = IMSetting()
+                    self.setting = IMSetting()
                 case .ta:
-                    imagePicker.setting = TASetting()
+                    self.setting = TASetting()
                 }
             }
             
-            imagePicker.photosViewController.selectionClosure = select
-            imagePicker.photosViewController.deselectionClosure = deselect
-            imagePicker.photosViewController.cancelClosure = cancel
-            imagePicker.photosViewController.finishClosure = finish
-            imagePicker.photosViewController.selectLimitReachedClosure = photoSelectLimitReached
+            self.photosViewController.selectionClosure = select
+            self.photosViewController.deselectionClosure = deselect
+            self.photosViewController.cancelClosure = cancel
+            self.photosViewController.finishClosure = finish
+            self.photosViewController.selectLimitReachedClosure = photoSelectLimitReached
             
-            self.present(imagePicker, animated: animated, completion: completion)
+            viewController.present(self, animated: animated, completion: completion)
         }
     }
 }
