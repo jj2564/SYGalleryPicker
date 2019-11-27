@@ -11,14 +11,14 @@ import Photos
 
 public extension UIViewController {
     
-    enum SinyiProject {
-        case TA
-        case IM
+    enum SelectStyle {
+        case ta //TopAgent
+        case im //
         case basic
     }
     
     func sy_presentGalleryPickerController
-        (_ imagePicker: SYGalleryPickerViewController, setting: SinyiProject = .basic, customSetting:SYGalleryPickerSettings? = nil , requestOptions: PHImageRequestOptions? = nil, animated: Bool,
+        (_ imagePicker: SYGalleryPickerViewController, setting: SelectStyle = .basic, customSetting:SYGalleryPickerSettings? = nil , requestOptions: PHImageRequestOptions? = nil, animated: Bool,
          select: ((_ asset: PHAsset) -> Void)?,
          deselect: ((_ asset: PHAsset) -> Void)?,
          cancel: (([PHAsset]) -> Void)?,
@@ -26,7 +26,7 @@ public extension UIViewController {
          selectLimitReached: ((Int) -> Void)?,
          completion: (() -> Void)? ) {
         
-        SYGalleryPickerViewController.authorize(fromViewController: self) { (authorized) in
+        SYGalleryPickerViewController.authorize() { (authorized) in
             guard authorized == true else { return }
             
             if let customSetting = customSetting {
@@ -35,9 +35,9 @@ public extension UIViewController {
                 switch setting {
                 case .basic:
                     imagePicker.setting = defaultSetting()
-                case .IM:
+                case .im:
                     imagePicker.setting = IMSetting()
-                case .TA:
+                case .ta:
                     imagePicker.setting = TASetting()
                 }
             }
