@@ -49,7 +49,7 @@ select: { asset in
 ```
 Using Clousre instead of delegate, which can be set to *nil* if no needed.
 
-The entire function looks like that.
+The entire function looks like this:
 ```swift
 func syPresentGalleryPickerController
 (_ viewController: UIViewController, style: SelectStyle = .basic, customSetting:SYGalleryPickerSettings? = nil , requestOptions: PHImageRequestOptions? = nil, animated: Bool,
@@ -61,9 +61,9 @@ photoSelectLimitReached: ((Int) -> Void)?,
 authorizedDenied:(() -> Void)?,
 completion: (() -> Void)? ) {}
 ```
-If you use the paremeter of **customSetting** the **style** will be no effort. All settings will follow the customize settings.
+If you use the paremeter of **customSetting**, the **style** will be no effort. All settings will follow the customize settings.
 
-You may also set the `PHImageRequestOptions` to **requestOptions** when you called **syPresentGalleryPickerController**. If not it will be set like this:
+You may also set the `PHImageRequestOptions` to **requestOptions** when you called **syPresentGalleryPickerController**. If not, it will be set like this:
 ```swift
 imageRequestOptions = PHImageRequestOptions()
 imageRequestOptions?.deliveryMode = .highQualityFormat
@@ -124,7 +124,7 @@ final class IMSetting: SYGalleryPickerSettings {
 }
 ```
 
-You do not need to install all the settings.
+You do not need to install all settings.
 
 ## Default Selection
 Make `PHAsset` as an `Array` and set it to **defaultSelections**.
