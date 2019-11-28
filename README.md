@@ -8,7 +8,7 @@
 <a href="https://cocoapods.org/pods/SYGalleryPicker"><img src="https://img.shields.io/cocoapods/p/SYGalleryPicker.svg?style=flat"></a>
 </p>
 
-For Sinyi Project library Pre Project
+A photo select library.
 
 ## Requirements
 `iOS 10`
@@ -56,7 +56,7 @@ The entire function looks like that.
 ```
 If you use the paremeter of **customSetting** the **style** will be no effort. All settings will follow the customize settings.
 
-You may also set the `PHImageRequestOptions` to `SYGalleryPickerViewController` for your required 。
+You may also set the `PHImageRequestOptions` to `SYGalleryPickerViewController` as **imageRequestOptions** for your requirement.
 
 ## Setting
 Setting must follow the protocol `SYGalleryPickerSettings`.
@@ -126,7 +126,7 @@ Make `PHAsset` as an `Array` and set it to **defaultSelections**.
 
 ## Reference
 [BSImagePicker](https://github.com/mikaoj/BSImagePicker) 
-This Lib is powerfull, but I have some special require. 
+This Lib is powerfull, but I have some special requirement. 
 
 ## Author
 jj2564, jamek8@gmail.com
