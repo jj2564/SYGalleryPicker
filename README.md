@@ -8,7 +8,7 @@
 <a href="https://cocoapods.org/pods/SYGalleryPicker"><img src="https://img.shields.io/cocoapods/p/SYGalleryPicker.svg?style=flat"></a>
 </p>
 
-For Sinyi Project library Pre Project
+A photo select library.
 
 ## Requirements
 `iOS 10`
@@ -16,8 +16,15 @@ For Sinyi Project library Pre Project
 ## Installation
 SYGalleryPicker is available through [CocoaPods](https://cocoapods.org/). 
 Add the following line to your Podfile:
+
 ```ruby
 pod "SYGalleryPicker"
+```
+
+Enter in the terminal
+
+```ruby
+$ pod install --repo-update
 ```
 
 ## Demo
@@ -25,38 +32,45 @@ pod "SYGalleryPicker"
 
 ## How to Use
 ```swift
-        let vc = SYGalleryPickerViewController()
-        vc.modalPresentationStyle = .fullScreen
-        vc.syPresentGalleryPickerController(self, animated: true,
-        select: { asset in
-            print(asset.description)
-        }, deselect: { asset in
-            print(asset.description)
-        }, cancel: { assets in
-            print("Cancel")
-        }, finish: { assets in
-            print("Confirm")
-        }, photoSelectLimitReached: { count in
-            print("Limit reach")
-        }, authorizedDenied: nil, completion: nil)
+let vc = SYGalleryPickerViewController()
+vc.modalPresentationStyle = .fullScreen
+vc.syPresentGalleryPickerController(self, animated: true,
+select: { asset in
+    print(asset.description)
+}, deselect: { asset in
+    print(asset.description)
+}, cancel: { assets in
+    print("Cancel")
+}, finish: { assets in
+    print("Confirm")
+}, photoSelectLimitReached: { count in
+    print("Limit reach")
+}, authorizedDenied: nil, completion: nil)
 ```
-Using Clousre instead of delegate, which can be removed if no needed.
+Using Clousre instead of delegate, which can be set to *nil* if no needed.
 
 The entire function looks like that.
 ```swift
-    func syPresentGalleryPickerController
-        (_ viewController: UIViewController, style: SelectStyle = .basic, customSetting:SYGalleryPickerSettings? = nil , requestOptions: PHImageRequestOptions? = nil, animated: Bool,
-         select: ((_ asset: PHAsset) -> Void)?,
-         deselect: ((_ asset: PHAsset) -> Void)?,
-         cancel: (([PHAsset]) -> Void)?,
-         finish: (([PHAsset]) -> Void)?,
-         photoSelectLimitReached: ((Int) -> Void)?,
-         authorizedDenied:(() -> Void)?,
-         completion: (() -> Void)? ) {}
+func syPresentGalleryPickerController
+(_ viewController: UIViewController, style: SelectStyle = .basic, customSetting:SYGalleryPickerSettings? = nil , requestOptions: PHImageRequestOptions? = nil, animated: Bool,
+select: ((_ asset: PHAsset) -> Void)?,
+deselect: ((_ asset: PHAsset) -> Void)?,
+cancel: (([PHAsset]) -> Void)?,
+finish: (([PHAsset]) -> Void)?,
+photoSelectLimitReached: ((Int) -> Void)?,
+authorizedDenied:(() -> Void)?,
+completion: (() -> Void)? ) {}
 ```
 If you use the paremeter of **customSetting** the **style** will be no effort. All settings will follow the customize settings.
 
-You may also set the `PHImageRequestOptions` to `SYGalleryPickerViewController` for your required 。
+You may also set the `PHImageRequestOptions` to **requestOptions** when you called **syPresentGalleryPickerController**. If not it will be set like this:
+```swift
+imageRequestOptions = PHImageRequestOptions()
+imageRequestOptions?.deliveryMode = .highQualityFormat
+imageRequestOptions?.resizeMode = .exact
+imageRequestOptions?.isNetworkAccessAllowed = false
+```
+
 
 ## Setting
 Setting must follow the protocol `SYGalleryPickerSettings`.
@@ -109,24 +123,27 @@ final class IMSetting: SYGalleryPickerSettings {
     var isPickWithBorder: Bool = false
 }
 ```
-You do not need to install all the settings.
 
+You do not need to install all the settings.
 
 ## Default Selection
 Make `PHAsset` as an `Array` and set it to **defaultSelections**.
+
  ```swift
  let default_selection:[PHAsset] = [...]
  let vc = SYGalleryPickerViewController()
  vc.defaultSelections = default_selection
  ```
+ 
+Notice that. If the **defaultSelections** count more than the limit select it will still be selected.
 
 ## TODO
 - [ ] Review code.
 - [ ] iCloud image test
 
 ## Reference
-[BSImagePicker](https://github.com/mikaoj/BSImagePicker) 
-This Lib is powerfull, but I have some special require. 
+[BSImagePicker](https://github.com/mikaoj/BSImagePicker)   
+This Lib is powerfull, but I have some special requirement. 
 
 ## Author
 jj2564, jamek8@gmail.com

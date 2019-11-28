@@ -49,7 +49,7 @@ public protocol SYGalleryPickerSettings {
     var isPickWithBorder: Bool { get }
 }
 
-extension SYGalleryPickerSettings {
+public extension SYGalleryPickerSettings {
     
     var pickLimitCount: Int { 99 }
     var countInRow: (_ verticalSize: UIUserInterfaceSizeClass, _ horizontalSize: UIUserInterfaceSizeClass) -> Int {
@@ -102,7 +102,7 @@ final class IMSetting: SYGalleryPickerSettings {
 
     var pickLimitCount: Int = 10
     var cancelButtonText: String = "取消"
-    var confirmButtonText: String = "確認"
+    var confirmButtonText: String = "傳送"
     var pickedColor: UIColor = .green_008800
     var isPickedWithCount: Bool = false
     var isPickWithBorder: Bool = false
