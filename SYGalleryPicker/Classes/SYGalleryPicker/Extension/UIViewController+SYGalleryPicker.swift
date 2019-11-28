@@ -17,7 +17,20 @@ public extension SYGalleryPickerViewController {
         case basic
     }
     
-    
+    /// syPresentGalleryPickerController
+    /// - Parameters:
+    ///   - viewController: You need to send current viewcontroller when you call this function.
+    ///   - style: Select .ta or .im or .basic(default) if you need.
+    ///   - customSetting: Need to confirm protocol `SYGalleryPickerSettings` for customize settings.
+    ///   - requestOptions: Can pass the `PHImageRequestOptions` as you wish.
+    ///   - animated: anitmated when present
+    ///   - select: clourse when you `select` 1 photo.
+    ///   - deselect: clourse when you `deselect` 1 photo.
+    ///   - cancel: clourse when you  press `cancel button`
+    ///   - finish: clourse when you  press `done button`
+    ///   - photoSelectLimitReached: clourse when your selected photo reach the **pickLimitCount**
+    ///   - authorizedDenied: clourse when last time user deny the auth.
+    ///   - completion: comletion handler
     func syPresentGalleryPickerController
         (_ viewController: UIViewController, style: SelectStyle = .basic, customSetting:SYGalleryPickerSettings? = nil , requestOptions: PHImageRequestOptions? = nil, animated: Bool,
          select: ((_ asset: PHAsset) -> Void)?,

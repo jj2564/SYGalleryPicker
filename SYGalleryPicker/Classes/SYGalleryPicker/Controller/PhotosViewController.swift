@@ -117,11 +117,14 @@ class PhotosViewController: UICollectionViewController {
         collectionView?.register(PhotoCell.self, forCellWithReuseIdentifier: PhotoCell.cellIdentifier)
         
         cancelBarButtonTitle = settings.cancelButtonText
+        cancelBarButton?.target = self
+        cancelBarButton?.action = #selector(cancelButtonPressed(_:))
+        cancelBarButton?.title = cancelBarButtonTitle
+
         doneBarButtonTitle = settings.confirmButtonText
-        
-        cancelBarButton? = UIBarButtonItem(title: cancelBarButtonTitle, style: .plain, target: self, action: #selector(cancelButtonPressed(_:)))
-        
-        doneBarButton? = UIBarButtonItem(title: doneBarButtonTitle, style: .plain, target: self, action: #selector(doneButtonPressed(_:)))
+        doneBarButton?.target = self
+        doneBarButton?.action = #selector(doneButtonPressed(_:))
+        doneBarButton?.title = doneBarButtonTitle
         
         if let _ = titleText {} else {
             albumTitleView.addTarget(self, action: #selector(albumButtonPressed(_:)), for: .touchUpInside)
@@ -163,6 +166,7 @@ class PhotosViewController: UICollectionViewController {
     // MARK: Update Method
     func updateDoneButton() {
         let count  = selectedPhotos.count
+        cancelBarButton?.title = cancelBarButtonTitle
         if count > 0 {
             doneBarButton?.title = "\(doneBarButtonTitle)(\(count))"
         } else {
