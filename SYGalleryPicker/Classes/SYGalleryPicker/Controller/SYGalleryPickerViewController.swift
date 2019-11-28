@@ -17,11 +17,11 @@ open class SYGalleryPickerViewController: UINavigationController {
 
     open var cancelButton: UIBarButtonItem = UIBarButtonItem(title: nil, style: .plain, target: nil, action: nil)
     
-    open var imageRequestOptions: PHImageRequestOptions?
-    
     open var defaultSelections: [PHAsset]?
     
     open var titleText: String?
+    
+    private var imageRequestOptions: PHImageRequestOptions?
     
     open lazy var fetchResults: [PHFetchResult] = { () -> [PHFetchResult<PHAssetCollection>] in
         let fetchOptions = PHFetchOptions()
