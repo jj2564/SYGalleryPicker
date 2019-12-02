@@ -2,10 +2,10 @@
 
 <p align="left">
 <a><img src="https://img.shields.io/badge/language-swift-orange.svg"></a>
+<a href="https://cocoapods.org/pods/SYGalleryPicker"><img src="https://img.shields.io/cocoapods/p/SYGalleryPicker.svg?style=flat"></a>
 <a href="https://travis-ci.org/jj2564/SYGalleryPicker"><img src="https://img.shields.io/travis/jj2564/SYGalleryPicker.svg?style=flat"></a>
 <a href="https://cocoapods.org/pods/SYGalleryPicker"><img src="https://img.shields.io/cocoapods/v/SYGalleryPicker.svg?style=flat"></a>
 <a href="https://cocoapods.org/pods/SYGalleryPicker"><img src="https://img.shields.io/cocoapods/l/SYGalleryPicker.svg?style=flat"></a>
-<a href="https://cocoapods.org/pods/SYGalleryPicker"><img src="https://img.shields.io/cocoapods/p/SYGalleryPicker.svg?style=flat"></a>
 </p>
 
 A photo select library.
@@ -28,7 +28,7 @@ $ pod install --repo-update
 ```
 
 ## Demo
-<img src="screenshots/basic_style.png" width="320"> <img src="screenshots/album_switch.png" width="320">
+<img src="https://raw.githubusercontent.com/jj2564/SYGalleryPicker/master/screenshots/basic_style.png" width="320"> <img src="https://raw.githubusercontent.com/jj2564/SYGalleryPicker/master/screenshots/album_switch.png" width="320">
 
 ## How to Use
 ```swift
@@ -138,7 +138,8 @@ Make `PHAsset` as an `Array` and set it to **defaultSelections**.
 Notice that. If the **defaultSelections** count more than the limit select it will still be selected.
 
 ## TODO
-- [ ] Review code.
+- [ ] split datasource from cell
+- [ ] Unit test
 - [ ] iCloud image test
 
 ## Reference
