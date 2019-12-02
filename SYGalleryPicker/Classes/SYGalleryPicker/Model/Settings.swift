@@ -103,6 +103,7 @@ final class IMSetting: SYGalleryPickerSettings {
     var pickLimitCount: Int = 10
     var cancelButtonText: String = "取消"
     var confirmButtonText: String = "傳送"
+    var tintTextColor: UIColor? = .gray_464646
     var pickedColor: UIColor = .green_008800
     var isPickedWithCount: Bool = false
     var isPickWithBorder: Bool = false

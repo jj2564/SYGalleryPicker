@@ -325,8 +325,8 @@ extension PhotosViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: AlbumCell.cellIdentifier, for: indexPath) as! AlbumCell
-        let cachingManager = PHCachingImageManager.default() as? PHCachingImageManager
-        cachingManager?.allowsCachingHighQualityImages = false
+//        let cachingManager = PHCachingImageManager.default() as? PHCachingImageManager
+//        cachingManager?.allowsCachingHighQualityImages = false
 
         let album = fetchResults[indexPath.section][indexPath.row]
         cell.albumTitleLabel.text = album.localizedTitle

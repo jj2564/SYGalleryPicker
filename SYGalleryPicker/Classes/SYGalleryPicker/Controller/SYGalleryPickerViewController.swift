@@ -21,7 +21,13 @@ open class SYGalleryPickerViewController: UINavigationController {
     
     open var titleText: String?
     
-    private var imageRequestOptions: PHImageRequestOptions?
+    private lazy var imageRequestOptions: PHImageRequestOptions = {
+        let options = PHImageRequestOptions()
+        options.deliveryMode = .highQualityFormat
+        options.resizeMode = .exact
+        options.isNetworkAccessAllowed = false
+        return options
+    }()
     
     open lazy var fetchResults: [PHFetchResult] = { () -> [PHFetchResult<PHAssetCollection>] in
         let fetchOptions = PHFetchOptions()
@@ -42,14 +48,6 @@ open class SYGalleryPickerViewController: UINavigationController {
         }
         vc.doneBarButton = self.doneButton
         vc.cancelBarButton = self.cancelButton
-        
-        if self.imageRequestOptions == nil {
-            imageRequestOptions = PHImageRequestOptions()
-            imageRequestOptions?.deliveryMode = .highQualityFormat
-            imageRequestOptions?.resizeMode = .exact
-            imageRequestOptions?.isNetworkAccessAllowed = false
-        }
-        
         vc.imageRequestOptions = self.imageRequestOptions
         vc.titleText = titleText
         
