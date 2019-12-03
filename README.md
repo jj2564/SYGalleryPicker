@@ -79,34 +79,37 @@ Setting must follow the protocol `SYGalleryPickerSettings`.
 public protocol SYGalleryPickerSettings {
 
     // MARK: Enviorment
-    /// 選取數量
+    /// status bar style
+    var statusBarStyle: UIStatusBarStyle { get }
+    /// select limit count in picker
     var pickLimitCount: Int { get }
-    /// 呈現照片欄位
+    /// count per row in picker
     var countInRow: (_ verticalSize: UIUserInterfaceSizeClass, _ horizontalSize: UIUserInterfaceSizeClass) -> Int { get }
-    /// 是否帶入標題文字取代選取相簿
+    /// use a title text instead of album select
     var titleText: Bool { get }
-    /// 取消按鈕的文字
+    /// text with cancel button
     var cancelButtonText: String { get }
-    /// 確認按鈕的文字
+    /// text with confirm button
     var confirmButtonText: String { get }
     
     // MARK: Picker Style
-    /// 標題顏色
+    /// color of navigation bar
     var tintColor: UIColor? { get }
-    /// 標題字的顏色
+    /// color of navigation title
     var tintTextColor: UIColor? { get }
-    /// 背景顏色
+    /// background color of picker
     var backgroundColor: UIColor { get }
     
     // MARK: Selected style
-    /// 選取顏色
+    /// select mark and select border color
     var pickedColor: UIColor { get }
-    /// 選取的標示所屬的位置
+    /// select mark location of the cell
     var pickedMarkLocation: selectLocation { get }
-    /// 選取顯示數字還是打勾
+    /// use count on select view
     var isPickedWithCount: Bool { get }
-    /// 是否顯示選取外框
+    /// show select border ot not
     var isPickWithBorder: Bool { get }
+
 }
 ```
 If you want to customize your style. Create a new class and inherit `SYGalleryPickerSettings`.
@@ -139,8 +142,9 @@ Notice that. If the **defaultSelections** count more than the limit select it wi
 
 ## TODO
 - [ ] split datasource from cell
-- [ ] Unit test
+- [ ] refresh after user delete the photo
 - [ ] iCloud image test
+- [ ] unit test
 
 ## Reference
 [BSImagePicker](https://github.com/mikaoj/BSImagePicker)   
