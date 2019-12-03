@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'SYGalleryPicker'
-  s.version          = '1.0.2'
+  s.version          = '1.0.3'
   s.summary          = 'A photo picker library. It can be customize for many places.'
 
 
@@ -17,7 +17,7 @@ Pod::Spec.new do |s|
                        DESC
 
   s.homepage         = 'https://github.com/jj2564/SYGalleryPicker'
-  s.screenshots     = 'https://github.com/jj2564/SYGalleryPicker/blob/master/screenshots/basic_style.png', 'https://github.com/jj2564/SYGalleryPicker/blob/master/screenshots/album_switch.png'
+  s.screenshots     = 'https://raw.githubusercontent.com/jj2564/SYGalleryPicker/master/screenshots/basic_style.png', 'https://raw.githubusercontent.com/jj2564/SYGalleryPicker/master/screenshots/album_switch.png'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
   s.author           = { 'jj2564' => 'jamek8@gmail.com' }
   s.source           = { :git => 'https://github.com/jj2564/SYGalleryPicker.git', :tag => s.version.to_s }

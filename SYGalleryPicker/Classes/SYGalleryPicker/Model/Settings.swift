@@ -19,38 +19,42 @@ public enum selectLocation {
 public protocol SYGalleryPickerSettings {
 
     // MARK: Enviorment
-    /// 選取數量
+    /// status bar style
+    var statusBarStyle: UIStatusBarStyle { get }
+    /// select limit count in picker
     var pickLimitCount: Int { get }
-    /// 呈現照片欄位
+    /// count per row in picker
     var countInRow: (_ verticalSize: UIUserInterfaceSizeClass, _ horizontalSize: UIUserInterfaceSizeClass) -> Int { get }
-    /// 是否帶入標題文字取代選取相簿
+    /// use a title text instead of album select
     var titleText: Bool { get }
-    /// 取消按鈕的文字
+    /// text with cancel button
     var cancelButtonText: String { get }
-    /// 確認按鈕的文字
+    /// text with confirm button
     var confirmButtonText: String { get }
     
     // MARK: Picker Style
-    /// 標題顏色
+    /// color of navigation bar
     var tintColor: UIColor? { get }
-    /// 標題字的顏色
+    /// color of navigation title
     var tintTextColor: UIColor? { get }
-    /// 背景顏色
+    /// background color of picker
     var backgroundColor: UIColor { get }
     
     // MARK: Selected style
-    /// 選取顏色
+    /// select mark and select border color
     var pickedColor: UIColor { get }
-    /// 選取的標示所屬的位置
+    /// select mark location of the cell
     var pickedMarkLocation: selectLocation { get }
-    /// 選取顯示數字還是打勾
+    /// use count on select view
     var isPickedWithCount: Bool { get }
-    /// 是否顯示選取外框
+    /// show select border ot not
     var isPickWithBorder: Bool { get }
+    
 }
 
 public extension SYGalleryPickerSettings {
     
+    var statusBarStyle: UIStatusBarStyle { .default }
     var pickLimitCount: Int { 99 }
     var countInRow: (_ verticalSize: UIUserInterfaceSizeClass, _ horizontalSize: UIUserInterfaceSizeClass) -> Int {
         {(verticalSize: UIUserInterfaceSizeClass, horizontalSize: UIUserInterfaceSizeClass) -> Int in
@@ -85,6 +89,7 @@ public extension SYGalleryPickerSettings {
 // MARK: - TA
 final class TASetting: SYGalleryPickerSettings {
 
+    var statusBarStyle: UIStatusBarStyle = .lightContent
     var pickLimitCount: Int = 20
     var titleText: Bool = true
     var cancelButtonText: String = "取消"
@@ -103,6 +108,7 @@ final class IMSetting: SYGalleryPickerSettings {
     var pickLimitCount: Int = 10
     var cancelButtonText: String = "取消"
     var confirmButtonText: String = "傳送"
+    var tintTextColor: UIColor? = .gray_464646
     var pickedColor: UIColor = .green_008800
     var isPickedWithCount: Bool = false
     var isPickWithBorder: Bool = false

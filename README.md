@@ -2,10 +2,10 @@
 
 <p align="left">
 <a><img src="https://img.shields.io/badge/language-swift-orange.svg"></a>
+<a href="https://cocoapods.org/pods/SYGalleryPicker"><img src="https://img.shields.io/cocoapods/p/SYGalleryPicker.svg?style=flat"></a>
 <a href="https://travis-ci.org/jj2564/SYGalleryPicker"><img src="https://img.shields.io/travis/jj2564/SYGalleryPicker.svg?style=flat"></a>
 <a href="https://cocoapods.org/pods/SYGalleryPicker"><img src="https://img.shields.io/cocoapods/v/SYGalleryPicker.svg?style=flat"></a>
 <a href="https://cocoapods.org/pods/SYGalleryPicker"><img src="https://img.shields.io/cocoapods/l/SYGalleryPicker.svg?style=flat"></a>
-<a href="https://cocoapods.org/pods/SYGalleryPicker"><img src="https://img.shields.io/cocoapods/p/SYGalleryPicker.svg?style=flat"></a>
 </p>
 
 A photo select library.
@@ -28,7 +28,7 @@ $ pod install --repo-update
 ```
 
 ## Demo
-<img src="screenshots/basic_style.png" width="320"> <img src="screenshots/album_switch.png" width="320">
+<img src="https://raw.githubusercontent.com/jj2564/SYGalleryPicker/master/screenshots/basic_style.png" width="320"> <img src="https://raw.githubusercontent.com/jj2564/SYGalleryPicker/master/screenshots/album_switch.png" width="320">
 
 ## How to Use
 ```swift
@@ -79,34 +79,37 @@ Setting must follow the protocol `SYGalleryPickerSettings`.
 public protocol SYGalleryPickerSettings {
 
     // MARK: Enviorment
-    /// 選取數量
+    /// status bar style
+    var statusBarStyle: UIStatusBarStyle { get }
+    /// select limit count in picker
     var pickLimitCount: Int { get }
-    /// 呈現照片欄位
+    /// count per row in picker
     var countInRow: (_ verticalSize: UIUserInterfaceSizeClass, _ horizontalSize: UIUserInterfaceSizeClass) -> Int { get }
-    /// 是否帶入標題文字取代選取相簿
+    /// use a title text instead of album select
     var titleText: Bool { get }
-    /// 取消按鈕的文字
+    /// text with cancel button
     var cancelButtonText: String { get }
-    /// 確認按鈕的文字
+    /// text with confirm button
     var confirmButtonText: String { get }
     
     // MARK: Picker Style
-    /// 標題顏色
+    /// color of navigation bar
     var tintColor: UIColor? { get }
-    /// 標題字的顏色
+    /// color of navigation title
     var tintTextColor: UIColor? { get }
-    /// 背景顏色
+    /// background color of picker
     var backgroundColor: UIColor { get }
     
     // MARK: Selected style
-    /// 選取顏色
+    /// select mark and select border color
     var pickedColor: UIColor { get }
-    /// 選取的標示所屬的位置
+    /// select mark location of the cell
     var pickedMarkLocation: selectLocation { get }
-    /// 選取顯示數字還是打勾
+    /// use count on select view
     var isPickedWithCount: Bool { get }
-    /// 是否顯示選取外框
+    /// show select border ot not
     var isPickWithBorder: Bool { get }
+
 }
 ```
 If you want to customize your style. Create a new class and inherit `SYGalleryPickerSettings`.
@@ -138,8 +141,10 @@ Make `PHAsset` as an `Array` and set it to **defaultSelections**.
 Notice that. If the **defaultSelections** count more than the limit select it will still be selected.
 
 ## TODO
-- [ ] Review code.
+- [ ] split datasource from cell
+- [ ] refresh after user delete the photo
 - [ ] iCloud image test
+- [ ] unit test
 
 ## Reference
 [BSImagePicker](https://github.com/mikaoj/BSImagePicker)   
