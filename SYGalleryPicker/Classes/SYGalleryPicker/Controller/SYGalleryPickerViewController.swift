@@ -77,6 +77,10 @@ open class SYGalleryPickerViewController: UINavigationController {
         super.init(coder: aDecoder)
     }
     
+    override open var preferredStatusBarStyle: UIStatusBarStyle {
+        return setting.statusBarStyle 
+    }
+    
     open override func loadView() {
         super.loadView()
 
