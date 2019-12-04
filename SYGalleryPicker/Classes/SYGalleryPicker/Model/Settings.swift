@@ -87,7 +87,7 @@ public extension SYGalleryPickerSettings {
 }
 
 // MARK: - TA
-public class TASetting: SYGalleryPickerSettings {
+open class TASetting: SYGalleryPickerSettings {
 
     public var statusBarStyle: UIStatusBarStyle = .lightContent
     public var pickLimitCount: Int = 20
