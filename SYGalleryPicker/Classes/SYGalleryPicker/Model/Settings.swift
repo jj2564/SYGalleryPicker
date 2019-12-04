@@ -87,19 +87,21 @@ public extension SYGalleryPickerSettings {
 }
 
 // MARK: - TA
-final class TASetting: SYGalleryPickerSettings {
+public class TASetting: SYGalleryPickerSettings {
 
-    var statusBarStyle: UIStatusBarStyle = .lightContent
-    var pickLimitCount: Int = 20
-    var titleText: Bool = true
-    var cancelButtonText: String = "取消"
-    var confirmButtonText: String = "確認"
+    public var statusBarStyle: UIStatusBarStyle = .lightContent
+    public var pickLimitCount: Int = 20
+    public var titleText: Bool = true
+    public var cancelButtonText: String = "取消"
+    public var confirmButtonText: String = "確認"
+
+    public var tintColor: UIColor? = .green_8BC34A
+    public var tintTextColor: UIColor? = .white
+
+    public var pickedColor: UIColor = .green_8BC34A
+    public var pickedMarkLocation: selectLocation = .rightTop
     
-    var tintColor: UIColor? = .green_8BC34A
-    var tintTextColor: UIColor? = .white
-    
-    var pickedColor: UIColor = .green_8BC34A
-    var pickedMarkLocation: selectLocation = .rightTop
+    public init() {}
 }
 
 // MARK: - IM
