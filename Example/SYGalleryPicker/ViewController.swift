@@ -15,10 +15,13 @@ class ViewController: UIViewController {
     var photos:[PHAsset] = []
 
     @IBAction func taModeClicked(_ sender: Any) {
+        
+        let cusSetting = TASetting()
+        
         let vc = SYGalleryPickerViewController()
         vc.modalPresentationStyle = .fullScreen
         vc.titleText = "環境照片"
-        vc.syPresentGalleryPickerController(self, style: .ta ,animated: true,
+        vc.syPresentGalleryPickerController(self, customSetting: cusSetting ,animated: true,
         select: { asset in
             print("select")
         }, deselect: { asset in
@@ -53,6 +56,7 @@ class ViewController: UIViewController {
     }
     
     @IBAction func basicClicked(_ sender: Any) {
+        
         let vc = SYGalleryPickerViewController()
         vc.modalPresentationStyle = .fullScreen
         vc.syPresentGalleryPickerController(self, animated: true,
