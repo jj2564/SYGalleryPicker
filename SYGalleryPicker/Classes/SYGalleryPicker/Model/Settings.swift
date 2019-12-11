@@ -80,7 +80,7 @@ public extension SYGalleryPickerSettings {
     var confirmButtonText: String { "Confirm" }
     
     var tintColor: UIColor? { nil }
-    var tintTextColor: UIColor? { nil }
+    var tintTextColor: UIColor? { .gray_464646 }
     var backgroundColor: UIColor { .white }
     
     var pickedColor: UIColor { .blue_007AFF }
@@ -97,7 +97,7 @@ open class TASetting: SYGalleryPickerSettings {
     public var titleText: Bool = true
     public var confirmButtonText: String = "確認"
 
-    public var tintColor: UIColor? = .green_8BC34A
+    public var tintColor: UIColor? = .green_8BC44A
     public var tintTextColor: UIColor? = .white
 
     public var pickedColor: UIColor = .green_8BC34A
@@ -111,7 +111,6 @@ final class IMSetting: SYGalleryPickerSettings {
 
     var pickLimitCount: Int = 10
     var confirmButtonText: String = "傳送"
-    var tintTextColor: UIColor? = .gray_464646
     var pickedColor: UIColor = .green_008800
     var isPickedWithCount: Bool = false
     var isPickWithBorder: Bool = false
