@@ -139,6 +139,8 @@ Make `PHAsset` as an `Array` and set it to **defaultSelections**.
 Notice that. If the **defaultSelections** count more than the limit select it will still be selected.
 
 ## TODO
+- [ ] clean the garbage code due to the latest requirement
+- [ ] find the solution of strange problem
 - [ ] split datasource from cell
 - [ ] refresh after user delete the photo
 - [ ] iCloud image test
