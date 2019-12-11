@@ -21,10 +21,13 @@ Pod::Spec.new do |s|
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
   s.author           = { 'jj2564' => 'jamek8@gmail.com' }
   s.source           = { :git => 'https://github.com/jj2564/SYGalleryPicker.git', :tag => s.version.to_s }
+  
   s.social_media_url = 'https://twitter.com/jj2564'
 
   s.source_files = 'SYGalleryPicker/Classes/**/*'
-  
+  s.resource_bundles = {
+    'SYGalleryPicker' => ['SYGalleryPicker/Assets/*']
+  }
   s.ios.deployment_target = '10.0'
   s.swift_version = "5.1"
   s.frameworks = 'UIKit', 'Photos'

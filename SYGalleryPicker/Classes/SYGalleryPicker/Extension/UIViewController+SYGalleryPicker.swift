@@ -10,13 +10,7 @@ import UIKit
 import Photos
 
 public extension SYGalleryPickerViewController {
-    
-    enum SelectStyle {
-        case ta //TopAgent
-        case im //
-        case basic
-    }
-    
+
     /// syPresentGalleryPickerController
     /// - Parameters:
     ///   - viewController: You need to send current viewcontroller when you call this function.
@@ -65,6 +59,7 @@ public extension SYGalleryPickerViewController {
             self.photosViewController.cancelClosure = cancel
             self.photosViewController.finishClosure = finish
             self.photosViewController.selectLimitReachedClosure = photoSelectLimitReached
+            self.photosViewController.style = style
             
             viewController.present(self, animated: animated, completion: completion)
         }

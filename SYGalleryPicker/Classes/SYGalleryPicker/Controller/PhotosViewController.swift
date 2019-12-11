@@ -11,6 +11,8 @@ import Photos
 
 class PhotosViewController: UICollectionViewController {
     
+    var style: SelectStyle?
+    
     var selectionClosure: ((_ asset: PHAsset) -> Void)?
     var deselectionClosure: ((_ asset: PHAsset) -> Void)?
     var cancelClosure: ((_ assets: [PHAsset]) -> Void)?
@@ -22,13 +24,29 @@ class PhotosViewController: UICollectionViewController {
     var doneBarButton: UIBarButtonItem?
     var cancelBarButton: UIBarButtonItem?
     lazy var albumTitleView: UIButton = {
+        
         let btn = UIButton(type: .custom)
-
+        
+        if let tintColor = settings.tintTextColor {
+            btn.tintColor = tintColor
+        }
+        btn.setTitleColor(btn.tintColor, for: .normal)
+        btn.titleLabel?.font = .boldSystemFont(ofSize: 17)
+        
         if let titleText = self.titleText {
-            btn.titleLabel?.font = .boldSystemFont(ofSize: 17)
             btn.setTitle(titleText, for: .normal)
-        } else {
-            btn.titleLabel?.font = .systemFont(ofSize: 15.0)
+            return btn
+        }
+        
+        if let image = UIImage(podAssetName: "down") {
+            let newImage = image.withRenderingMode(.alwaysTemplate)
+            btn.semanticContentAttribute = .forceRightToLeft
+            btn.imageView?.contentMode = .scaleAspectFit
+            
+            let titleImageGap: CGFloat = 6.0
+            btn.titleEdgeInsets = UIEdgeInsets(top: 5.0, left: -titleImageGap, bottom: 5.0, right: titleImageGap)
+            btn.contentEdgeInsets = UIEdgeInsets(top: 5.0, left: titleImageGap, bottom: 5.0, right: 10.0)
+            btn.setImage(newImage, for: .normal)
         }
         
         return btn
@@ -36,13 +54,11 @@ class PhotosViewController: UICollectionViewController {
     
     var titleText: String?
     private var doneBarButtonTitle: String = "確認"
-    private var cancelBarButtonTitle: String = "取消"
     
     lazy var albumViewController: AlbumTableViewController = {
         let vc = AlbumTableViewController()
         vc.tableView.dataSource = self
         vc.tableView.delegate = self
-        
         return vc
     }()
     
@@ -116,10 +132,21 @@ class PhotosViewController: UICollectionViewController {
         collectionView?.allowsMultipleSelection = true
         collectionView?.register(PhotoCell.self, forCellWithReuseIdentifier: PhotoCell.cellIdentifier)
         
-        cancelBarButtonTitle = settings.cancelButtonText
+        
+        var cancelImageName = "close"
+        
+        if style == .ta {
+            cancelImageName = "back"
+        }
+        
+        if let closeImage = UIImage(podAssetName: cancelImageName) {
+            cancelBarButton?.image = closeImage
+            cancelBarButton?.imageInsets = UIEdgeInsets(top: 3.0, left: -20.0, bottom: -3.0, right: 20.0)
+        } else {
+            cancelBarButton?.title = "Cancel"
+        }
         cancelBarButton?.target = self
         cancelBarButton?.action = #selector(cancelButtonPressed(_:))
-        cancelBarButton?.title = cancelBarButtonTitle
 
         doneBarButtonTitle = settings.confirmButtonText
         doneBarButton?.target = self
@@ -137,9 +164,6 @@ class PhotosViewController: UICollectionViewController {
         if let tintTextColor = settings.tintTextColor {
             cancelBarButton?.tintColor = tintTextColor
             doneBarButton?.tintColor = tintTextColor
-            albumTitleView.setTitleColor(tintTextColor, for: .normal)
-        } else {
-            albumTitleView.setTitleColor(albumTitleView.tintColor, for: .normal)
         }
         
         updateCollectionLayout()
@@ -166,7 +190,7 @@ class PhotosViewController: UICollectionViewController {
     // MARK: Update Method
     func updateDoneButton() {
         let count  = selectedPhotos.count
-        cancelBarButton?.title = cancelBarButtonTitle
+        
         if count > 0 {
             doneBarButton?.title = "\(doneBarButtonTitle)(\(count))"
         } else {
@@ -179,8 +203,7 @@ class PhotosViewController: UICollectionViewController {
     private func updateTitle(_ album: PHAssetCollection) {
 
         if let _ = titleText { return }
-        guard var title = album.localizedTitle else { return }
-        title += "  ↓"
+        guard let title = album.localizedTitle else { return }
         albumTitleView.setTitle(title, for: .normal)
         albumTitleView.sizeToFit()
     }
@@ -373,3 +396,6 @@ extension PhotosViewController: UIPopoverPresentationControllerDelegate {
         return true
     }
 }
+
+
+

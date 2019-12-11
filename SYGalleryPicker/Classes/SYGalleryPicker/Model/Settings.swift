@@ -15,6 +15,12 @@ public enum selectLocation {
     case rightBottom
 }
 
+public enum SelectStyle {
+    case ta //TopAgent
+    case im
+    case basic
+}
+
 // MARK: - Protocol
 public protocol SYGalleryPickerSettings {
 
@@ -27,8 +33,6 @@ public protocol SYGalleryPickerSettings {
     var countInRow: (_ verticalSize: UIUserInterfaceSizeClass, _ horizontalSize: UIUserInterfaceSizeClass) -> Int { get }
     /// use a title text instead of album select
     var titleText: Bool { get }
-    /// text with cancel button
-    var cancelButtonText: String { get }
     /// text with confirm button
     var confirmButtonText: String { get }
     
@@ -73,7 +77,6 @@ public extension SYGalleryPickerSettings {
         }
     }
     var titleText: Bool { false }
-    var cancelButtonText: String { "Cancel" }
     var confirmButtonText: String { "Confirm" }
     
     var tintColor: UIColor? { nil }
@@ -92,7 +95,6 @@ open class TASetting: SYGalleryPickerSettings {
     public var statusBarStyle: UIStatusBarStyle = .lightContent
     public var pickLimitCount: Int = 20
     public var titleText: Bool = true
-    public var cancelButtonText: String = "取消"
     public var confirmButtonText: String = "確認"
 
     public var tintColor: UIColor? = .green_8BC34A
@@ -108,7 +110,6 @@ open class TASetting: SYGalleryPickerSettings {
 final class IMSetting: SYGalleryPickerSettings {
 
     var pickLimitCount: Int = 10
-    var cancelButtonText: String = "取消"
     var confirmButtonText: String = "傳送"
     var tintTextColor: UIColor? = .gray_464646
     var pickedColor: UIColor = .green_008800

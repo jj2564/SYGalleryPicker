@@ -87,8 +87,6 @@ public protocol SYGalleryPickerSettings {
     var countInRow: (_ verticalSize: UIUserInterfaceSizeClass, _ horizontalSize: UIUserInterfaceSizeClass) -> Int { get }
     /// use a title text instead of album select
     var titleText: Bool { get }
-    /// text with cancel button
-    var cancelButtonText: String { get }
     /// text with confirm button
     var confirmButtonText: String { get }
     
