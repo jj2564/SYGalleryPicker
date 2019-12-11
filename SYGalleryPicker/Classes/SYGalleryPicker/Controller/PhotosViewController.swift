@@ -12,6 +12,8 @@ import Photos
 class PhotosViewController: UICollectionViewController {
     
     var style: SelectStyle?
+    let settings: SYGalleryPickerSettings
+    private var isAlbumOpen = false
     
     var selectionClosure: ((_ asset: PHAsset) -> Void)?
     var deselectionClosure: ((_ asset: PHAsset) -> Void)?
@@ -19,13 +21,12 @@ class PhotosViewController: UICollectionViewController {
     var finishClosure: ((_ assets: [PHAsset]) -> Void)?
     var selectLimitReachedClosure: ((_ selectionLimit: Int) -> Void)?
     
-    let settings: SYGalleryPickerSettings
-    
     var doneBarButton: UIBarButtonItem?
     var cancelBarButton: UIBarButtonItem?
+    
     lazy var albumTitleView: UIButton = {
         
-        let btn = UIButton(type: .custom)
+        var btn = UIButton(type: .custom)
         
         if let tintColor = settings.tintTextColor {
             btn.tintColor = tintColor
@@ -40,6 +41,7 @@ class PhotosViewController: UICollectionViewController {
         
         if let image = UIImage(podAssetName: "down") {
             let newImage = image.withRenderingMode(.alwaysTemplate)
+            
             btn.semanticContentAttribute = .forceRightToLeft
             btn.imageView?.contentMode = .scaleAspectFit
             
@@ -48,19 +50,13 @@ class PhotosViewController: UICollectionViewController {
             btn.contentEdgeInsets = UIEdgeInsets(top: 5.0, left: titleImageGap, bottom: 5.0, right: 10.0)
             btn.setImage(newImage, for: .normal)
         }
-        
         return btn
     }()
     
     var titleText: String?
     private var doneBarButtonTitle: String = "確認"
     
-    lazy var albumViewController: AlbumTableViewController = {
-        let vc = AlbumTableViewController()
-        vc.tableView.dataSource = self
-        vc.tableView.delegate = self
-        return vc
-    }()
+    private var albumTableView: AlbumTableView?
     
     private var imageCache: NSCache<AnyObject, UIImage>
     /// 所有fetchResult
@@ -88,18 +84,24 @@ class PhotosViewController: UICollectionViewController {
     }
     
     @objc func albumButtonPressed(_ sender: UIButton) {
+        isAlbumOpen = !isAlbumOpen
+        rotateTitleImage()
         
-        guard let popVC = albumViewController.popoverPresentationController else {
-            return
+        if var frame = albumTableView?.frame {
+            if isAlbumOpen {
+                frame.origin.y = 0
+            } else {
+                frame.origin.y = -frame.size.height
+            }
+            UIView.animate(withDuration: 0.5, delay: 0.0, options: .allowAnimatedContent, animations: {
+                self.albumTableView?.frame = frame
+            }, completion: nil)
         }
-
-        popVC.permittedArrowDirections = .up
-        popVC.sourceView = sender
-        let senderRect = sender.convert(sender.frame, from: sender.superview)
-        let sourceRect = CGRect(x: senderRect.origin.x, y: senderRect.origin.y + (sender.frame.size.height / 2), width: senderRect.size.width, height: senderRect.size.height)
-        popVC.sourceRect = sourceRect
-        popVC.delegate = self
-        present(albumViewController, animated: true, completion: nil)
+    }
+    
+    private func rotateTitleImage() {
+        let angle = isAlbumOpen ? (CGFloat.pi / 1) : 0
+        albumTitleView.imageView?.transform = CGAffineTransform.identity.rotated(by: angle)
     }
     
     // MARK: - init cycle
@@ -132,16 +134,16 @@ class PhotosViewController: UICollectionViewController {
         collectionView?.allowsMultipleSelection = true
         collectionView?.register(PhotoCell.self, forCellWithReuseIdentifier: PhotoCell.cellIdentifier)
         
-        
         var cancelImageName = "close"
-        
         if style == .ta {
             cancelImageName = "back"
         }
-        
         if let closeImage = UIImage(podAssetName: cancelImageName) {
             cancelBarButton?.image = closeImage
-            cancelBarButton?.imageInsets = UIEdgeInsets(top: 3.0, left: -20.0, bottom: -3.0, right: 20.0)
+            //this is for my own special require.
+            if style == .ta {
+                cancelBarButton?.imageInsets = UIEdgeInsets(top: 4.0, left: -18.0, bottom: -4.0, right: 18.0)
+            }
         } else {
             cancelBarButton?.title = "Cancel"
         }
@@ -172,6 +174,16 @@ class PhotosViewController: UICollectionViewController {
         if let album = fetchResults.first?.firstObject {
             initWithAlbum(album)
             collectionView.reloadData()
+        }
+        
+        if albumTableView == nil {
+            albumTableView = AlbumTableView.init(frame: CGRect(origin: CGPoint(x: 0, y: -collectionView.frame.size.height), size: collectionView.frame.size) )
+            
+            albumTableView?.backgroundColor = settings.backgroundColor
+            albumTableView?.delegate = self
+            albumTableView?.dataSource = self
+            
+            view.addSubview(albumTableView!)
         }
     }
 
@@ -336,7 +348,7 @@ extension PhotosViewController {
 
 // MARK: UITableViewDelegate
 extension PhotosViewController: UITableViewDelegate, UITableViewDataSource {
-    
+
     func numberOfSections(in tableView: UITableView) -> Int {
         return fetchResults.count
     }
@@ -348,6 +360,7 @@ extension PhotosViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: AlbumCell.cellIdentifier, for: indexPath) as! AlbumCell
+        cell.style = style ?? .basic
 //        let cachingManager = PHCachingImageManager.default() as? PHCachingImageManager
 //        cachingManager?.allowsCachingHighQualityImages = false
 
@@ -381,7 +394,6 @@ extension PhotosViewController: UITableViewDelegate, UITableViewDataSource {
         let album = fetchResults[indexPath.section][indexPath.row]
         initWithAlbum(album)
         collectionView.reloadData()
-        albumViewController.dismiss(animated: true, completion: nil)
     }
 }
 
@@ -396,6 +408,3 @@ extension PhotosViewController: UIPopoverPresentationControllerDelegate {
         return true
     }
 }
-
-
-

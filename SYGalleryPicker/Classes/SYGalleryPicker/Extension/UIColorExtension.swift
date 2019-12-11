@@ -29,7 +29,12 @@ extension UIColor {
                   alpha: alpha)
     }
 
-    
+    ///```
+    ///hex：#8BC34A ; rgb：(139, 196, 74)
+    ///```
+    class var green_8BC44A: UIColor {
+        get { return UIColor(0x8BC44A) }
+    }
     ///```
     ///hex：#8BC34A ; rgb：(139, 195, 74)
     ///```
