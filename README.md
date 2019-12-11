@@ -87,8 +87,6 @@ public protocol SYGalleryPickerSettings {
     var countInRow: (_ verticalSize: UIUserInterfaceSizeClass, _ horizontalSize: UIUserInterfaceSizeClass) -> Int { get }
     /// use a title text instead of album select
     var titleText: Bool { get }
-    /// text with cancel button
-    var cancelButtonText: String { get }
     /// text with confirm button
     var confirmButtonText: String { get }
     
@@ -141,6 +139,8 @@ Make `PHAsset` as an `Array` and set it to **defaultSelections**.
 Notice that. If the **defaultSelections** count more than the limit select it will still be selected.
 
 ## TODO
+- [ ] clean the garbage code due to the latest requirement
+- [ ] find the solution of strange problem
 - [ ] split datasource from cell
 - [ ] refresh after user delete the photo
 - [ ] iCloud image test
