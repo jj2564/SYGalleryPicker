@@ -394,6 +394,7 @@ extension PhotosViewController: UITableViewDelegate, UITableViewDataSource {
         let album = fetchResults[indexPath.section][indexPath.row]
         initWithAlbum(album)
         collectionView.reloadData()
+        albumButtonPressed(albumTitleView)
     }
 }
 
