@@ -22,8 +22,9 @@ class AlbumTableView: UITableView {
         contentInset = UIEdgeInsets(top: -35, left: 0, bottom: -20, right: 0)
         
         backgroundView = visualEffectView
-        backgroundColor = UIColor.clear
+        backgroundColor = .clear
         rowHeight = UITableView.automaticDimension
+        separatorStyle = .none
 
         sectionHeaderHeight = 0.0
         sectionFooterHeight = 0.0

@@ -35,7 +35,6 @@ extension UIColor {
     class var green_8BC34A: UIColor {
         get { return UIColor(0x8BC34A) }
     }
-    
     ///```
     ///hex：#008800 ; rgb：(0, 136, 0)
     ///```
@@ -43,20 +42,38 @@ extension UIColor {
         get { return UIColor(0x008800) }
     }
     
+    
+    ///```
+    ///hex：#5A5A5A ; rgb：(90, 90, 90)
+    ///```
+    class var gray_5A5A5A: UIColor {
+        get { return UIColor(0x5A5A5A) }
+    }
     ///```
     ///hex：#808080 ; rgb：(128, 128, 128)
     ///```
     class var gray_808080: UIColor {
         get { return UIColor(0x808080) }
     }
-    
     ///```
     ///hex：#464646 ; rgb：(70, 70, 70)
     ///```
     class var gray_464646: UIColor {
         get { return UIColor(0x464646) }
     }
-
+    ///```
+    ///hex：#999999 ; rgb：(153, 153, 153)
+    ///```
+    class var gray_999999: UIColor {
+        get { return UIColor(0x999999) }
+    }
+    ///```
+    ///hex：#999999 ; rgb：(242, 242, 242)
+    ///```
+    class var gray_F2F2F2: UIColor {
+        get { return UIColor(0xF2F2F2) }
+    }
+    
     ///```
     ///hex：#007AFF ; rgb：(0, 122, 255)
     ///```
