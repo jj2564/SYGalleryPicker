@@ -9,7 +9,7 @@ branches:
   only:
     - master
 script:
-- xcodebuild -workspace Example/SYGalleryPicker.xcworkspace -scheme SYGalleryPicker-Example -destination 'platform=iOS Simulator,name=iPhone 11 Pro Max,OS=13.2.2' -enableCodeCoverage YES build test
+- xcodebuild -workspace Example/SYGalleryPicker.xcworkspace -scheme SYGalleryPicker-Example -destination 'platform=iOS Simulator,name=iPhone 11 Pro Max,OS=13.2.2' -enableCodeCoverage YES build
 - pod lib lint --quick
 after_success:
 - bash <(curl -s https://codecov.io/bash)
