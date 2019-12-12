@@ -13,7 +13,6 @@ class PhotosViewController: UICollectionViewController {
     
     var style: SelectStyle?
     let settings: SYGalleryPickerSettings
-    private var isAlbumOpen = false
     
     var selectionClosure: ((_ asset: PHAsset) -> Void)?
     var deselectionClosure: ((_ asset: PHAsset) -> Void)?
@@ -56,7 +55,10 @@ class PhotosViewController: UICollectionViewController {
     var titleText: String?
     private var doneBarButtonTitle: String = "確認"
     
-    private var albumTableView: AlbumTableView?
+    
+    private var isAlbumOpen = false
+    private var albumTableView: AlbumTableView = AlbumTableView(frame: .zero)
+    var albumOpenConstraint:NSLayoutConstraint = NSLayoutConstraint()
     
     private var imageCache: NSCache<AnyObject, UIImage>
     /// 所有fetchResult
@@ -87,16 +89,19 @@ class PhotosViewController: UICollectionViewController {
         isAlbumOpen = !isAlbumOpen
         rotateTitleImage()
         
-        if var frame = albumTableView?.frame {
-            if isAlbumOpen {
-                frame.origin.y = 0
-            } else {
-                frame.origin.y = -frame.size.height
-            }
-            UIView.animate(withDuration: 0.5, delay: 0.0, options: .allowAnimatedContent, animations: {
-                self.albumTableView?.frame = frame
-            }, completion: nil)
+        let frame = view.frame
+        if isAlbumOpen {
+            albumOpenConstraint.constant = frame.size.height
+        } else {
+            albumOpenConstraint.constant = 0
         }
+        
+        UIView.animate(withDuration: 0.3, animations: {
+            self.view.layoutIfNeeded()
+        }, completion: { _ in
+            // 不知道為什麼有35的偏移
+            self.albumTableView.setContentOffset(CGPoint(x: 0, y: 35), animated: false)
+        })
     }
     
     private func rotateTitleImage() {
@@ -129,6 +134,8 @@ class PhotosViewController: UICollectionViewController {
     override func loadView() {
         
         super.loadView()
+        
+//        edgesForExtendedLayout = []
         
         collectionView?.backgroundColor = settings.backgroundColor
         collectionView?.allowsMultipleSelection = true
@@ -176,15 +183,25 @@ class PhotosViewController: UICollectionViewController {
             collectionView.reloadData()
         }
         
-        if albumTableView == nil {
-            albumTableView = AlbumTableView.init(frame: CGRect(origin: CGPoint(x: 0, y: -collectionView.frame.size.height), size: collectionView.frame.size) )
-            
-            albumTableView?.backgroundColor = settings.backgroundColor
-            albumTableView?.delegate = self
-            albumTableView?.dataSource = self
-            
-            view.addSubview(albumTableView!)
+        albumTableView.translatesAutoresizingMaskIntoConstraints = false
+        albumTableView.backgroundColor = settings.backgroundColor
+        albumTableView.delegate = self
+        albumTableView.dataSource = self
+        view.addSubview(albumTableView)
+        
+        let views = ["tableView": albumTableView, "view": view! ]
+        var constraints: [NSLayoutConstraint] = NSLayoutConstraint.constraints(withVisualFormat: "H:|-(0)-[tableView]-(0)-|",options: [], metrics: nil, views: views)
+        constraints += NSLayoutConstraint.constraints(withVisualFormat: "V:[tableView(==view)]", options: [], metrics: nil, views: views)
+        NSLayoutConstraint.activate(
+            constraints
+        )
+        
+        if #available(iOS 11.0, *) {
+            albumOpenConstraint = albumTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0)
+        } else {
+            albumOpenConstraint = albumTableView.bottomAnchor.constraint(equalTo: view.topAnchor, constant: 0)
         }
+        albumOpenConstraint.isActive = true
     }
 
     private func initWithAlbum(_ album: PHAssetCollection) {
