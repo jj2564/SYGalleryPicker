@@ -99,8 +99,7 @@ class PhotosViewController: UICollectionViewController {
         UIView.animate(withDuration: 0.3, animations: {
             self.view.layoutIfNeeded()
         }, completion: { _ in
-            // 不知道為什麼有35的偏移
-            self.albumTableView.setContentOffset(CGPoint(x: 0, y: 35), animated: false)
+            self.albumTableView.setContentOffset(CGPoint(x: 0, y: 0), animated: false)
         })
     }
     
