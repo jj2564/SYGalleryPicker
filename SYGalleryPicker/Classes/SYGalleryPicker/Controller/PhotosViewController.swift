@@ -44,9 +44,9 @@ class PhotosViewController: UICollectionViewController {
             btn.semanticContentAttribute = .forceRightToLeft
             btn.imageView?.contentMode = .scaleAspectFit
             
-            let titleImageGap: CGFloat = 6.0
-            btn.titleEdgeInsets = UIEdgeInsets(top: 5.0, left: -titleImageGap, bottom: 5.0, right: titleImageGap)
-            btn.contentEdgeInsets = UIEdgeInsets(top: 5.0, left: titleImageGap, bottom: 5.0, right: 10.0)
+            let titleImageGap: CGFloat = 5.0
+            btn.titleEdgeInsets = UIEdgeInsets(top: 0, left: -titleImageGap, bottom: 0, right: titleImageGap)
+            btn.imageEdgeInsets = UIEdgeInsets(top: 4, left: 4, bottom: 4, right: 4)
             btn.setImage(newImage, for: .normal)
         }
         return btn
