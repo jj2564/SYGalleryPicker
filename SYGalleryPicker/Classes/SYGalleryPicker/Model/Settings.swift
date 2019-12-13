@@ -97,7 +97,7 @@ open class TASetting: SYGalleryPickerSettings {
     public var titleText: Bool = true
     public var confirmButtonText: String = "確認"
 
-    public var tintColor: UIColor? = .green_8BC44A
+    public var tintColor: UIColor? = .green_8BC34A
     public var tintTextColor: UIColor? = .white
 
     public var pickedColor: UIColor = .green_8BC34A

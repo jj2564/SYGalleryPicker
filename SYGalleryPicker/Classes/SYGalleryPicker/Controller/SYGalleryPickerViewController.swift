@@ -85,7 +85,7 @@ open class SYGalleryPickerViewController: UINavigationController {
         super.loadView()
 
         view.backgroundColor = .white
-        navigationBar.isTranslucent = true
+        navigationBar.isTranslucent = false
         
         if let tintColor = setting.tintColor {
             navigationBar.barTintColor = tintColor

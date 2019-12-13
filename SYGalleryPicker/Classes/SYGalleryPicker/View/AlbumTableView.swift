@@ -10,20 +10,18 @@ import UIKit
 class AlbumTableView: UITableView {
 
     init(frame: CGRect) {
-        super.init(frame: frame, style: .grouped)
+        super.init(frame: frame, style: .plain)
         
         translatesAutoresizingMaskIntoConstraints = false
         /// 模糊背景
         let visualEffectView = UIVisualEffectView(effect: UIVibrancyEffect(blurEffect: UIBlurEffect(style: .light)))
         visualEffectView.frame = bounds
         visualEffectView.autoresizingMask = [.flexibleWidth , .flexibleHeight]
-        
-        // TODO:還搞不清楚為何上下會有多出的空間
-        contentInset = UIEdgeInsets(top: -35, left: 0, bottom: -20, right: 0)
-        
+
         backgroundView = visualEffectView
-        backgroundColor = UIColor.clear
+        backgroundColor = .clear
         rowHeight = UITableView.automaticDimension
+        separatorStyle = .none
 
         sectionHeaderHeight = 0.0
         sectionFooterHeight = 0.0
