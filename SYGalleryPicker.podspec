@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'SYGalleryPicker'
-  s.version          = '1.1.2'
+  s.version          = '1.1.3'
   s.summary          = 'A photo picker library. It can be customize for many places.'
 
 

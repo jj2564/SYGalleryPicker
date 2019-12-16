@@ -392,7 +392,9 @@ extension PhotosViewController: UITableViewDelegate, UITableViewDataSource {
         let scale = UIScreen.main.scale
         let imageSize = CGSize(width: 80 * scale, height: 80 * scale)
         let result = PHAsset.fetchAssets(in: album, options: fetchOptions)
-        
+
+        cell.albumCountLabel.text = "\(result.count)"
+
         guard let firstAsset = result.firstObject else { return cell }
         
         cell.tag = Int( imageManager.requestImage(for: firstAsset, targetSize: imageSize, contentMode: imageContentMode, options: self.imageRequestOptions) { (image, _ ) in
@@ -401,7 +403,7 @@ extension PhotosViewController: UITableViewDelegate, UITableViewDataSource {
             }
         })
         
-        cell.albumCountLabel.text = "\(result.count)"
+        
         
         return cell
     }
