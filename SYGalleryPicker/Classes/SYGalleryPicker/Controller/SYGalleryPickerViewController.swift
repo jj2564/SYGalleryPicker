@@ -31,6 +31,7 @@ open class SYGalleryPickerViewController: UINavigationController {
     
     open lazy var fetchResults: [PHFetchResult] = { () -> [PHFetchResult<PHAssetCollection>] in
         let fetchOptions = PHFetchOptions()
+        fetchOptions.fetchLimit = 1
 
         // Camera roll fetch result
         let cameraRollResult = PHAssetCollection.fetchAssetCollections(with: .smartAlbum, subtype: .smartAlbumUserLibrary, options: fetchOptions)
@@ -54,18 +55,25 @@ open class SYGalleryPickerViewController: UINavigationController {
         return vc
     }()
     
-    class func authorize(_ status: PHAuthorizationStatus = PHPhotoLibrary.authorizationStatus(), completion: @escaping (_ authorized: Bool) -> Void) {
+    class func authorize( completion: @escaping (_ authorized: PHAuthorizationStatus) -> Void) {
+        
+        var status: PHAuthorizationStatus
+        if #available(iOS 14, *) {
+            let accessLevel: PHAccessLevel = .addOnly
+            status = PHPhotoLibrary.authorizationStatus(for: accessLevel)
+        } else {
+            status = PHPhotoLibrary.authorizationStatus()
+        }
+        
         switch status {
-        case .authorized:
-            completion(true)
         case .notDetermined:
             PHPhotoLibrary.requestAuthorization { (status) -> Void in
                 DispatchQueue.main.async {
-                    self.authorize(status, completion: completion)
+                    self.authorize(completion: completion)
                 }
             }
         default:
-            completion(false)
+            completion(status)
         }
     }
     
@@ -96,5 +104,7 @@ open class SYGalleryPickerViewController: UINavigationController {
         }
     }
     
-
+    deinit {
+        print("SYGalleryPickerViewController is deinit")
+    }
 }

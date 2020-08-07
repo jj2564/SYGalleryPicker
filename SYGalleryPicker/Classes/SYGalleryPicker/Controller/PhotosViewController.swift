@@ -128,13 +128,13 @@ class PhotosViewController: UICollectionViewController {
             imageManager.stopCachingImagesForAllAssets()
         }
         imageCache.removeAllObjects()
+        
+        print("PhotosViewController is deinit")
     }
 
     override func loadView() {
         
         super.loadView()
-        
-//        edgesForExtendedLayout = []
         
         collectionView?.backgroundColor = settings.backgroundColor
         collectionView?.allowsMultipleSelection = true

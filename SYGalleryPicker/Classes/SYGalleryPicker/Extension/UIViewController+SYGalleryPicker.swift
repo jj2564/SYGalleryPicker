@@ -24,6 +24,7 @@ public extension SYGalleryPickerViewController {
     ///   - finish: clourse when you  press `done button`
     ///   - photoSelectLimitReached: clourse when your selected photo reach the **pickLimitCount**
     ///   - authorizedDenied: clourse when last time user deny the auth.
+    ///   - authorizedLimited: clourse when last time user select part of photos.
     ///   - completion: comletion handler
     func syPresentGalleryPickerController
         (_ viewController: UIViewController, style: SelectStyle = .basic, customSetting:SYGalleryPickerSettings? = nil , requestOptions: PHImageRequestOptions? = nil, animated: Bool,
@@ -33,12 +34,23 @@ public extension SYGalleryPickerViewController {
          finish: (([PHAsset]) -> Void)?,
          photoSelectLimitReached: ((Int) -> Void)?,
          authorizedDenied:(() -> Void)?,
+         authorizedLimited:(() -> Void)? = nil,
          completion: (() -> Void)? ) {
         
-        SYGalleryPickerViewController.authorize() { (authorized) in
-            guard authorized == true else {
-                authorizedDenied?()
-                return
+        SYGalleryPickerViewController.authorize() { authorized in
+            
+            if #available(iOS 14, *) {
+                if authorized == .limited {
+                    authorizedLimited?()
+                } else if authorized != .authorized {
+                    authorizedDenied?()
+                    return
+                }
+            } else {
+                if authorized != .authorized {
+                    authorizedDenied?()
+                    return
+                }
             }
             
             if let customSetting = customSetting {
