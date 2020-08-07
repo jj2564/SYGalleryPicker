@@ -1,5 +1,5 @@
 //
-//  UIColorExtension.swift
+//  UIColor+Hex.swift
 //  SYGalleryPicker
 //
 //  Created by IrvingHuang on 2019/11/4.
@@ -29,57 +29,24 @@ extension UIColor {
                   alpha: alpha)
     }
 
-    ///```
     ///hex：#8BC34A ; rgb：(139, 195, 74)
-    ///```
-    class var green_8BC34A: UIColor {
-        get { return UIColor(0x8BC34A) }
-    }
-    ///```
+    static var green_8BC34A: UIColor { UIColor(0x8BC34A) }
     ///hex：#008800 ; rgb：(0, 136, 0)
-    ///```
-    class var green_008800: UIColor {
-        get { return UIColor(0x008800) }
-    }
+    static var green_008800: UIColor { UIColor(0x008800) }
     
-    
-    ///```
     ///hex：#5A5A5A ; rgb：(90, 90, 90)
-    ///```
-    class var gray_5A5A5A: UIColor {
-        get { return UIColor(0x5A5A5A) }
-    }
-    ///```
+    static var gray_5A5A5A: UIColor { UIColor(0x5A5A5A) }
     ///hex：#808080 ; rgb：(128, 128, 128)
-    ///```
-    class var gray_808080: UIColor {
-        get { return UIColor(0x808080) }
-    }
-    ///```
+    static var gray_808080: UIColor { UIColor(0x808080) }
     ///hex：#464646 ; rgb：(70, 70, 70)
-    ///```
-    class var gray_464646: UIColor {
-        get { return UIColor(0x464646) }
-    }
-    ///```
+    static var gray_464646: UIColor { UIColor(0x464646) }
     ///hex：#999999 ; rgb：(153, 153, 153)
-    ///```
-    class var gray_999999: UIColor {
-        get { return UIColor(0x999999) }
-    }
-    ///```
+    static var gray_999999: UIColor { UIColor(0x999999) }
     ///hex：#999999 ; rgb：(242, 242, 242)
-    ///```
-    class var gray_F2F2F2: UIColor {
-        get { return UIColor(0xF2F2F2) }
-    }
+    static var gray_F2F2F2: UIColor { UIColor(0xF2F2F2) }
     
-    ///```
     ///hex：#007AFF ; rgb：(0, 122, 255)
-    ///```
-    class var blue_007AFF: UIColor {
-        get { return UIColor(0x007AFF) }
-    }
+    static var blue_007AFF: UIColor { UIColor(0x007AFF) }
 
     
 }
