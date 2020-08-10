@@ -60,7 +60,8 @@ class PhotosViewController: UICollectionViewController {
     private var albumTableView: AlbumTableView = AlbumTableView(frame: .zero)
     var albumOpenConstraint:NSLayoutConstraint = NSLayoutConstraint()
     
-    private var imageCache: NSCache<AnyObject, UIImage>
+    // 因為iOS14後更新圖片要清除，故不使用快取避免仍然會顯示
+//    private var imageCache: NSCache<AnyObject, UIImage>
     /// 所有fetchResult
     private var fetchResults:[PHFetchResult<PHAssetCollection>]
     /// 要顯示的照片
@@ -111,7 +112,7 @@ class PhotosViewController: UICollectionViewController {
     // MARK: - init cycle
     required init(fetchResults: [PHFetchResult<PHAssetCollection>],settings currentSettings: SYGalleryPickerSettings) {
         
-        imageCache = NSCache()
+//        imageCache = NSCache()
         settings = currentSettings
         self.fetchResults = fetchResults
         
@@ -127,7 +128,7 @@ class PhotosViewController: UICollectionViewController {
         if PHPhotoLibrary.authorizationStatus() == .authorized {
             imageManager.stopCachingImagesForAllAssets()
         }
-        imageCache.removeAllObjects()
+//        imageCache.removeAllObjects()
         
         print("PhotosViewController is deinit")
     }
@@ -135,6 +136,7 @@ class PhotosViewController: UICollectionViewController {
     override func loadView() {
         
         super.loadView()
+        PHPhotoLibrary.shared().register(self)
         
         collectionView?.backgroundColor = settings.backgroundColor
         collectionView?.allowsMultipleSelection = true
@@ -176,11 +178,7 @@ class PhotosViewController: UICollectionViewController {
         
         updateCollectionLayout()
         updateDoneButton()
-
-        if let album = fetchResults.first?.firstObject {
-            initWithAlbum(album)
-            collectionView.reloadData()
-        }
+        reloadCollection()
         
         albumTableView.translatesAutoresizingMaskIntoConstraints = false
         albumTableView.backgroundColor = settings.backgroundColor
@@ -201,6 +199,13 @@ class PhotosViewController: UICollectionViewController {
             albumOpenConstraint = albumTableView.bottomAnchor.constraint(equalTo: view.topAnchor, constant: 0)
         }
         albumOpenConstraint.isActive = true
+    }
+    
+    private func reloadCollection() {
+        if let album = fetchResults.first?.firstObject {
+            initWithAlbum(album)
+            collectionView.reloadData()
+        }
     }
 
     private func initWithAlbum(_ album: PHAssetCollection) {
@@ -266,6 +271,20 @@ class PhotosViewController: UICollectionViewController {
     }
 }
 
+extension PhotosViewController: PHPhotoLibraryChangeObserver {
+    func photoLibraryDidChange(_ changeInstance: PHChange) {
+        DispatchQueue.main.sync {
+            for (index, item) in fetchResults.enumerated() {
+                if let changeDeatails = changeInstance.changeDetails(for: item) {
+                    fetchResults[index] = changeDeatails.fetchResultAfterChanges
+                }
+            }
+            
+            reloadCollection()
+        }
+    }
+}
+
 
 // MARK: - UIImagePickerControllerDelegate
 extension PhotosViewController {
@@ -286,23 +305,22 @@ extension PhotosViewController {
 //        photoCell.isAccessibilityElement = true
         
         let asset = photos[indexPath.row]
+        print("index:\(indexPath.row)")
         
         if photoCell.tag != 0 {
             imageManager.cancelImageRequest(PHImageRequestID(Int32(photoCell.tag)))
         }
         
-        if let c_image = imageCache.object(forKey: asset) {
-            photoCell.imageView.image = c_image
-        } else {
-            photoCell.tag = Int(imageManager.requestImage(for: asset, targetSize: photoThumbnailSize, contentMode: imageContentMode, options: imageRequestOptions) { [weak self] (image, _) in
-                
-                guard let self = self else { return }
-                guard let image = image else { return }
-                
-                self.imageCache.setObject(image, forKey: asset)
-                photoCell.imageView.image = image
-            })
-        }
+        
+        photoCell.tag = Int(imageManager.requestImage(for: asset, targetSize: photoThumbnailSize, contentMode: imageContentMode, options: imageRequestOptions) { (image, _) in
+            
+            guard let image = image else {
+                photoCell.imageView.image = UIImage()
+                return
+            }
+            
+            photoCell.imageView.image = image
+        })
         
         photoCell.settings = self.settings
         
@@ -402,9 +420,6 @@ extension PhotosViewController: UITableViewDelegate, UITableViewDataSource {
                 cell.albumImageView.image = image
             }
         })
-        
-        
-        
         return cell
     }
     
