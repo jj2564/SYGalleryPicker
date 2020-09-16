@@ -2,14 +2,14 @@
 # * https://www.objc.io/issues/6-build-tools/travis-ci/
 # * https://github.com/supermarin/xcpretty#usage
 
-osx_image: xcode11.2
+osx_image: xcode12
 language: swift
 podfile: Example/Podfile
 branches:
   only:
     - master
 script:
-- xcodebuild -workspace Example/SYGalleryPicker.xcworkspace -scheme SYGalleryPicker-Example -destination 'platform=iOS Simulator,name=iPhone 11 Pro Max,OS=13.2.2' build
+- xcodebuild -workspace Example/SYGalleryPicker.xcworkspace -scheme SYGalleryPicker-Example -destination 'platform=iOS Simulator,name=iPhone 11 Pro Max,OS=14.0' build
 - pod lib lint --quick
 after_success:
 - bash <(curl -s https://codecov.io/bash)
