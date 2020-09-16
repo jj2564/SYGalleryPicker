@@ -10,6 +10,9 @@
 
 A photo select library.
 
+## News
+- Now support iOS14 permission. 
+
 ## Requirements
 `iOS 10`
 
@@ -45,7 +48,9 @@ select: { asset in
     print("Confirm")
 }, photoSelectLimitReached: { count in
     print("Limit reach")
-}, authorizedDenied: nil, completion: nil)
+}, authorizedDenied: nil, authorizedLimited: {
+        print("is now limited")
+}, completion: nil )
 ```
 Using Clousre instead of delegate, which can be set to *nil* if no needed.
 
@@ -59,6 +64,7 @@ cancel: (([PHAsset]) -> Void)?,
 finish: (([PHAsset]) -> Void)?,
 photoSelectLimitReached: ((Int) -> Void)?,
 authorizedDenied:(() -> Void)?,
+authorizedLimited:(() -> Void)? = nil,
 completion: (() -> Void)? ) {}
 ```
 If you use the paremeter of **customSetting**, the **style** will be no effort. All settings will follow the customize settings.
@@ -142,7 +148,7 @@ Notice that. If the **defaultSelections** count more than the limit select it wi
 - [ ] clean the garbage code due to the latest requirement
 - [ ] find the solution of strange problem
 - [ ] split datasource from cell
-- [ ] refresh after user delete the photo
+- [x] refresh after user delete the photo
 - [ ] iCloud image test
 - [ ] unit test
 
