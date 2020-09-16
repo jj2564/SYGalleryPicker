@@ -33,7 +33,9 @@ class ViewController: UIViewController {
             self.photos = assets
         }, photoSelectLimitReached: { count in
             print("Limit reach")
-        }, authorizedDenied: nil, completion: nil)
+        }, authorizedDenied: nil, authorizedLimited: {
+            print("is now limited")
+        }, completion: nil )
     }
     
     @IBAction func imModeClicked(_ sender: Any) {
@@ -51,7 +53,7 @@ class ViewController: UIViewController {
             print("Confirm")
         }, photoSelectLimitReached: { count in
             print("Limit reach")
-        }, authorizedDenied: nil, completion: nil)
+        }, authorizedDenied: nil, authorizedLimited: nil, completion: nil)
         
     }
     
@@ -70,7 +72,7 @@ class ViewController: UIViewController {
             print("Confirm")
         }, photoSelectLimitReached: { count in
             print("Limit reach")
-        }, authorizedDenied: nil, completion: nil)
+        }, authorizedDenied: nil, authorizedLimited: nil, completion: nil)
     }
 }
 
