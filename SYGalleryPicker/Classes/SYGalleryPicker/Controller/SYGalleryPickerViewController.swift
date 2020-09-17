@@ -92,10 +92,8 @@ open class SYGalleryPickerViewController: UINavigationController {
         if let tintColor = setting.tintColor {
             navigationBar.barTintColor = tintColor
         }
-        // Make sure we really are authorized
-        if photoStatus == .authorized {
-            setViewControllers([photosViewController], animated: false)
-        }
+
+        setViewControllers([photosViewController], animated: false)
     }
     
     deinit {
