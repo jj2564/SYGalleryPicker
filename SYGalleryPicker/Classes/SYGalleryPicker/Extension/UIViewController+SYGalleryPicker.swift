@@ -12,7 +12,7 @@ import Photos
 var photoStatus: PHAuthorizationStatus {
     var status: PHAuthorizationStatus
     if #available(iOS 14, *) {
-        let accessLevel: PHAccessLevel = .addOnly
+        let accessLevel: PHAccessLevel = .readWrite
         status = PHPhotoLibrary.authorizationStatus(for: accessLevel)
     } else {
         status = PHPhotoLibrary.authorizationStatus()
