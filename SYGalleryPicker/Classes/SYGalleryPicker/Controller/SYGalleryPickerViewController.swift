@@ -57,13 +57,7 @@ open class SYGalleryPickerViewController: UINavigationController {
     
     class func authorize( completion: @escaping (_ authorized: PHAuthorizationStatus) -> Void) {
         
-        var status: PHAuthorizationStatus
-        if #available(iOS 14, *) {
-            let accessLevel: PHAccessLevel = .addOnly
-            status = PHPhotoLibrary.authorizationStatus(for: accessLevel)
-        } else {
-            status = PHPhotoLibrary.authorizationStatus()
-        }
+        let status = photoStatus
         
         switch status {
         case .notDetermined:
@@ -99,7 +93,7 @@ open class SYGalleryPickerViewController: UINavigationController {
             navigationBar.barTintColor = tintColor
         }
         // Make sure we really are authorized
-        if PHPhotoLibrary.authorizationStatus() == .authorized {
+        if photoStatus == .authorized {
             setViewControllers([photosViewController], animated: false)
         }
     }

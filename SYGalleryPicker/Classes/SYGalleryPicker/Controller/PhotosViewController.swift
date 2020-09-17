@@ -125,7 +125,7 @@ class PhotosViewController: UICollectionViewController {
     }
     
     deinit {
-        if PHPhotoLibrary.authorizationStatus() == .authorized {
+        if photoStatus == .authorized {
             imageManager.stopCachingImagesForAllAssets()
         }
 //        imageCache.removeAllObjects()

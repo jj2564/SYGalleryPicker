@@ -9,6 +9,17 @@
 import UIKit
 import Photos
 
+var photoStatus: PHAuthorizationStatus {
+    var status: PHAuthorizationStatus
+    if #available(iOS 14, *) {
+        let accessLevel: PHAccessLevel = .addOnly
+        status = PHPhotoLibrary.authorizationStatus(for: accessLevel)
+    } else {
+        status = PHPhotoLibrary.authorizationStatus()
+    }
+    return status
+}
+
 public extension SYGalleryPickerViewController {
 
     /// syPresentGalleryPickerController
