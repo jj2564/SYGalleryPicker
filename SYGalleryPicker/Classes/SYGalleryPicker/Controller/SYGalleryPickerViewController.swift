@@ -31,7 +31,6 @@ open class SYGalleryPickerViewController: UINavigationController {
     
     open lazy var fetchResults: [PHFetchResult] = { () -> [PHFetchResult<PHAssetCollection>] in
         let fetchOptions = PHFetchOptions()
-        fetchOptions.fetchLimit = 1
 
         // Camera roll fetch result
         let cameraRollResult = PHAssetCollection.fetchAssetCollections(with: .smartAlbum, subtype: .smartAlbumUserLibrary, options: fetchOptions)
