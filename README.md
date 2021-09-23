@@ -3,7 +3,7 @@
 <p align="left">
 <a><img src="https://img.shields.io/badge/language-swift-orange.svg"></a>
 <a href="https://cocoapods.org/pods/SYGalleryPicker"><img src="https://img.shields.io/cocoapods/p/SYGalleryPicker.svg?style=flat"></a>
-<a href="https://travis-ci.org/jj2564/SYGalleryPicker"><img src="https://img.shields.io/travis/jj2564/SYGalleryPicker.svg?style=flat"></a>
+<a href="https://travis-ci.org/jj2564/SYGalleryPicker"><img src="https://app.travis-ci.com/jj2564/SYGalleryPicker.svg?branch=master"></a>
 <a href="https://cocoapods.org/pods/SYGalleryPicker"><img src="https://img.shields.io/cocoapods/v/SYGalleryPicker.svg?style=flat"></a>
 <a href="https://cocoapods.org/pods/SYGalleryPicker"><img src="https://img.shields.io/cocoapods/l/SYGalleryPicker.svg?style=flat"></a>
 </p>
