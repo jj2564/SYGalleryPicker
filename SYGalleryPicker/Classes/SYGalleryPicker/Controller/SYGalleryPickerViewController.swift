@@ -90,6 +90,14 @@ open class SYGalleryPickerViewController: UINavigationController {
         
         if let tintColor = setting.tintColor {
             navigationBar.barTintColor = tintColor
+            // Fit iOS 15 Navigationbar appearance
+            if #available(iOS 15.0, *) {
+                let appearance = UINavigationBarAppearance()
+                appearance.configureWithDefaultBackground()
+                appearance.backgroundColor = tintColor
+                navigationBar.standardAppearance = appearance
+                navigationBar.scrollEdgeAppearance = appearance
+            }
         }
 
         setViewControllers([photosViewController], animated: false)
